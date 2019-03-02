@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModuleFormPriviliagesTable extends Migration
+class CreateOwnershipTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateModuleFormPriviliagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('module__form_priviliages', function (Blueprint $table) {
+        Schema::create('ownership__types', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('module_id')->nullable();
-            $table->integer('form_id')->nullable();
-            $table->integer('group_id')->nullable();
-            $table->string('privilege')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ class CreateModuleFormPriviliagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('module__form_priviliages');
+        Schema::dropIfExists('ownership__types');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequestDocumentsTable extends Migration
+class CreateOrganizationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateRequestDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('request__documents', function (Blueprint $table) {
+        Schema::create('organizations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('document_id')->nullable();
-            $table->integer('request_id')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ class CreateRequestDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('request__documents');
+        Schema::dropIfExists('organizations');
     }
 }

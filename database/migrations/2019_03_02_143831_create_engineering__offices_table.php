@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequestFeesTable extends Migration
+class CreateEngineeringOfficesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateRequestFeesTable extends Migration
      */
     public function up()
     {
-        Schema::create('request__fees', function (Blueprint $table) {
+        Schema::create('engineering__offices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('fees_id')->nullable();
-            $table->integer('request_id')->nullable();
-            $table->double('default_value')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ class CreateRequestFeesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('request__fees');
+        Schema::dropIfExists('engineering__offices');
     }
 }

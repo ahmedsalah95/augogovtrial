@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequestStepsTable extends Migration
+class CreateLicenseTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateRequestStepsTable extends Migration
      */
     public function up()
     {
-        Schema::create('request__steps', function (Blueprint $table) {
+        Schema::create('license__types', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('request_id')->nullable();
-            $table->integer('form_id')->nullable();
-            $table->integer('order_number')->nullable();
+
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateRequestStepsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('request__steps');
+        Schema::dropIfExists('license__types');
     }
 }

@@ -30,4 +30,8 @@ class Request extends Model
             'document_id'
         );
     }
+    public function Report()
+    {
+       return $this->hasOne('App\App_Report','report_id','id');
+    }
 }

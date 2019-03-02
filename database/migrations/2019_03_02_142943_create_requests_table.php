@@ -15,6 +15,8 @@ class CreateRequestsTable extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('request_name')->nullable();
+            $table->string('request_parent')->nullable();
             $table->timestamps();
         });
     }

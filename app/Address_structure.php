@@ -10,4 +10,9 @@ class Address_structure extends Model
     {
         return $this->belongsTo('App\Adress_item');
     }
+
+    public function Instance_Request()
+    {
+        return $this->hasMany('App\Instance_Request','structure_id','id');
+    }
 }

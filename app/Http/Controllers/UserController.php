@@ -52,14 +52,13 @@ class UserController extends Controller
         ]);
 
         $employee = new Employee();
-      /*  $employee->citizen_national_id = $request->citizen_national_id;
+        $employee->citizen_national_id = $request->citizen_national_id;
         $employee->employee_name = $request->employee_name;
         $employee->department_id = $request->department_id;
         $employee->ORG_id = $request->ORG_id;
-        $employee->status = $request->status; */
+        $employee->status = $request->status;
 
-        $employee->save($request->all());
-
+        $employee->save();
         return response()->json(['success'=>'true'],$this->successStatus);
 
 

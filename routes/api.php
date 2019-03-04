@@ -28,3 +28,5 @@ Route::post('/BuildingType/store','BuildingTypeController@store');
 
 Route::post('/user/login','UserController@login');
 
+Route::post('/user/registerEmployee','UserController@registerEmployee');
+

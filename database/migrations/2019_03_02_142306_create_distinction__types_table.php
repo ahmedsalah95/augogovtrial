@@ -15,6 +15,7 @@ class CreateDistinctionTypesTable extends Migration
     {
         Schema::create('distinction__types', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('Type_Name');
             $table->timestamps();
         });
     }

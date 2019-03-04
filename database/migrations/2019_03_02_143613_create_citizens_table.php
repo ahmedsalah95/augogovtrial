@@ -16,7 +16,7 @@ class CreateCitizensTable extends Migration
         Schema::create('citizens', function (Blueprint $table) {
             $table->increments('id');
             $table->string('citizen_name')->nullable();
-            $table->integer('citizen_national_id')->nullable();
+            $table->string('citizen_national_id')->nullable();
             $table->integer('passport_id')->nullable();
             $table->integer('city_id')->nullable();
             $table->integer('state_id')->nullable();

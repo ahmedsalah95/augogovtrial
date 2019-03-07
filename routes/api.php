@@ -27,12 +27,9 @@ Route::post('/document/insert','LookupController@insertDocument');
 Route::post('/fees/insert','LookupController@insertFees');
 Route::post('/payment/insert','LookupController@insertPayment');
 Route::post('/request/insert','LookupController@insertRequest');
-
-
-
-
-
-
+Route::post('/addressItem/insert','addressStructureController@insertAddressItem');
+Route::post('/addressItemInstance/insert','addressStructureController@insertAddressItemInstance');
+Route::post('/addressStructure/insert','addressStructureController@insertAddressStructure');
 
 
 
@@ -40,3 +37,7 @@ Route::post('/user/login','UserController@login');
 
 Route::post('/user/registerEmployee','UserController@registerEmployee');
 
+Route::post('/lus/add','LusController@LusAdd');
+
+
+Route::post('/lus/setDecision','LusController@setDecision');

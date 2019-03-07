@@ -8,7 +8,7 @@ class Address_structure extends Model
 {
     public function Address_item()
     {
-        return $this->belongsTo('App\Adress_item');
+        return $this->belongsTo('App\Address_item');
     }
 
     public function Instance_Request()

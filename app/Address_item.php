@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Adress_item extends Model
+class Address_item extends Model
 {
     public function Address_item_instance()
     {

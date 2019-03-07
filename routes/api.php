@@ -36,18 +36,6 @@ Route::post('/request/insert','LookupController@insertRequest');
 
 
 
-
-
-/*Route::post('/fees/store','FeesController@store');
-Route::post('/document/store','DocumentController@store');
-Route::post('/request/store','RequestController@store');
-Route::post('/BuildingType/store','BuildingTypeController@store');
-Route::post('/PaymentType/store','PaymentTypeController@store');
-Route::post('/DistinctionType/insertType','BuildingTypeController@insertDistinctionType');
-Route::post('/insertAssignationType/insertType','BuildingTypeController@insertAssignationType');*/
-
-
-
 Route::post('/user/login','UserController@login');
 
 Route::post('/user/registerEmployee','UserController@registerEmployee');

@@ -7,7 +7,10 @@ use App\Building_Types;
 use App\Citizen;
 use App\Distinction_Types;
 use App\Document;
+use App\Fees;
 use App\Payment_Types;
+use App\Request_Document;
+use App\Request_Fees;
 use Illuminate\Http\Request;
 
 class LookupController extends Controller
@@ -166,5 +169,56 @@ class LookupController extends Controller
         $authorized = \App\Request::where('id', $req->id)->get();
 
         return response()->json(['req',$authorized], 200);
+    }
+
+    public function getRequests()
+    {
+        $requests = \App\Request::all();
+
+        return response()->json(['requests',$requests], 200);
+    }
+    public function getDocuments()
+    {
+        $documents = Document::all();
+
+        return response()->json(['Documents',$documents], 200);
+    }
+    public function getFees()
+    {
+        $fees = Fees::all();
+
+        return response()->json(['fees',$fees], 200);
+    }
+
+    public function getRequestByID(Request $request)
+    {
+        $req = \App\Request::where('id',$request->id)->get();
+
+        return response()->json(['request',$req], 200);
+
+    }
+    public function getDocumentsByReqId(Request $request)
+    {
+        $documents = Request_Document::where('request_id',$request->id)->get();
+
+        return response()->json(['documents',$documents],200);
+    }
+    public function getFeesByRequestId(Request $request)
+    {
+        $fees = Request_Fees::where('request_id', $request->id )->get();
+
+        return response()->json(['fees',$fees],200 );
+    }
+    public function updateFees(Request $request)
+    {
+        $newFees = Fees::where('id', $request->id)->first();
+
+        $newFees->fees_name = $request->fees_name;
+        $newFees->default_value = $request->default_value;
+
+        $newFees->save();
+
+        return response()->json(['new fees',$newFees],200 );
+
     }
 }

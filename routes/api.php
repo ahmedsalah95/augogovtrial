@@ -30,6 +30,16 @@ Route::post('/request/insert','LookupController@insertRequest');
 Route::post('/addressItem/insert','addressStructureController@insertAddressItem');
 Route::post('/addressItemInstance/insert','addressStructureController@insertAddressItemInstance');
 Route::post('/addressStructure/insert','addressStructureController@insertAddressStructure');
+Route::post('/requests/get','LookupController@getRequests');
+Route::post('/documents/get','LookupController@getDocuments');
+Route::post('/fees/get','LookupController@getFees');
+Route::post('/requestById/get','LookupController@getRequestByID');
+Route::post('/documentsByReqId/get','LookupController@getDocumentsByReqId');
+Route::post('/feesByReqId/get','LookupController@getFeesByRequestId');
+Route::post('/fees/update','LookupController@updateFees');
+
+
+
 
 
 

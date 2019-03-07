@@ -13,7 +13,7 @@ class CreateAdressItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('adress_items', function (Blueprint $table) {
+        Schema::create('address_items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('item_name')->nullable();
             $table->integer('item_cost')->nullable();

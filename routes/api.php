@@ -27,24 +27,14 @@ Route::post('/document/insert','LookupController@insertDocument');
 Route::post('/fees/insert','LookupController@insertFees');
 Route::post('/payment/insert','LookupController@insertPayment');
 Route::post('/request/insert','LookupController@insertRequest');
+Route::post('/addressItem/insert','addressStructureController@insertAddressItem');
+Route::post('/addressItemInstance/insert','addressStructureController@insertAddressItemInstance');
+Route::post('/addressStructure/insert','addressStructureController@insertAddressStructure');
 
 
 
 
 
-
-
-
-
-
-
-/*Route::post('/fees/store','FeesController@store');
-Route::post('/document/store','DocumentController@store');
-Route::post('/request/store','RequestController@store');
-Route::post('/BuildingType/store','BuildingTypeController@store');
-Route::post('/PaymentType/store','PaymentTypeController@store');
-Route::post('/DistinctionType/insertType','BuildingTypeController@insertDistinctionType');
-Route::post('/insertAssignationType/insertType','BuildingTypeController@insertAssignationType');*/
 
 
 

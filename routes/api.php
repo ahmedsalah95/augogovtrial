@@ -43,12 +43,11 @@ Route::post('/fees/update','LookupController@updateFees');
 
 
 
-
-
-
-
-
 Route::post('/user/login','UserController@login');
 
 Route::post('/user/registerEmployee','UserController@registerEmployee');
 
+Route::post('/lus/add','LusController@LusAdd');
+
+
+Route::post('/lus/setDecision','LusController@setDecision');

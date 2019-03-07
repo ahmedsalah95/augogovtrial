@@ -16,7 +16,6 @@ class CreateLUSDecisionsTable extends Migration
         Schema::create('l_u_s__decisions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ORG_id')->nullable();
-
             $table->integer('LUS_id')->unsigned();
             $table->foreign('LUS_id')->references('id')->on('l_u_s');
             $table->integer('Decision_Number')->nullable();

@@ -37,6 +37,9 @@ Route::post('/requestById/get','LookupController@getRequestByID');
 Route::post('/documentsByReqId/get','LookupController@getDocumentsByReqId');
 Route::post('/feesByReqId/get','LookupController@getFeesByRequestId');
 Route::post('/fees/update','LookupController@updateFees');
+Route::post('/addressItems/get','addressStructureController@getAddressItems');
+Route::post('/addressItemsInstance/get','addressStructureController@getAddressItemsInstance');
+Route::post('/addressStructure/get','addressStructureController@getAddressStructure');
 
 
 

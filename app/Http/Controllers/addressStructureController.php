@@ -5,36 +5,13 @@ namespace App\Http\Controllers;
 use App\Address_item;
 use App\Address_item_instance;
 use App\Address_structure;
+use App\Request_Fees;
 use Illuminate\Http\Request;
 
 class addressStructureController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function insertAddressItem(Request $request)
     {
         $this->validate($request,[
@@ -104,49 +81,23 @@ class addressStructureController extends Controller
 
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function getAddressItems(Request $request)
     {
-        //
+        $items = Address_item::where('id',$request->id)->get();
+
+        return response()->json(['address items', $items],200);
+    }
+    public function getAddressItemsInstance(Request $request)
+    {
+        $instance = Address_item_instance::where('id',$request->id)->get();
+
+        return response()->json(['address items instance', $instance],200);
+    }
+    public function getAddressStructure(Request $request)
+    {
+        $address = Address_structure::where('id',$request->id)->get();
+
+        return response()->json(['address structure', $address],200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

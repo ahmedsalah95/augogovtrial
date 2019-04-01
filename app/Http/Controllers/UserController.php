@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use App\Employee;
 use App\User;
 use Illuminate\Http\Request;
@@ -62,6 +63,15 @@ class UserController extends Controller
         return response()->json(['success'=>'true'],$this->successStatus);
 
 
+    }
+
+    public function addCustomer(Request $request)
+    {
+        $cu = new Customer();
+        $cu->citizen_national_id = $request->citizen_national_id;
+        $cu->customer_name = $request->customer_name;
+        $cu->save();
+        return response()->json(['success'=>'true'],$this->successStatus);
     }
 
 }

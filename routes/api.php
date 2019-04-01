@@ -56,4 +56,24 @@ Route::post('/lus/add','LusController@LusAdd');
 Route::post('/lus/setDecision','LusController@setDecision');
 
 
-//Route::post('','');
+Route::post('/createReq','requestController@createRequest');
+Route::post('/reqFees','requestController@requestFees');
+Route::post('/reqFees','requestController@form');
+Route::post('/setSteps','requestController@setSteps');
+Route::post('/documents','requestController@setDocument');
+Route::post('/reports','requestController@setReports');
+
+//
+
+//Route::post('/attachedDoc','documentController@attachedDoc');
+
+// add customer added here to be able to make a new instance
+
+Route::post('/customer','UserController@addCustomer');
+
+Route::post('/createInstanceRequest','instancerequestController@createInstanceRequest');
+
+
+// licenses
+Route::get('/licenseType','licenseController@licenseType');
+Route::post('/licenseReport','licenseController@licenseReport');

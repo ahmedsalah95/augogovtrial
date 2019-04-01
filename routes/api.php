@@ -75,5 +75,5 @@ Route::post('/createInstanceRequest','instancerequestController@createInstanceRe
 
 
 // licenses
-Route::get('/licenseType','licenseController@licenseType');
+Route::get('/licenseType','licenseController@licgitenseType');
 Route::post('/licenseReport','licenseController@licenseReport');

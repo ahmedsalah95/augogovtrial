@@ -23,8 +23,8 @@ Route::post('/citizen/insert','LookupController@insertCitizen');
 Route::post('/buildingType/insert','LookupController@insertBuildingType');
 Route::post('/distinctionType/insert','LookupController@insertDistinctionType');
 Route::post('/assignationType/insert','LookupController@insertAssignationType');
-Route::post('/document/insert','LookupController@insertDocument');
-Route::post('/fees/insert','LookupController@insertFees');
+Route::post('/document/insert','LookupController@fetchDocuments');
+Route::post('/fees/insert','LookupController@fetchFees');
 Route::post('/payment/insert','LookupController@insertPayment');
 Route::post('/request/insert','LookupController@insertRequest');
 Route::post('/addressItem/insert','addressStructureController@insertAddressItem');
@@ -40,9 +40,6 @@ Route::post('/fees/update','LookupController@updateFees');
 Route::post('/addressItems/get','addressStructureController@getAddressItems');
 Route::post('/addressItemsInstance/get','addressStructureController@getAddressItemsInstance');
 Route::post('/addressStructure/get','addressStructureController@getAddressStructure');
-
-
-
 
 
 

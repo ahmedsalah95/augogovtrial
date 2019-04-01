@@ -54,3 +54,6 @@ Route::post('/lus/add','LusController@LusAdd');
 
 
 Route::post('/lus/setDecision','LusController@setDecision');
+
+
+//Route::post('','');

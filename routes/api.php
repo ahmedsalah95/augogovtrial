@@ -82,3 +82,14 @@ Route::post('/assignBuildingCost','licenseController@AssignBuildingCost');
 Route::post('/generateTransaction','transactionController@generateTransaction');
 
 Route::post('reportRequest','requestController@reportRequest');
+
+// announce types
+
+Route::post('announceType','LookupController@announceType');
+
+// document delivery
+Route::post('/documentDeliveries','documentController@documentDeliveries');
+
+//group
+
+Route::post('/group','LookupController@groups');

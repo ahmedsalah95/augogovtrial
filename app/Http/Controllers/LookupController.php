@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Announce_Types;
 use App\Assignation_Types;
 use App\Building_Types;
 use App\Citizen;
 use App\Distinction_Types;
 use App\Document;
 use App\Fees;
+use App\Group;
 use App\Payment_Types;
 use App\Request_Document;
 use App\Request_Fees;
@@ -252,6 +254,27 @@ class LookupController extends Controller
         $fees = Request_Fees::where('request_id', $request->id )->get();
 
         return response()->json(['fees',$fees],200 );
+    }
+
+    public function announceType(Request $request)
+    {
+        $announce = new Announce_Types();
+        $announce->name = $request->name;
+        $announce->description =$request->description;
+        $announce->role_id = $request->role_id;
+        $announce->ORG_id = $request->ORG_id;
+        $announce->save();
+        return response()->json(['announceType','saved'],200 );
+
+    }
+
+    public function groups(Request $request)
+    {
+        $grp = new Group();
+        $grp->group_name = $request->group_name;
+        $grp->save();
+        return response()->json(['group','saved'],200 );
+
     }
 
 }

@@ -41,6 +41,13 @@ Route::post('/addressItems/get','addressStructureController@getAddressItems');
 Route::post('/addressItemsInstance/get','addressStructureController@getAddressItemsInstance');
 Route::post('/addressStructure/get','addressStructureController@getAddressStructure');
 
+Route::post('/assignedInspector/insert','inspectionController@insertAssignedInspectors');
+Route::post('/attachment/insert','LookupController@insertAttachment');
+Route::post('/container/insert','LookupController@insertContainer');
+Route::post('/license/insert','licenseController@insertBuildingLicense');
+Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseRequest');
+
+
 
 
 Route::post('/user/login','UserController@login');

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Assignation_Types;
+use App\Attachment;
 use App\Building_Types;
 use App\Citizen;
+use App\Container;
 use App\Distinction_Types;
 use App\Document;
 use App\Fees;
@@ -254,4 +256,24 @@ class LookupController extends Controller
         return response()->json(['fees',$fees],200 );
     }
 
+    public function insertAttachment(Request $request)
+    {
+        $attachment = new Attachment();
+        $attachment->id = $request->id;
+        $attachment->save();
+
+        $authorized = Attachment::where('id', $request->id)->get();
+
+        return response()->json(['success',$authorized], 200);
+    }
+    public function insertContainer(Request $request)
+    {
+        $cont = new Container();
+        $cont->id = $request->id;
+        $cont->save();
+
+        $authorized = Container::where('id', $request->id)->get();
+
+        return response()->json(['success',$authorized], 200);
+    }
 }

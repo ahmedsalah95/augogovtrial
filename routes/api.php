@@ -74,3 +74,11 @@ Route::post('/createInstanceRequest','instancerequestController@createInstanceRe
 // licenses
 Route::get('/licenseType','licenseController@licgitenseType');
 Route::post('/licenseReport','licenseController@licenseReport');
+Route::post('/assignBuildingCost','licenseController@AssignBuildingCost');
+
+
+// transaction
+
+Route::post('/generateTransaction','transactionController@generateTransaction');
+
+Route::post('reportRequest','requestController@reportRequest');

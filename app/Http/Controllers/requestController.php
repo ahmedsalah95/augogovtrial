@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\App_Reports_Request;
 use Illuminate\Http\Request;
 
 class requestController extends Controller
@@ -68,6 +69,17 @@ class requestController extends Controller
 
         $reports->save();
         return response()->json(['reports',"saved"],200);
+
+    }
+    public function reportRequest(Request $request)
+    {
+        $rr = new App_Reports_Request();
+        $rr->report_id = $request->report_id;
+        $rr->ORG_id = $request->ORG_id;
+        $rr->request_id = $request->request_id;
+
+        $rr->save();
+        return response()->json(['report request',"saved"],200);
 
     }
 }

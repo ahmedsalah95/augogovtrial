@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Build_License_Request;
 use App\Building_license;
+use App\License_Cost_Item;
 use App\License_Reports;
 use App\License_Types;
 use Illuminate\Http\Request;
@@ -63,7 +64,21 @@ class licenseController extends Controller
 
         $licensereq->save();
 
-        return response()->json(['license request',"saved"],200);
+        return response()->json(['license request', "saved"], 200);
+    }
+
+    public function AssignBuildingCost(Request $request)
+    {
+        $li = new License_Cost_Item();
+        $li->building_cost_id = $request->building_cost_id;
+        $li->item_id = $request->item_id;
+        $li->ORG_id = $request->ORG_id;
+        $li->item_name = $request->item_name;
+        $li->unit_price = $request->unit_price;
+        $li->discountprecent = $request->discountprecent;
+
+        $li->save();
+        return response()->json(['AssignBuildingCost',"saved"],200);
 
     }
 }

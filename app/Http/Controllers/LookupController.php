@@ -300,6 +300,7 @@ class LookupController extends Controller
 
     }
 
+
     public function groupUser(Request $request)
     {
         $gu = new Group_user();
@@ -315,3 +316,6 @@ class LookupController extends Controller
     }
 
 }
+
+
+

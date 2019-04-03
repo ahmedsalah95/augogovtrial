@@ -2,83 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\App_Report;
+use App\Document;
+use App\Document_Delivery;
+use App\Form;
+use App\Request_Fees;
+use App\Request_Step;
 use Illuminate\Http\Request;
 
 class documentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function attachedDoc(Request $request)
     {
-        //
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function documentDeliveries(Request $request)
     {
-        //
+        $doc = new Document_Delivery();
+        $doc->instance_id = $request->instance_id;
+        $doc->notes = $request->notes;
+        $doc->request_step_id = $request->request_step_id;
+        $doc->deliver_data = $request->deliver_data;
+        $doc->ORG_id = $request->ORG_id;
+
+        $doc->save();
+        return response()->json(['document deliveries',"saved"],200);
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

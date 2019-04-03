@@ -15,8 +15,13 @@ class CreateInstanceFeesTable extends Migration
     {
         Schema::create('instance__fees', function (Blueprint $table) {
             $table->increments('id');
+
+            $table->integer('instance_request_id')->unsigned();
+            $table->foreign('instance_request_id')->references('id')->on('instance__requests');
             $table->integer('request_step_id')->unsigned();
             $table->foreign('request_step_id')->references('id')->on('request__steps');
+            $table->integer('instance_request_id')->unsigned();
+            $table->foreign('instance_request_id')->references('id')->on('instance__requests');
             $table->integer('fees_id')->unsigned();
             $table->foreign('fees_id')->references('id')->on('fees');
             $table->integer('ORG_id')->nullable();

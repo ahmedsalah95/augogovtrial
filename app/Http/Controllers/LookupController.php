@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Announce_Types;
 use App\Assignation_Types;
 use App\Building_Types;
 use App\Citizen;
 use App\Distinction_Types;
 use App\Document;
 use App\Fees;
+use App\Group;
 use App\Payment_Types;
 use App\Request_Document;
 use App\Request_Fees;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Integer;
 
 class LookupController extends Controller
 {
@@ -98,41 +101,84 @@ class LookupController extends Controller
         return response()->json(['AssignationTypes',$auth],200);
     }
 
-    public function insertDocument(Request $request)
+    public function insertDocument($doc)
     {
-        $this->validate($request,[
-
-            'document_name'=>'required'
-
-        ]);
-
         $document = new Document();
-        $document->document_name = $request->document_name;
+        $document->document_name = $doc["name"];
         $document->save();
 
         $auth = Document::where('id',$document->id)->get();
-
-        return response()->json(['document',$auth],200);
+        return response()->json(['success',$auth],200);
+    }
+    public function deleteDocument($id)
+    {
+        $document = Document::findOrFail($id);
+        $document->delete();
+    }
+    public function fetchDocuments(Request $request)
+    {
+        //dump($request);
+        foreach ($request->data as $doc)
+        {
+            if($doc["new_document"])
+            {
+                $this->insertDocument($doc);
+            }
+            else if($doc["deleted"]){
+                $this->deleteDocument($doc["id"]);
+            }
+        }
     }
 
-    public function insertFees(Request $request)
+    public function insertFees($Fees)
     {
-        $this->validate($request,[
-
-            'fees_name' =>'required',
-            'default_value' => 'required'
-
-        ]);
-
-        $fees = new Fee();
-        $fees->fees_name = $request->fees_name;
-        $fees->default_value = $request->default_value;
+        $fees = new Fees();
+        $fees->fees_name = $Fees["name"];
+        $fees->default_value = $Fees["default_value"];
 
         $fees->save();
 
         $authorized = Fees::where('id', $fees->id)->get();
 
         return response()->json(['fees',$authorized], 200);
+    }
+    public function deleteFees($id)
+    {
+        $fees = Fees::findOrFail($id);
+        $fees->delete();
+    }
+    public function updateFees($fees)
+    {
+        dump($fees);
+        $newFees = Fees::find($fees["id"]);
+        dump($fees["id"]);
+        dump($newFees);
+        $newFees->fees_name = $fees["name"];
+        $newFees->default_value = $fees["default_value"];
+
+        $newFees->save();
+
+        return response()->json(['new fees',$newFees],200 );
+
+    }
+    public function fetchFees(Request $request)
+    {
+        foreach ($request->data as $fees)
+        {
+            if($fees["new_fees"])
+            {
+                $this->insertFees($fees);
+            }
+            elseif ($fees["deleted"])
+            {
+                $this->deleteFees($fees["id"]);
+            }
+            elseif ($fees["updated"])
+            {
+                dump("hello," ,$fees);
+                $this->updateFees($fees);
+            }
+        }
     }
 
     public function insertPayment(Request $request)
@@ -209,21 +255,33 @@ class LookupController extends Controller
 
         return response()->json(['fees',$fees],200 );
     }
-    public function updateFees(Request $request)
+
+    public function announceType(Request $request)
     {
-        $newFees = Fees::where('id', $request->id)->first();
-
-        $newFees->fees_name = $request->fees_name;
-        $newFees->default_value = $request->default_value;
-
-        $newFees->save();
-
-        return response()->json(['new fees',$newFees],200 );
+        $announce = new Announce_Types();
+        $announce->name = $request->name;
+        $announce->description =$request->description;
+        $announce->role_id = $request->role_id;
+        $announce->ORG_id = $request->ORG_id;
+        $announce->save();
+        return response()->json(['announceType','saved'],200 );
 
     }
 
+    public function groups(Request $request)
+    {
+        $grp = new Group();
+        $grp->group_name = $request->group_name;
+        $grp->save();
+        return response()->json(['group','saved'],200 );
+
+    }
+
+<<<<<<< HEAD
     function test(Request $request){
         dump($request);
         return "hello";
     }
+=======
+>>>>>>> 5b3c377fd14f191cc790ae79314de1f83edb5253
 }

@@ -12,6 +12,7 @@ use App\Distinction_Types;
 use App\Document;
 use App\Fees;
 use App\Group;
+use App\Group_user;
 use App\Payment_Types;
 use App\Request_Document;
 use App\Request_Fees;
@@ -296,6 +297,20 @@ class LookupController extends Controller
         $grp->group_name = $request->group_name;
         $grp->save();
         return response()->json(['group','saved'],200 );
+
+    }
+
+    public function groupUser(Request $request)
+    {
+        $gu = new Group_user();
+        $gu->user_id = $request->user_id;
+        $gu->group_id = $request->group_id;
+        $gu->ORG_id = $request->ORG_id;
+        $gu->employee_id = $request->employee_id;
+        $gu->emp_orgstructure_id = $request->emp_orgstructure_id;
+        $gu->group_structure_id = $request->group_structure_id;
+        $gu->save();
+        return response()->json(['group user','saved'],200 );
 
     }
 

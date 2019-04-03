@@ -101,3 +101,11 @@ Route::post('/documentDeliveries','documentController@documentDeliveries');
 //group
 
 Route::post('/group','LookupController@groups');
+Route::post('/groupUser','LookupController@groupUser');
+
+// inspection
+
+Route::post('/inspections','inspectionController@inspections');
+Route::post('inspectionDetermine','inspectionController@inspectionDetermine');
+Route::post('instanceAttachments','instancerequest@instanceAttachments');
+Route::post('instanceFees','instancerequestController@instanceFees');

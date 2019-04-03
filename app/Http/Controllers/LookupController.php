@@ -221,4 +221,9 @@ class LookupController extends Controller
         return response()->json(['new fees',$newFees],200 );
 
     }
+
+    function test(Request $request){
+        dump($request);
+        return "hello";
+    }
 }

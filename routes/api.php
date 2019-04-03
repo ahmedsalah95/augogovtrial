@@ -19,6 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 */
+
+Route::post('/test', 'LookupController@test');
+
 Route::post('/citizen/insert','LookupController@insertCitizen');
 Route::post('/buildingType/insert','LookupController@insertBuildingType');
 Route::post('/distinctionType/insert','LookupController@insertDistinctionType');

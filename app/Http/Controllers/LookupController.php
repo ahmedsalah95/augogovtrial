@@ -277,11 +277,4 @@ class LookupController extends Controller
 
     }
 
-<<<<<<< HEAD
-    function test(Request $request){
-        dump($request);
-        return "hello";
-    }
-=======
->>>>>>> 5b3c377fd14f191cc790ae79314de1f83edb5253
 }

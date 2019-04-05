@@ -25,7 +25,7 @@ class CreateLandsTable extends Migration
             $table->integer('ORG_id')->nullable();
             $table->string('Stage')->nullable();
             $table->string('Virtual')->nullable();
-            $table->string('Merged:')->nullable();
+            $table->string('Merged')->nullable();
             $table->string('Divided')->nullable();
             $table->string('Mortgage')->nullable();
             $table->string('Zero_Base')->nullable();

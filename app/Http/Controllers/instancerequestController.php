@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Instance_Attachment;
 use App\Instance_Fees;
+use App\Instance_Fees_Details;
 use App\Instance_Request;
 use Illuminate\Http\Request;
 
@@ -70,5 +71,32 @@ class instancerequestController extends Controller
 
 
 
+    }
+
+    public function instanceFeesDetails(Request $request)
+    {
+        $i = new Instance_Fees_Details;
+        $i->request_step_id = $request->request_step_id;
+        $i->fees_id = $request->fees_id;
+        $i->container_id = $request->container_id;
+        $i->value = $request->value;
+        $i->save();
+        return response()->json(['instance fees details',"saved"],200);
+    }
+
+    public function instanceInspection(Request $request)
+    {
+        $i = new Instance_Request();
+        $i->Request_Step_id = $request->Request_Step_id;
+        $i->Instance_id  = $request->Instance_id;
+        $i-> ORG_id = $request->ORG_id;
+        $i->Employee_id  = $request->Employee_id;
+        $i->Inspection_Date  = $request->Inspection_Date;
+        $i->Status  = $request->Status;
+        $i->Notes  = $request->Notes;
+        $i-> Receiving_Date = $request->Receiving_Date;
+        $i->Received_Request_Step_id  = $request->Received_Request_Step_id;
+        $i->save();
+        return response()->json(['instance request',"saved"],200);
     }
 }

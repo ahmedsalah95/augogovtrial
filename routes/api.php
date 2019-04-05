@@ -83,7 +83,7 @@ Route::post('/createInstanceRequest','instancerequestController@createInstanceRe
 Route::get('/licenseType','licenseController@licgitenseType');
 Route::post('/licenseReport','licenseController@licenseReport');
 Route::post('/assignBuildingCost','licenseController@AssignBuildingCost');
-
+Route::post('/licenses','licenseController@licenses');
 
 // transaction
 
@@ -109,3 +109,14 @@ Route::post('/inspections','inspectionController@inspections');
 Route::post('inspectionDetermine','inspectionController@inspectionDetermine');
 Route::post('instanceAttachments','instancerequest@instanceAttachments');
 Route::post('instanceFees','instancerequestController@instanceFees');
+Route::post('instanceFeesDetails','instancerequestController@instanceFeesDetails');
+Route::post('instanceInspection','instancerequestController@instanceInspection');
+
+// irregularities
+
+Route::post('/irregularites','irregularitesController@irregularites');
+Route::post('/irregularitesRequest','irregularitesController@irregularitesRequest');
+Route::post('/irregularitesTypes','irregularitesController@irregularitesTypes');
+
+
+//

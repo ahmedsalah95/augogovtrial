@@ -48,6 +48,12 @@ Route::post('/license/insert','licenseController@insertBuildingLicense');
 Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseRequest');
 
 
+Route::post('/insert/module','LookupController@inserModule');
+Route::post('/insert/orgStructure','LookupController@insertOrganizationStructure');
+Route::post('/insert/usageType','LookupController@insertUsageType');
+Route::post('/insert/validityCertificate','LookupController@validityCertificate');
+
+
 
 
 Route::post('/user/login','UserController@login');

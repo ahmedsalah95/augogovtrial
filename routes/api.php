@@ -119,4 +119,9 @@ Route::post('/irregularitesRequest','irregularitesController@irregularitesReques
 Route::post('/irregularitesTypes','irregularitesController@irregularitesTypes');
 
 
-//
+// land
+
+Route::post('land','landController@land');
+Route::post('lus','landController@lus');
+Route::post('lusDecision','landController@lusDecision');
+Route::post('lusAssignation','landController@lusAssignation');

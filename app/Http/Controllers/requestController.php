@@ -3,19 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\App_Reports_Request;
+use App\Request_Document;
+use App\Request_Fees;
+use App\Request_Step;
+
 use Illuminate\Http\Request;
 
 class requestController extends Controller
 {
-    public function createRequest(Request $request)
+
+    public function fetchTransactions(Request $request){
+
+        // dump($request->data[0]["steps"][0]["form"]["id"]);
+
+        foreach($request->data as $transaction){
+            $new_request = $this->createRequest($transaction);
+            // dump($transaction["documents"]);
+            $this->setRequestDocuments($transaction["documents"], $new_request->id);
+            // dump($transaction["fees"]);
+            $this->setRequestFees($transaction["fees"], $new_request->id);
+            // dump($transaction["steps"]);
+            $this->setRequestSteps($transaction["steps"], $new_request->id);
+        }
+
+        return $request;
+    }
+
+    public function createRequest($request)
     {
         $req = new \App\Request();
 
-        $req->request_name = $request->request_name;
-        $req->request_parent =$request->request_parent;
+        $req->request_name = $request["name"];
+        $req->request_parent ="parent";
 
         $req->save();
-        return response()->json(['request',"saved"],200);
+
+        return $req;
     }
 
     public function form(Request $request)
@@ -27,35 +50,48 @@ class requestController extends Controller
         return response()->json(['form',"saved"],200);
     }
 
-    public function requestFees(Request $request)
+    public function setRequestFees($fees, $request_id)
     {
-        $RF = new Request_Fees();
 
-        $RF->fees_id = $request->fees_id;
-        $RF->request_id = $request->request_id;
-        $RF->default_value= $request->default_value;
+        foreach($fees as $fee){
+            $RF = new Request_Fees();
+            $RF->fees_id = $fee["id"];
+            $RF->request_id = $request_id;
+            $RF->default_value= $fee["value"];
 
-        $RF->save();
-        return response()->json(['request fees',"saved"],200);
+            $RF->save();
+        }
+
+        
+        // return response()->json(['request fees',"saved"],200);
     }
 
-    public function setSteps(Request $request)
+    public function setRequestSteps($steps, $request_id)
     {
-        $steps = new Request_Step();
-        $steps->request_id = $request->request_id;
-        $steps->form_id = $request->form_id;
-        $steps->order_number = $request->order_number;
-        $steps->save();
-        return response()->json(['steps',"saved"],200);
+
+        foreach($steps as $step){
+            $new_step = new Request_Step();
+            $new_step->request_id = $request_id;
+            $new_step->form_id = $step["form"]["id"];
+            $new_step->order_number = $step["order"];
+            $new_step->save();
+        }
+
+        // return response()->json(['steps',"saved"],200);
 
     }
 
-    public function setDocument(Request $request)
+    public function setRequestDocuments($documents, $request_id)
     {
-        $document = new Document();
-        $document->document_name = $request->document_name;
-        $document->save();
-        return response()->json(['documents',"saved"],200);
+
+        foreach($documents as $document){
+            $new_document = new Request_Document();
+            $new_document->document_id = $document["id"];
+            $new_document->request_id = $request_id;
+            $new_document->save();
+        }
+
+        // return response()->json(['documents',"saved"],200);
     }
 
     public function setReports(Request $request)

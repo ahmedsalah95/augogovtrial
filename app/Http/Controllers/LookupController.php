@@ -13,6 +13,7 @@ use App\Document;
 use App\Fees;
 use App\Group;
 use App\Group_user;
+use App\Law;
 use App\Payment_Types;
 use App\Request_Document;
 use App\Request_Fees;
@@ -314,6 +315,13 @@ class LookupController extends Controller
         return response()->json(['group user','saved'],200 );
 
     }
+    public function law()
+    {
+        $l = new Law();
+        $l->save();
+        return response()->json(['law','saved'],200 );
+    }
+
 
 }
 

@@ -47,6 +47,13 @@ class LookupController extends Controller
 
         return response()->json(['citizen',$auth],200);
     }
+
+    public function getCitizens(){
+        $citizens = Citizen::all();
+
+        return response()->json(['Citizens',$citizens], 200);
+    }
+
     public function insertBuildingType(Request $request)
     {
         $this->validate($request,[

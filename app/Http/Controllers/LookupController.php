@@ -55,6 +55,13 @@ class LookupController extends Controller
 
         return response()->json(['citizen',$auth],200);
     }
+
+    public function getCitizens(){
+        $citizens = Citizen::all();
+
+        return response()->json(['Citizens',$citizens], 200);
+    }
+
     public function insertBuildingType(Request $request)
     {
         $this->validate($request,[
@@ -142,7 +149,7 @@ class LookupController extends Controller
     {
         $fees = new Fees();
         $fees->fees_name = $Fees["name"];
-        $fees->default_value = $Fees["default_value"];
+        $fees->default_value = $Fees["value"];
 
         $fees->save();
 
@@ -157,23 +164,23 @@ class LookupController extends Controller
     }
     public function updateFees($fees)
     {
-        dump($fees);
+        // dump($fees);
         $newFees = Fees::find($fees["id"]);
-        dump($fees["id"]);
-        dump($newFees);
+        // dump($fees["id"]);
+        // dump($newFees);
         $newFees->fees_name = $fees["name"];
-        $newFees->default_value = $fees["default_value"];
+        $newFees->default_value = $fees["value"];
 
         $newFees->save();
 
-        return response()->json(['new fees',$newFees],200 );
+        return response()->json(['new fee',$newFees],200 );
 
     }
     public function fetchFees(Request $request)
     {
         foreach ($request->data as $fees)
         {
-            if($fees["new_fees"])
+            if($fees["new_fee"])
             {
                 $this->insertFees($fees);
             }
@@ -208,12 +215,12 @@ class LookupController extends Controller
 
     public function insertRequest(Request $request)
     {
-        $this->validate($request,[
+        // $this->validate($request,[
 
-            'request_name' => 'required',
-            'request_parent' => 'required'
+        //     'request_name' => 'required',
+        //     'request_parent' => 'required'
 
-        ]);
+        // ]);
 
         $req = new \App\Request();
         $req->request_name = $request->request_name;

@@ -62,6 +62,7 @@ Route::get('/fees/get','LookupController@getFees');
 
 
 Route::post('/user/login','UserController@login');
+Route::post('/user/register','UserController@register');
 
 Route::post('/employees/fetch','UserController@fetchEmployees');
 Route::get('/employees/get','UserController@getEmployees');

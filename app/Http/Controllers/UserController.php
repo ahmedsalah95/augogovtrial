@@ -129,4 +129,16 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
+    public function register(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt( $request->password);
+        $user->employee_id = $request->employee_id;
+        $user->citizen_national_id =$request->citizen_national_id;
+        $user->save();
+        return response()->json('success', 200);
+    }
+
 }

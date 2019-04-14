@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 
 Route::post('/citizen/insert','LookupController@insertCitizen');
+Route::get('/citizens/get','LookupController@getCitizens');
 Route::post('/buildingType/insert','LookupController@insertBuildingType');
 Route::post('/distinctionType/insert','LookupController@insertDistinctionType');
 Route::post('/assignationType/insert','LookupController@insertAssignationType');
@@ -49,6 +50,10 @@ Route::post('/license/insert','licenseController@insertBuildingLicense');
 Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseRequest');
 
 
+Route::post('/insert/module','LookupController@inserModule');
+Route::post('/insert/orgStructure','LookupController@insertOrganizationStructure');
+Route::post('/insert/usageType','LookupController@insertUsageType');
+Route::post('/insert/validityCertificate','LookupController@validityCertificate');
 
 
 Route::get('/documents/get','LookupController@getDocuments');
@@ -56,8 +61,13 @@ Route::get('/fees/get','LookupController@getFees');
 
 
 Route::post('/user/login','UserController@login');
+Route::post('/user/register','UserController@register');
 
-Route::post('/user/registerEmployee','UserController@registerEmployee');
+Route::post('/employees/fetch','UserController@fetchEmployees');
+Route::get('/employees/get','UserController@getEmployees');
+
+Route::post('/users/fetch','UserController@fetchUsers');
+Route::post('/users/get','UserController@getUsers');
 
 Route::post('/lus/add','LusController@LusAdd');
 

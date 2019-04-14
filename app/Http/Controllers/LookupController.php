@@ -14,9 +14,13 @@ use App\Fees;
 use App\Group;
 use App\Group_user;
 use App\Law;
+use App\Module;
+use App\Organization_Structure;
 use App\Payment_Types;
 use App\Request_Document;
 use App\Request_Fees;
+use App\Usage_Types;
+use App\Validity_Certificate;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Integer;
 
@@ -51,6 +55,13 @@ class LookupController extends Controller
 
         return response()->json(['citizen',$auth],200);
     }
+
+    public function getCitizens(){
+        $citizens = Citizen::all();
+
+        return response()->json(['Citizens',$citizens], 200);
+    }
+
     public function insertBuildingType(Request $request)
     {
         $this->validate($request,[
@@ -250,8 +261,16 @@ class LookupController extends Controller
     public function getDocumentsByReqId(Request $request)
     {
         $documents = Request_Document::where('request_id',$request->id)->get();
+        $arr = [];
+      for($i=0;$i<sizeof($documents);$i++)
+      {
+          $data = Document::where('id',$documents[$i]->document_id)->get();
 
-        return response()->json(['documents',$documents],200);
+          $arr [] =  $data;
+      }
+
+
+        return response()->json(['documents',$arr],200);
     }
     public function getFeesByRequestId(Request $request)
     {
@@ -322,6 +341,49 @@ class LookupController extends Controller
         return response()->json(['law','saved'],200 );
     }
 
+    public function inserModule(Request $request)
+    {
+        $mod = new Module();
+        $mod->module_name = $request->module_name;
+        $mod->save();
+        return response()->json(['module','saved'],200 );
+
+    }
+    public function insertOrganizationStructure(Request $request)
+    {
+        $org = new Organization_Structure();
+        $org->department_id = $request->department_id;
+        $org->department_name = $request->department_name;
+        $org->department_parent = $request->department_parent;
+
+        $org->save();
+        return response()->json(['organization','saved'],200 );
+
+    }
+    public function insertUsageType(Request $request)
+    {
+        $usage = new Usage_Types();
+        $usage->Usage_Type = $request->Usage_Type ;
+        $usage->save();
+        return response()->json(['usage type','saved'],200 );
+    }
+
+    public function validityCertificate(Request $request)
+    {
+        $val = new Validity_Certificate();
+        $val->ORG_id = $request->ORG_id ;
+        $val->LUS_id = $request->LUS_id;
+        $val->notes = $request->notes ;
+        $val->instance_id = $request->instance_id ;
+        $val->usage_type_child_id = $request->usage_type_child_id ;
+        $val->certificate_number = $request->certificate_number ;
+        $val->citizen_id = $request->citizen_id ;
+        $val->buildingdesc = $request->buildingdesc;
+
+        $val->save();
+        return response()->json(['validity','saved'],200 );
+
+    }
 
 }
 

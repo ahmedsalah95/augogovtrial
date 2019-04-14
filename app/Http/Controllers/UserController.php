@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 use App\Customer;
 use App\Employee;
 use App\User;
-use Illuminate\Http\Request;
+use App\Citizen;
+use App\Organization_Structure;
+
+use Carbon\Carbon;
+
 
 class UserController extends Controller
 {
@@ -42,27 +48,46 @@ class UserController extends Controller
 
     }
 
-    public function registerEmployee(Request $request)
+    public function fetchEmployees(Request $request)
     {
-        $this->validate($request, [
-            'citizen_national_id'=>'required',
-            'employee_name'=>'required',
-            'department_id'=>'required',
-            'ORG_id'=>'required',
-            'status'=>'required',
-        ]);
+        
+        foreach($request->data["citizens"] as $newCitizen){
+            $citizen = new Citizen();
+            $citizen->citizen_name = $newCitizen["name"];
+            $citizen->citizen_national_id = $newCitizen["national_id"];
+            $citizen->save();
+        }
 
-        $employee = new Employee();
-        $employee->citizen_national_id = $request->citizen_national_id;
-        $employee->employee_name = $request->employee_name;
-        $employee->department_id = $request->department_id;
-        $employee->ORG_id = $request->ORG_id;
-        $employee->status = $request->status;
+        foreach($request->data["employees"] as $newEmployee){
+            $employee = new Employee();
+            $employee->employee_name = $newEmployee["citizen"]["citizen_name"];
+            $employee->department_id = $newEmployee["department"]["id"];
+            $employee->citizen_national_id = $newEmployee["citizen"]["national_id"];
+            $employee->save();
+        }
 
-        $employee->save();
         return response()->json(['success'=>'true'],$this->successStatus);
 
+    }
 
+    public function getEmployees(){
+        $employees = Employee::all();
+
+        $data = array();
+
+        foreach($employees as $employee){
+            $citizen = Citizen::where("citizen_national_id", "=", $employee->citizen_national_id)->get()[0];
+            $department = Organization_Structure::where("id", "=", $employee->department_id)->get()[0];
+            $item = array(
+                'employee' => $employee,
+                'citizen' => $citizen,
+                'department' => $department
+            );
+            array_push($data, $item);
+
+        }
+        
+        return response()->json($data, 200);
     }
 
     public function addCustomer(Request $request)
@@ -72,6 +97,48 @@ class UserController extends Controller
         $cu->customer_name = $request->customer_name;
         $cu->save();
         return response()->json(['success'=>'true'],$this->successStatus);
+    }
+
+    public function fetchUsers(Request $request){
+
+        dump(Carbon::now()->toDateTimeString());
+
+        foreach($request->data as $newUser){
+
+            $user = new User();
+            $user->name = $newUser["username"];
+            $user->email = "email@email.com".Carbon::now()->timestamp; //just adding the timestamp to mock the email field
+            $user->password = $newUser["password"];
+            $user->employee_id = $newUser["employee"]["id"];
+            $user->citizen_national_id = $newUser["employee"]["citizen"]["national_id"];
+            $user->save();
+
+        }
+
+        return response()->json(['success'=>'true'],$this->successStatus);
+    }
+
+    public function getUsers(Request $request){
+
+        $users = User::all();
+
+        $data = array(
+            'users' => $users
+        );
+
+        return response()->json($data, 200);
+    }
+
+    public function register(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt( $request->password);
+        $user->employee_id = $request->employee_id;
+        $user->citizen_national_id =$request->citizen_national_id;
+        $user->save();
+        return response()->json('success', 200);
     }
 
 }

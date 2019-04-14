@@ -261,8 +261,16 @@ class LookupController extends Controller
     public function getDocumentsByReqId(Request $request)
     {
         $documents = Request_Document::where('request_id',$request->id)->get();
+        $arr = [];
+      for($i=0;$i<sizeof($documents);$i++)
+      {
+          $data = Document::where('id',$documents[$i]->document_id)->get();
 
-        return response()->json(['documents',$documents],200);
+          $arr [] =  $data;
+      }
+
+
+        return response()->json(['documents',$arr],200);
     }
     public function getFeesByRequestId(Request $request)
     {

@@ -31,13 +31,8 @@ Route::post('/request/insert','LookupController@insertRequest');
 Route::post('/addressItem/insert','addressStructureController@insertAddressItem');
 Route::post('/addressItemInstance/insert','addressStructureController@insertAddressItemInstance');
 Route::post('/addressStructure/insert','addressStructureController@insertAddressStructure');
-Route::post('/requests/get','LookupController@getRequests');
-<<<<<<< HEAD
-Route::get('/documents/get','LookupController@getDocuments');
-Route::get('/fees/get','LookupController@getFees');
-=======
+Route::get('/requests/get','LookupController@getRequests');
 
->>>>>>> b90d8bc4a811214454b2bb8834d90973c3ead7a1
 Route::post('/requestById/get','LookupController@getRequestByID');
 Route::post('/documentsByReqId/get','LookupController@getDocumentsByReqId');
 Route::post('/feesByReqId/get','LookupController@getFeesByRequestId');
@@ -46,7 +41,7 @@ Route::post('/addressItems/get','addressStructureController@getAddressItems');
 Route::post('/addressItemsInstance/get','addressStructureController@getAddressItemsInstance');
 Route::post('/addressStructure/get','addressStructureController@getAddressStructure');
 
-<<<<<<< HEAD
+
 Route::post('/assignedInspector/insert','inspectionController@insertAssignedInspectors');
 Route::post('/attachment/insert','LookupController@insertAttachment');
 Route::post('/container/insert','LookupController@insertContainer');
@@ -55,10 +50,10 @@ Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseReq
 
 
 
-=======
+
 Route::get('/documents/get','LookupController@getDocuments');
 Route::get('/fees/get','LookupController@getFees');
->>>>>>> b90d8bc4a811214454b2bb8834d90973c3ead7a1
+
 
 Route::post('/user/login','UserController@login');
 

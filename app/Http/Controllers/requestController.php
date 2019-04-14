@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\App_Reports_Request;
+use App\Citizen;
+use App\Instance_Request;
 use App\Request_Document;
 use App\Request_Fees;
 use App\Request_Step;
 
+use App\Transaction;
 use Illuminate\Http\Request;
 
 class requestController extends Controller
@@ -27,6 +30,18 @@ class requestController extends Controller
         }
 
         return $request;
+    }
+    public function fetchTransactionsSecV(Request $request)
+    {
+
+        $instance_id = Instance_Request::where('id',$request->Instance_id)->get(['customer_id']);
+       // $customer_id = $instance_id;
+        $customer = Citizen::where('id',$instance_id[0]['customer_id'])->get();
+        $arr [] =$customer[0];
+        $transaction = Transaction::where('instance_id',$request->Instance_id)->get();
+        $arr [] =$transaction[0];
+        return response()->json($arr,200 );
+
     }
 
     public function createRequest($request)
@@ -62,7 +77,7 @@ class requestController extends Controller
             $RF->save();
         }
 
-        
+
         // return response()->json(['request fees',"saved"],200);
     }
 

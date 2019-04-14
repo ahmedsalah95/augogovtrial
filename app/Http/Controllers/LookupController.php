@@ -261,22 +261,28 @@ class LookupController extends Controller
     public function getDocumentsByReqId(Request $request)
     {
         $documents = Request_Document::where('request_id',$request->id)->get();
-        $arr = [];
+        $arr=array();
       for($i=0;$i<sizeof($documents);$i++)
       {
           $data = Document::where('id',$documents[$i]->document_id)->get();
 
-          $arr [] =  $data;
+          $arr [] = $data[0];
       }
+        return response()->json($arr,200);
 
 
-        return response()->json(['documents',$arr],200);
     }
     public function getFeesByRequestId(Request $request)
     {
         $fees = Request_Fees::where('request_id', $request->id )->get();
+        for($i=0;$i<sizeof($fees);$i++)
+        {
+            $data = Fees::where('id',$fees[$i]->fees_id)->get();
 
-        return response()->json(['fees',$fees],200 );
+            $arr [] = $data[0];
+        }
+
+        return response()->json($arr,200 );
     }
 
     public function insertAttachment(Request $request)

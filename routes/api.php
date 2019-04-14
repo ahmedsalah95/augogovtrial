@@ -76,6 +76,10 @@ Route::post('/lus/setDecision','LusController@setDecision');
 
 
 Route::post('/transactions/fetch','requestController@fetchTransactions');
+
+// another version if fetchTransactions function
+Route::post('/transactions/fetchSec','requestController@fetchTransactionsSecV');
+
 Route::post('/createReq','requestController@createRequest');
 Route::post('/reqFees','requestController@requestFees');
 Route::post('/reqFees','requestController@form');

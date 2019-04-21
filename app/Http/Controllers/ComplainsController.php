@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Complain;
-use App\complain_reply;
+
+use App\cr;
 use App\reply;
 use Illuminate\Http\Request;
 
@@ -25,10 +26,34 @@ class ComplainsController extends Controller
         $r->reply_content = $request->reply_content;
         $r->save();
 
-        $cr = new complain_reply();
+        $cr = new cr();
         $cr->reply_id = $r->id;
         $cr->complain_id = $request->complain_id;
         $cr->save();
         return response()->json($cr,200);
+    }
+
+    public function fetchComplainsAndReplies(Request $request)
+    {
+        $arr = array();
+        $complains = Complain::where('citizen_national_id',$request->citizen_national_id)->get();
+        $arr[] = $complains;
+        $secArr = array();
+        foreach ($complains as $co)
+        {
+            $test = $co->replies()->get();
+            if(!empty($test[0]))
+            {
+                //echo $test[0];
+                $secArr [] = $test;
+            }
+
+        }
+        $arr [] = $secArr;
+
+
+
+
+        return response()->json($arr,200);
     }
 }

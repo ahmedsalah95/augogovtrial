@@ -153,3 +153,5 @@ Route::post('lusAssignation','landController@lusAssignation');
 Route::post('makeComplain','ComplainsController@makeComplain');
 
 Route::post('makeReply','ComplainsController@makeReply');
+
+Route::post('fetchComplainsAndReplies','ComplainsController@fetchComplainsAndReplies');

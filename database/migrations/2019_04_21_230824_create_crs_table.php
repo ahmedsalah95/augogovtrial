@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateComplainRepliesTable extends Migration
+class CreateCrsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateComplainRepliesTable extends Migration
      */
     public function up()
     {
-        Schema::create('complain_replies', function (Blueprint $table) {
+        Schema::create('crs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('complain_id');
             $table->integer('reply_id');
@@ -28,6 +28,6 @@ class CreateComplainRepliesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('complain_replies');
+        Schema::dropIfExists('crs');
     }
 }

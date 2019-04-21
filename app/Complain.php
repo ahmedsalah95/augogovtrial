@@ -8,6 +8,6 @@ class Complain extends Model
 {
     public function replies()
     {
-        return $this->belongsToMany(reply::class);
+        return $this->belongsToMany(reply::class ,'crs');
     }
 }

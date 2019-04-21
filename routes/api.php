@@ -147,3 +147,9 @@ Route::post('land','landController@land');
 Route::post('lus','landController@lus');
 Route::post('lusDecision','landController@lusDecision');
 Route::post('lusAssignation','landController@lusAssignation');
+
+// complain and replies
+
+Route::post('makeComplain','ComplainsController@makeComplain');
+
+Route::post('makeReply','ComplainsController@makeReply');

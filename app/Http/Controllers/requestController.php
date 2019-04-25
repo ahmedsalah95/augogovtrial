@@ -15,11 +15,12 @@ use Illuminate\Http\Request;
 class requestController extends Controller
 {
 
-    public function fetchTransactions(Request $request){
+    public function fetchTransactions(Request $request)
+    {
 
         // dump($request->data[0]["steps"][0]["form"]["id"]);
 
-        foreach($request->data as $transaction){
+        foreach ($request->data as $transaction) {
             $new_request = $this->createRequest($transaction);
             // dump($transaction["documents"]);
             $this->setRequestDocuments($transaction["documents"], $new_request->id);
@@ -31,16 +32,19 @@ class requestController extends Controller
 
         return $request;
     }
+
     public function fetchTransactionsSecV(Request $request)
     {
 
-        $instance_id = Instance_Request::where('id',$request->Instance_id)->get(['customer_id']);
-       // $customer_id = $instance_id;
-        $customer = Citizen::where('id',$instance_id[0]['customer_id'])->get();
-        $arr [] =$customer[0];
-        $transaction = Transaction::where('instance_id',$request->Instance_id)->get();
-        $arr [] =$transaction[0];
-        return response()->json($arr,200 );
+        $instance_id = Instance_Request::where('id', $request->Instance_id)->get(['customer_id']);
+        //$instance_id = Instance_Request::where('id',$request->Instance_id)->get();
+
+        $customer = Citizen::where('id', $instance_id[0]['customer_id'])->get();
+        $arr [] = $customer[0];
+        $transaction = Transaction::where('instance_id', $request->Instance_id)->get();
+        $arr [] = $transaction[0];
+
+        return response()->json($arr, 200);
 
     }
 
@@ -49,9 +53,10 @@ class requestController extends Controller
         $req = new \App\Request();
 
         $req->request_name = $request["name"];
-        $req->request_parent ="parent";
+        $req->request_parent = "parent";
 
         $req->save();
+
 
         return $req;
     }
@@ -62,17 +67,17 @@ class requestController extends Controller
         $form->form_name = $request->form_name;
 
         $form->save();
-        return response()->json(['form',"saved"],200);
+        return response()->json(['form', "saved"], 200);
     }
 
     public function setRequestFees($fees, $request_id)
     {
 
-        foreach($fees as $fee){
+        foreach ($fees as $fee) {
             $RF = new Request_Fees();
             $RF->fees_id = $fee["id"];
             $RF->request_id = $request_id;
-            $RF->default_value= $fee["value"];
+            $RF->default_value = $fee["value"];
 
             $RF->save();
         }
@@ -84,7 +89,7 @@ class requestController extends Controller
     public function setRequestSteps($steps, $request_id)
     {
 
-        foreach($steps as $step){
+        foreach ($steps as $step) {
             $new_step = new Request_Step();
             $new_step->request_id = $request_id;
             $new_step->form_id = $step["form"]["id"];
@@ -99,7 +104,7 @@ class requestController extends Controller
     public function setRequestDocuments($documents, $request_id)
     {
 
-        foreach($documents as $document){
+        foreach ($documents as $document) {
             $new_document = new Request_Document();
             $new_document->document_id = $document["id"];
             $new_document->request_id = $request_id;
@@ -119,9 +124,10 @@ class requestController extends Controller
         $reports->type_id = $request->type_id;
 
         $reports->save();
-        return response()->json(['reports',"saved"],200);
+        return response()->json(['reports', "saved"], 200);
 
     }
+
     public function reportRequest(Request $request)
     {
         $rr = new App_Reports_Request();
@@ -130,7 +136,7 @@ class requestController extends Controller
         $rr->request_id = $request->request_id;
 
         $rr->save();
-        return response()->json(['report request',"saved"],200);
+        return response()->json(['report request', "saved"], 200);
 
     }
 }

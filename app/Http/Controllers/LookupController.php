@@ -165,7 +165,7 @@ class LookupController extends Controller
     public function updateFees($fees)
     {
         // dump($fees);
-        $newFees = Fees::find($fees["id"]);
+        $newFees = Fees::findOrFail($fees["id"]);
         // dump($fees["id"]);
         // dump($newFees);
         $newFees->fees_name = $fees["name"];

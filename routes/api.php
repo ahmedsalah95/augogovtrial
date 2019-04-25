@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 */
 
+Route::post('/register','UserController@register');
+
 Route::post('/citizen/insert','LookupController@insertCitizen');
 Route::get('/citizens/get','LookupController@getCitizens');
 Route::post('/buildingType/insert','LookupController@insertBuildingType');
@@ -145,3 +147,11 @@ Route::post('land','landController@land');
 Route::post('lus','landController@lus');
 Route::post('lusDecision','landController@lusDecision');
 Route::post('lusAssignation','landController@lusAssignation');
+
+// complain and replies
+
+Route::post('makeComplain','ComplainsController@makeComplain');
+
+Route::post('makeReply','ComplainsController@makeReply');
+
+Route::post('fetchComplainsAndReplies','ComplainsController@fetchComplainsAndReplies');

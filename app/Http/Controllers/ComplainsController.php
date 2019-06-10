@@ -63,4 +63,20 @@ class ComplainsController extends Controller
 
         return response()->json($arr,200);
     }
+
+    public function getReplies(Request $request)
+    {
+        $crs = cr::where('complain_id',$request->complain_id)->get();
+        $arr = array();
+
+        foreach ($crs as $cr)
+        {
+           # print($cr->reply_id);
+            $reply = reply::where('id',$cr->reply_id)->get();
+            array_push($arr,$reply);
+
+        }
+
+        return response()->json($arr,200);
+    }
 }

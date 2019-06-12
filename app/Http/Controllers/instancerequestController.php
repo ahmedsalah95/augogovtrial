@@ -16,9 +16,17 @@ class instancerequestController extends Controller
         $requestInstance->request_id = $request->request_id;
         $requestInstance->structure_id = $request->structure_id;
         $requestInstance->customer_id = $request->customer_id;
+        $requestInstance->current_state = $request->current_state; // added by ahmed salah 12/6/2019
+        $requestInstance->bool = $request->bool;
 
         $requestInstance->save();
         return response()->json(['instance',"saved"],200);
+    }
+    public function getInstanceRequest(Request $request) //  added by ahmed salah 12/6/2019
+    {
+        $r = Instance_Request::where('id',$request->id)->get();
+
+        return response()->json($r,200);
     }
     public function instanceAttachments(Request $request)
     {

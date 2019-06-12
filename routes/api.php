@@ -99,6 +99,7 @@ Route::post('/customer','UserController@addCustomer');
 
 Route::post('/createInstanceRequest','instancerequestController@createInstanceRequest');
 
+Route::post('/getInstanceRequest','instancerequestController@getInstanceRequest'); //  added by ahmed salah 12/6/2019
 
 // licenses
 

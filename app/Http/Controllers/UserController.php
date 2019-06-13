@@ -60,7 +60,7 @@ class UserController extends Controller
 
         foreach($request->data["employees"] as $newEmployee){
             $employee = new Employee();
-            $employee->employee_name = $newEmployee["citizen"]["citizen_name"];
+            $employee->employee_name = $newEmployee["citizen"]["name"];
             $employee->department_id = $newEmployee["department"]["id"];
             $employee->citizen_national_id = $newEmployee["citizen"]["national_id"];
             $employee->save();

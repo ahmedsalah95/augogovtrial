@@ -54,6 +54,8 @@ Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseReq
 
 Route::post('/insert/module','LookupController@inserModule');
 Route::post('/insert/orgStructure','LookupController@insertOrganizationStructure');
+Route::get('/orgStructure/get','LookupController@getDepartments');
+Route::post('/orgStructure/fetch','LookupController@fetchDepartments');
 Route::post('/insert/usageType','LookupController@insertUsageType');
 Route::post('/insert/validityCertificate','LookupController@validityCertificate');
 
@@ -158,3 +160,12 @@ Route::post('makeReply','ComplainsController@makeReply');
 Route::post('fetchComplainsAndReplies','ComplainsController@fetchComplainsAndReplies');
 
 Route::post('getReplies','ComplainsController@getReplies');
+
+
+//forms
+
+Route::post('forms/fetch', 'LookupController/fetchForms');
+Route::post('forms/insert', 'LookupController/insertForm');
+Route::get('forms/get', 'LookupController/getForms');
+
+

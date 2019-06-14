@@ -11,6 +11,7 @@ use App\Container;
 use App\Distinction_Types;
 use App\Document;
 use App\Fees;
+use App\Form;
 use App\Group;
 use App\Group_user;
 use App\Law;
@@ -366,6 +367,31 @@ class LookupController extends Controller
         return response()->json(['organization','saved'],200 );
 
     }
+    public function getDepartments()
+    {
+        $departments = Organization_Structure::all();
+
+        return response()->json(['Departments',$departments], 200);
+    }
+    public function fetchDepartments(Request $request)
+    {
+        foreach ($request->data as $dept)
+        {
+            if($dept["new_department"])
+            {
+                $this->insertOrganizationStructure($dept);
+            }
+            else if($dept["deleted"]){
+                $this->deleteDepartment($dept["id"]);
+            }
+        }
+    }
+    public function deleteDepartment($id)
+    {
+        $dept = Organization_Structure::findOrFail($id);
+        $dept->delete();
+
+    }
     public function insertUsageType(Request $request)
     {
         $usage = new Usage_Types();
@@ -390,6 +416,40 @@ class LookupController extends Controller
         return response()->json(['validity','saved'],200 );
 
     }
+
+    public function insertForm($fo)
+    {
+        $form = new Form();
+        $form->form_name = $fo["name"];
+        $form->save();
+
+        $auth = Form::where('id',$form->id)->get();
+        return response()->json(['success',$auth],200);
+    }
+    public function deleteForm($id)
+    {
+        $form = Form::findOrFail($id);
+        $form->delete();
+    }
+    public function fetchForms(Request $request)
+    {
+        foreach ($request->data as $form)
+        {
+            if($form["new_form"])
+            {
+                $this->insertForm($form);
+            }
+            else if($form["deleted"]){
+                $this->deleteForm($form["id"]);
+            }
+        }
+    }
+    public function getForms(){
+
+        $forms = Form::all();
+        return response()->json(['Forms',$forms], 200);
+    }
+
 
 }
 

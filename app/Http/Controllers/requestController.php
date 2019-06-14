@@ -46,7 +46,7 @@ class requestController extends Controller
 
             return response()->json($arr, 200);*/
 
-        $instance = Instance_Request::where('id', $request->Instance_id)->get()[0];
+     /*   $instance = Instance_Request::where('id', $request->Instance_id)->get()[0];
 //        $instance_id = Instance_Request::all();
         //$instance_id = Instance_Request::where('id',$request->Instance_id)->get();
 
@@ -71,7 +71,16 @@ class requestController extends Controller
         }else
         {
             return response()->json([], 200);
-        }
+        }*/
+
+     $transactions = Transaction::where('Instance_id',$request->id)->get();
+     if(count($transactions) > 0)
+     {
+         return response()->json($transactions,200);
+     }else{
+         return response()->json([],200);
+     }
+
 
 
 

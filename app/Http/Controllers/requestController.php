@@ -36,15 +36,44 @@ class requestController extends Controller
     public function fetchTransactionsSecV(Request $request)
     {
 
-        $instance_id = Instance_Request::where('id', $request->Instance_id)->get(['customer_id']);
+        /*$instance_id = Instance_Request::where('id', $request->Instance_id)->get(['customer_id']);
         //$instance_id = Instance_Request::where('id',$request->Instance_id)->get();
-
+        $arr = array();
         $customer = Citizen::where('id', $instance_id[0]['customer_id'])->get();
         $arr [] = $customer[0];
         $transaction = Transaction::where('instance_id', $request->Instance_id)->get();
         $arr [] = $transaction[0];
 
-        return response()->json($arr, 200);
+            return response()->json($arr, 200);*/
+
+        $instance = Instance_Request::where('id', $request->Instance_id)->get()[0];
+//        $instance_id = Instance_Request::all();
+        //$instance_id = Instance_Request::where('id',$request->Instance_id)->get();
+
+        if(count($instance)>0)
+        {
+
+            $instance_id = $instance->customer_id;
+           //dump($instance_id);
+             $customer = Citizen::where('id', $instance_id)->get();
+             $arr = array();
+             // $arr [] = $customer[0];
+           // dump($customer);
+            // $arr = $customer;
+            array_push($arr,$customer);
+
+             $transaction = Transaction::where('instance_id', $request->Instance_id)->get();
+            //dump($transaction);
+            // $arr = $transaction;
+            array_push($arr,$transaction);
+             return response()->json($arr, 200);
+
+        }else
+        {
+            return response()->json([], 200);
+        }
+
+
 
     }
 

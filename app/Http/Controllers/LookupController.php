@@ -14,9 +14,12 @@ use App\Fees;
 use App\Form;
 use App\Group;
 use App\Group_user;
+use App\Irregularites_Type;
 use App\Law;
+use App\License_Types;
 use App\Module;
 use App\Organization_Structure;
+use App\OwnerShip_Types;
 use App\Payment_Types;
 use App\Request_Document;
 use App\Request_Fees;
@@ -82,6 +85,31 @@ class LookupController extends Controller
         return response()->json(['buidingTypes',$auth],200);
     }
 
+    public function fetchBuildingType(Request $request)
+    {
+        foreach ($request->data as $build)
+        {
+            if($build["new_type"])
+            {
+                $this->insertBuildingType($build);
+            }
+            else if($build["deleted"]){
+                $this->deleteBuildingType($build["id"]);
+            }
+        }
+    }
+    public function deleteBuildingType($id)
+    {
+        $build = Building_Types::findOrFail($id);
+        $build->delete();
+    }
+    public function getBuildingTypes()
+    {
+        $types = Building_Types::all();
+
+        return response()->json(['Building types',$types], 200);
+    }
+
     public function insertDistinctionType(Request $request)
     {
         $this->validate($request,[
@@ -99,6 +127,32 @@ class LookupController extends Controller
         return response()->json(['buidingTypes',$auth],200);
     }
 
+    public function deleteDistinctionType($id)
+    {
+        $type = Distinction_Types::findOrFail($id);
+        $type->delete();
+    }
+    public function fetchDistinctionTypes(Request $request)
+    {
+        foreach ($request->data as $type)
+        {
+            if($type["new_type"])
+            {
+                $this->insertDistinctionType($type);
+            }
+            else if($type["deleted"]){
+                $this->deleteDistinctionType($type["id"]);
+            }
+        }
+    }
+
+    public function getDistinctionType()
+    {
+        $types = Distinction_Types::all();
+
+        return response()->json(['Types',$types], 200);
+    }
+
     public function insertAssignationType(Request $request)
     {
         $this->validate($request,[
@@ -106,15 +160,39 @@ class LookupController extends Controller
             'Type_Name'=>'required'
 
         ]);
-
         $type = new Assignation_Types();
         $type->Type_Name = $request->Type_Name;
         $type->save();
 
-
         $auth = Assignation_Types::where('id',$type->id)->get();
 
         return response()->json(['AssignationTypes',$auth],200);
+    }
+
+    public function deleteAssignationType($id)
+    {
+        $type = Assignation_Types::findOrFail($id);
+        $type->delete();
+    }
+    public function fetchAssignationType(Request $request)
+    {
+        foreach ($request->data as $type)
+        {
+            if($type["new_type"])
+            {
+                $this->insertAssignationType($type);
+            }
+            else if($type["deleted"]){
+                $this->deleteAssignationType($type["id"]);
+            }
+        }
+    }
+
+    public function getAssignationType()
+    {
+        $types = Assignation_Types::all();
+
+        return response()->json(['Types',$types], 200);
     }
 
     public function insertDocument($doc)
@@ -144,6 +222,13 @@ class LookupController extends Controller
                 $this->deleteDocument($doc["id"]);
             }
         }
+    }
+
+    public function getDocuments()
+    {
+        $documents = Document::all();
+
+        return response()->json(['Documents',$documents], 200);
     }
 
     public function insertFees($Fees)
@@ -214,6 +299,32 @@ class LookupController extends Controller
         return response()->json(['paymentType',$authorized], 200);
     }
 
+    public function deletePaymentType($id)
+    {
+        $type = Payment_Types::findOrFail($id);
+        $type->delete();
+    }
+    public function fetchPaymentTypes(Request $request)
+    {
+        foreach ($request->data as $type)
+        {
+            if($type["new_type"])
+            {
+                $this->insertPayment($type);
+            }
+            else if($type["deleted"]){
+                $this->deletePaymentType($type["id"]);
+            }
+        }
+    }
+
+    public function getPaymentTypes()
+    {
+        $types = Payment_Types::all();
+
+        return response()->json(['Types',$types], 200);
+    }
+
     public function insertRequest(Request $request)
     {
         // $this->validate($request,[
@@ -239,12 +350,7 @@ class LookupController extends Controller
 
         return response()->json(['requests',$requests], 200);
     }
-    public function getDocuments()
-    {
-        $documents = Document::all();
 
-        return response()->json(['Documents',$documents], 200);
-    }
     public function getFees()
     {
         $fees = Fees::all();
@@ -306,7 +412,7 @@ class LookupController extends Controller
 
         return response()->json(['success',$authorized], 200);
     }
-    public function announceType(Request $request)
+    public function insertAnnounceType(Request $request)
     {
         $announce = new Announce_Types();
         $announce->name = $request->name;
@@ -316,6 +422,30 @@ class LookupController extends Controller
         $announce->save();
         return response()->json(['announceType','saved'],200 );
 
+    }
+
+    public function deleteannounceType($id)
+    {
+        $type = Announce_Types::findOrFail($id);
+        $type->delete();
+    }
+    public function fetchannounceTypes(Request $request)
+    {
+        foreach ($request->data as $type)
+        {
+            if($type["new_type"])
+            {
+                $this->insertAnnounceType($type);
+            }
+            else if($type["deleted"]){
+                $this->deleteannounceType($type["id"]);
+            }
+        }
+    }
+    public function getannounceTypes(){
+
+        $types = Announce_Types::all();
+        return response()->json(['types',$types], 200);
     }
 
     public function groups(Request $request)
@@ -400,6 +530,31 @@ class LookupController extends Controller
         return response()->json(['usage type','saved'],200 );
     }
 
+    public function deleteUsageType($id)
+    {
+        $type = Usage_Types::findOrFail($id);
+        $type->delete();
+    }
+    public function fetchUsageTypes(Request $request)
+    {
+        foreach ($request->data as $type)
+        {
+            if($type["new_type"])
+            {
+                $this->insertUsageType($type);
+            }
+            else if($type["deleted"]){
+                $this->deleteUsageType($type["id"]);
+            }
+        }
+    }
+    public function getUsageTypes(){
+
+        $types = Usage_Types::all();
+        return response()->json(['types',$types], 200);
+    }
+
+
     public function validityCertificate(Request $request)
     {
         $val = new Validity_Certificate();
@@ -448,6 +603,107 @@ class LookupController extends Controller
 
         $forms = Form::all();
         return response()->json(['Forms',$forms], 200);
+    }
+
+    /////////////////
+
+    public function insertLicenseType(Request $request)
+    {
+        $li = new License_Types();
+        $li ->name = $request->name;
+        $li->save();
+        return response()->json(['license',"saved"],200);
+    }
+
+    public function deleteLicenseType($id)
+    {
+        $li = License_Types::findOrFail($id);
+        $li->delete();
+    }
+    public function fetchLicenseTypes(Request $request)
+    {
+        foreach ($request->data as $li)
+        {
+            if($li["new_type"])
+            {
+                $this->insertLicenseType($li);
+            }
+            else if($li["deleted"]){
+                $this->deleteLicenseType($li["id"]);
+            }
+        }
+    }
+    public function getLicenseTypes(){
+
+        $types = License_Types::all();
+        return response()->json(['types',$types], 200);
+    }
+
+
+    public function insertOwnershipType(Request $request)
+    {
+        $type = new OwnerShip_Types();
+        $type ->name = $request->name;
+        $type->save();
+        return response()->json(['owner type',"saved"],200);
+    }
+
+    public function deleteOwnershipType($id)
+    {
+        $type = OwnerShip_Types::findOrFail($id);
+        $type->delete();
+    }
+    public function fetchOwnershipTypes(Request $request)
+    {
+        foreach ($request->data as $type)
+        {
+            if($type["new_type"])
+            {
+                $this->insertOwnershipType($type);
+            }
+            else if($type["deleted"]){
+                $this->deleteOwnershipType($type["id"]);
+            }
+        }
+    }
+    public function getOwnershipTypes(){
+
+        $types = OwnerShip_Types::all();
+        return response()->json(['types',$types], 200);
+    }
+
+    public function insertIrregType(Request $request)
+    {
+        $type = new Irregularites_Type();
+        $type ->name = $request->name;
+        $type ->ORG_id = $request->ORG_id;
+        $type ->description = $request->description;
+        $type->save();
+        return response()->json(['Irreg type',"saved"],200);
+    }
+
+    public function deleteIrregType($id)
+    {
+        $type = Irregularites_Type::findOrFail($id);
+        $type->delete();
+    }
+    public function fetchIrregTypes(Request $request)
+    {
+        foreach ($request->data as $type)
+        {
+            if($type["new_type"])
+            {
+                $this->insertIrregType($type);
+            }
+            else if($type["deleted"]){
+                $this->deleteIrregType($type["id"]);
+            }
+        }
+    }
+    public function getIrregTypes(){
+
+        $types = Irregularites_Type::all();
+        return response()->json(['types',$types], 200);
     }
 
 

@@ -24,12 +24,49 @@ Route::post('/register','UserController@register');
 
 Route::post('/citizen/insert','LookupController@insertCitizen');
 Route::get('/citizens/get','LookupController@getCitizens');
+
+//license
+Route::post('/licenseType/insert','LookupController@insertLicenseType');
+Route::post('/licenseType/fetch','LookupController@fetchLicenseTypes');
+Route::get('/licenseType/get','LookupController@getLicenseTypes');
+
+//building types
 Route::post('/buildingType/insert','LookupController@insertBuildingType');
-Route::post('/distinctionType/insert','LookupController@insertDistinctionType');
-Route::post('/assignationType/insert','LookupController@insertAssignationType');
+Route::post('/buildingType/fetch','LookupController@fetchBuildingType');
+Route::get('/buildingType/get','LookupController@getBuildingTypes');
+
+//assignation types
+Route::post('/assignationType/insert','LookupController@insertDistinctionType');
+Route::post('/assignationType/fetch','LookupController@fetchDistinctionTypes');
+Route::get('/assignationType/get','LookupController@getDistinctionType');
+
+//distinction types
+Route::post('/distinctionsTypes/insert','LookupController@insertAssignationType');
+Route::post('/distinctionsTypes/fetch','LookupController@fetchAssignationType');
+Route::get('/distinctionsTypes/get','LookupController@getAssignationType');
+
+//payment types
+Route::post('/paymentTypes/insert','LookupController@insertPayment');
+Route::post('/paymentTypes/fetch','LookupController@fetchPaymentTypes');
+Route::get('/paymentTypes/get','LookupController@getPaymentTypes');
+
+//ownership types
+Route::post('/ownershipTypes/insert','LookupController@insertOwnershipType');
+Route::post('/ownershipTypes/fetch','LookupController@fetchOwnershipTypes');
+Route::get('/ownershipTypes/get','LookupController@getOwnershipTypes');
+
+//Usage types
+Route::post('/usageTypes/insert','LookupController@insertUsageType');
+Route::post('/usageTypes/fetch','LookupController@fetchUsageTypes');
+Route::get('/usageTypes/get','LookupController@getUsageTypes');
+
+//Irreg types
+Route::post('/irregTypes/insert','LookupController@insertIrregType');
+Route::post('/irregTypes/fetch','LookupController@fetchIrregTypes');
+Route::get('/irregTypes/get','LookupController@getIrregTypes');
+
 Route::post('/documents/fetch','LookupController@fetchDocuments');
 Route::post('/fees/fetch','LookupController@fetchFees');
-Route::post('/payment/insert','LookupController@insertPayment');
 Route::post('/request/insert','LookupController@insertRequest');
 Route::post('/addressItem/insert','addressStructureController@insertAddressItem');
 Route::post('/addressItemInstance/insert','addressStructureController@insertAddressItemInstance');
@@ -110,6 +147,7 @@ Route::post('/licenseReport','licenseController@licenseReport');
 Route::post('/assignBuildingCost','licenseController@AssignBuildingCost');
 Route::post('/licenses','licenseController@licenses');
 
+
 // transaction
 
 Route::post('/generateTransaction','transactionController@generateTransaction');
@@ -117,16 +155,20 @@ Route::post('/generateTransaction','transactionController@generateTransaction');
 Route::post('reportRequest','requestController@reportRequest');
 
 // announce types
-
-Route::post('announceType','LookupController@announceType');
+Route::post('announceType/insert','LookupController@insertAnnounceType');
+Route::post('announceType/fetch','LookupController@fetchannounceTypes');
+Route::get('announceType/get','LookupController@getannounceTypes');
 
 // document delivery
 Route::post('/documentDeliveries','documentController@documentDeliveries');
 
 //group
 
-Route::post('/group','LookupController@groups');
-Route::post('/groupUser','LookupController@groupUser');
+Route::post('/group/insert','LookupController@insertGroup');
+Route::post('/groupUsers/fetch','LookupController@fetchGroups');
+Route::get('/group/get', 'LookupController@getGroups');
+Route::get('/groupUsers/get', 'LookupController@getGroupUsers');
+
 
 // inspection
 

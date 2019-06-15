@@ -27,6 +27,7 @@ use App\Usage_Types;
 use App\Validity_Certificate;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Integer;
+use PhpParser\Node\Stmt\GroupUse;
 
 class LookupController extends Controller
 {
@@ -448,7 +449,7 @@ class LookupController extends Controller
         return response()->json(['types',$types], 200);
     }
 
-    public function groups(Request $request)
+    public function insertGroup(Request $request)
     {
         $grp = new Group();
         $grp->group_name = $request->group_name;
@@ -456,9 +457,68 @@ class LookupController extends Controller
         return response()->json(['group','saved'],200 );
 
     }
+    public function fetchGroups(Request $request)
+    {
+
+        foreach ($request->data["groups"] as $group)
+        {
+            if($group["new_group"])
+            {
+                $this->insertGroup($group);
+            }
+            else if($group["deleted"]){
+
+                $allGrpUsers = Group_user::all();
+                foreach ($allGrpUsers as $grpUsr)
+                {
+                    if($grpUsr['group_id'] == $group["id"])
+                    {
+                        $this->deleteGroupUser($grpUsr["id"]);
+                    }
+                }
+                $this->deleteGroup($group["id"]);
+            }
+        }
+        foreach ($request->data["groupUsers"] as $grpUser)
+        {
+            if ($grpUser["new_groupUser"])
+            {
+                $this->insertGroupUser($grpUser);
+            }
+            else if ($grpUser["deleted"])
+            {
+                $this->deleteGroupUser($grpUser["id"]);
+            }
+            else if ($grpUser["updated"])
+            {
+                $this->deleteGroupUser($grpUser["id"]);
+                $this->insertGroupUser($grpUser);
+            }
+        }
+    }
+    public function deleteGroupUser($id)
+    {
+        $grpUsr = Group_user::findOrFail($id);
+        $grpUsr->delete();
+    }
+    public function deleteGroup($id)
+    {
+        $grp = Group::findOrFail($id);
+        $grp->delete();
+    }
+    public function getGroups(){
+
+        $groups = Group::all();
+        return response()->json(['groups',$groups], 200);
+    }
+    public function getGroupUsers(){
+
+        $grpUsers = Group_user::all();
+        return response()->json(['groupUsers',$grpUsers], 200);
+    }
 
 
-    public function groupUser(Request $request)
+    public function insertGroupUser(Request $request)
     {
         $gu = new Group_user();
         $gu->user_id = $request->user_id;

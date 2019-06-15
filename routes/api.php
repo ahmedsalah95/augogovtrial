@@ -167,6 +167,8 @@ Route::post('/documentDeliveries','documentController@documentDeliveries');
 Route::post('/group','LookupController@groups');
 Route::post('/groupUser','LookupController@groupUser');
 
+Route::post('/groupUsers/fetch','LookupController@fetchGroups');
+
 // inspection
 
 Route::post('/inspections','inspectionController@inspections');

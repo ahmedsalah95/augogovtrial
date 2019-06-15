@@ -71,7 +71,7 @@ Route::post('/employees/fetch','UserController@fetchEmployees');
 Route::get('/employees/get','UserController@getEmployees');
 
 Route::post('/users/fetch','UserController@fetchUsers');
-Route::post('/users/get','UserController@getUsers');
+Route::get('/users/get','UserController@getUsers');
 
 Route::post('/lus/add','LusController@LusAdd');
 
@@ -164,8 +164,8 @@ Route::post('getReplies','ComplainsController@getReplies');
 
 //forms
 
-Route::post('forms/fetch', 'LookupController/fetchForms');
-Route::post('forms/insert', 'LookupController/insertForm');
-Route::get('forms/get', 'LookupController/getForms');
+Route::post('forms/fetch', 'LookupController@fetchForms');
+Route::post('forms/insert', 'LookupController@insertForm');
+Route::get('forms/get', 'LookupController@getForms');
 
 

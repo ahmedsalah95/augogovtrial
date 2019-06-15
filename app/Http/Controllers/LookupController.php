@@ -421,6 +421,7 @@ class LookupController extends Controller
     {
         $form = new Form();
         $form->form_name = $fo["name"];
+        dump("save", $form);
         $form->save();
 
         $auth = Form::where('id',$form->id)->get();
@@ -429,12 +430,15 @@ class LookupController extends Controller
     public function deleteForm($id)
     {
         $form = Form::findOrFail($id);
+        dump("delete", $form);
         $form->delete();
     }
     public function fetchForms(Request $request)
     {
+        dump($request->data);
         foreach ($request->data as $form)
         {
+            dump($form);
             if($form["new_form"])
             {
                 $this->insertForm($form);

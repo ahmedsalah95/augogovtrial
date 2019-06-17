@@ -211,3 +211,9 @@ Route::post('forms/insert', 'LookupController@insertForm');
 Route::get('forms/get', 'LookupController@getForms');
 
 
+//Privileges
+
+Route::post('privileges/fetch', 'requestController@fetchPrivileges');
+Route::get('privileges/get', 'requestController@getPrivileges');
+
+

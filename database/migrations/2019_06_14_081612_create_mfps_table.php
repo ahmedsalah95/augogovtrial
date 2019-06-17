@@ -13,12 +13,15 @@ class CreateMfpTable extends Migration
      */
     public function up()
     {
-        Schema::create('mfp', function (Blueprint $table) {
+        Schema::create('mfps', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('module_id');
             $table->integer('form_id');
             $table->integer('group_id');
-            $table->string('priviliage');
+            $table->string('name');
+            $table->boolean('insert')->default(0);
+            $table->boolean('update')->default(0);
+            $table->boolean('delete')->default(0);
             $table->timestamps();
         });
     }

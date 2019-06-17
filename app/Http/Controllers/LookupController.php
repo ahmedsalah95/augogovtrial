@@ -7,6 +7,7 @@ use App\Assignation_Types;
 use App\Attachment;
 use App\Building_Types;
 use App\Citizen;
+use App\User;
 use App\Container;
 use App\Distinction_Types;
 use App\Document;
@@ -64,7 +65,7 @@ class LookupController extends Controller
     public function getCitizens(){
         $citizens = Citizen::all();
 
-        return response()->json(['Citizens',$citizens], 200);
+        return response()->json(['citizens' => $citizens], 200);
     }
 
     public function insertBuildingType(Request $request)
@@ -108,7 +109,7 @@ class LookupController extends Controller
     {
         $types = Building_Types::all();
 
-        return response()->json(['Building types',$types], 200);
+        return response()->json(['Building types' => $types], 200);
     }
 
     public function insertDistinctionType(Request $request)
@@ -151,7 +152,7 @@ class LookupController extends Controller
     {
         $types = Distinction_Types::all();
 
-        return response()->json(['Types',$types], 200);
+        return response()->json(['Types' => $types], 200);
     }
 
     public function insertAssignationType(Request $request)
@@ -193,7 +194,7 @@ class LookupController extends Controller
     {
         $types = Assignation_Types::all();
 
-        return response()->json(['Types',$types], 200);
+        return response()->json(['Types' => $types], 200);
     }
 
     public function insertDocument($doc)
@@ -229,7 +230,7 @@ class LookupController extends Controller
     {
         $documents = Document::all();
 
-        return response()->json(['Documents',$documents], 200);
+        return response()->json(['documents' => $documents], 200);
     }
 
     public function insertFees($Fees)
@@ -323,7 +324,7 @@ class LookupController extends Controller
     {
         $types = Payment_Types::all();
 
-        return response()->json(['Types',$types], 200);
+        return response()->json(['Types' => $types], 200);
     }
 
     public function insertRequest(Request $request)
@@ -349,21 +350,21 @@ class LookupController extends Controller
     {
         $requests = \App\Request::all();
 
-        return response()->json(['requests',$requests], 200);
+        return response()->json(['requests' => $requests], 200);
     }
 
     public function getFees()
     {
         $fees = Fees::all();
 
-        return response()->json(['fees',$fees], 200);
+        return response()->json(['fees' => $fees], 200);
     }
 
     public function getRequestByID(Request $request)
     {
         $req = \App\Request::where('id',$request->id)->get();
 
-        return response()->json(['request',$req], 200);
+        return response()->json(['request' => $req], 200);
 
     }
     public function getDocumentsByReqId(Request $request)
@@ -449,15 +450,14 @@ class LookupController extends Controller
         return response()->json(['types',$types], 200);
     }
 
-    public function insertGroup(Request $request)
+    public function insertGroup($group)
     {
-        $grp = new Group();
-        $grp->group_name = $request->group_name;
-        $grp->save();
-        return response()->json(['group','saved'],200 );
-
+        $newGroup = new Group();
+        $newGroup->group_name = $group['name'];
+        $newGroup->save();
+        return response()->json(['group' => 'saved'],200 );
     }
-    public function fetchGroups(Request $request)
+    public function fetchGroupUsers(Request $request)
     {
 
         foreach ($request->data["groups"] as $group)
@@ -468,38 +468,32 @@ class LookupController extends Controller
             }
             else if($group["deleted"]){
 
-                $allGrpUsers = Group_user::all();
-                foreach ($allGrpUsers as $grpUsr)
+                $allGroupUsers = Group_user::where("group_id", $group["id"])->get();
+                foreach ($allGroupUsers as $groupUser)
                 {
-                    if($grpUsr['group_id'] == $group["id"])
-                    {
-                        $this->deleteGroupUser($grpUsr["id"]);
-                    }
+                    $groupUser->delete();
                 }
                 $this->deleteGroup($group["id"]);
             }
         }
-        foreach ($request->data["groupUsers"] as $grpUser)
+        foreach ($request->data["groupUsers"] as $groupUser)
         {
-            if ($grpUser["new_groupUser"])
+            if ($groupUser["new_group_user"])
             {
-                $this->insertGroupUser($grpUser);
+                $this->insertGroupUser($groupUser);
             }
-            else if ($grpUser["deleted"])
+            else if ($groupUser["deleted"])
             {
-                $this->deleteGroupUser($grpUser["id"]);
-            }
-            else if ($grpUser["updated"])
-            {
-                $this->deleteGroupUser($grpUser["id"]);
-                $this->insertGroupUser($grpUser);
+                $this->deleteGroupUser($groupUser["id"]);
             }
         }
     }
     public function deleteGroupUser($id)
     {
-        $grpUsr = Group_user::findOrFail($id);
-        $grpUsr->delete();
+        $groupUser = Group_user::find($id);
+        if($groupUser){
+            $groupUser->delete();
+        }
     }
     public function deleteGroup($id)
     {
@@ -509,25 +503,40 @@ class LookupController extends Controller
     public function getGroups(){
 
         $groups = Group::all();
-        return response()->json(['groups',$groups], 200);
+        return response()->json(['groups' => $groups], 200);
     }
     public function getGroupUsers(){
 
-        $grpUsers = Group_user::all();
-        return response()->json(['groupUsers',$grpUsers], 200);
+        $groupUsers = Group_user::all();
+        $groups = Group::all();
+        $users = User::all();
+
+        $data = [
+            'groupUsers' => $groupUsers,
+            'groups' => $groups,
+            'users' => $users
+        ];
+
+        return response()->json($data, 200);
     }
 
 
-    public function insertGroupUser(Request $request)
+    public function insertGroupUser($groupUser)
     {
-        $gu = new Group_user();
-        $gu->user_id = $request->user_id;
-        $gu->group_id = $request->group_id;
-        $gu->ORG_id = $request->ORG_id;
-        $gu->employee_id = $request->employee_id;
-        $gu->emp_orgstructure_id = $request->emp_orgstructure_id;
-        $gu->group_structure_id = $request->group_structure_id;
-        $gu->save();
+
+        $user = User::where("name", $groupUser["name"])->first();
+        $group = Group::where("group_name", $groupUser["group"])->first();
+        
+        $newGroupUser = new Group_user();
+        $newGroupUser->user_id = $user->id;
+        $newGroupUser->group_id = $group->id;
+        $newGroupUser->employee_id = $user->employee_id;
+        // $newGroupUser->ORG_id = $groupUser["ORG_id"];
+        // $newGroupUser->emp_orgstructure_id = $groupUser["emp_orgstructure_id"];
+        // $newGroupUser->group_structure_id = $groupUser["group_structure_id"];
+
+        $newGroupUser->save();
+        // dump("insert groupUser", $newGroupUser);
         return response()->json(['group user','saved'],200 );
 
     }
@@ -561,7 +570,7 @@ class LookupController extends Controller
     {
         $departments = Organization_Structure::all();
 
-        return response()->json(['Departments',$departments], 200);
+        return response()->json(['Departments' => $departments], 200);
     }
     public function fetchDepartments(Request $request)
     {
@@ -611,7 +620,7 @@ class LookupController extends Controller
     public function getUsageTypes(){
 
         $types = Usage_Types::all();
-        return response()->json(['types',$types], 200);
+        return response()->json(['types' => $types], 200);
     }
 
 
@@ -666,7 +675,7 @@ class LookupController extends Controller
     public function getForms(){
 
         $forms = Form::all();
-        return response()->json(['Forms',$forms], 200);
+        return response()->json(['forms' => $forms], 200);
     }
 
     /////////////////
@@ -700,7 +709,7 @@ class LookupController extends Controller
     public function getLicenseTypes(){
 
         $types = License_Types::all();
-        return response()->json(['types',$types], 200);
+        return response()->json(['types' => $types], 200);
     }
 
 
@@ -733,7 +742,7 @@ class LookupController extends Controller
     public function getOwnershipTypes(){
 
         $types = OwnerShip_Types::all();
-        return response()->json(['types',$types], 200);
+        return response()->json(['types' => $types], 200);
     }
 
     public function insertIrregType(Request $request)
@@ -767,7 +776,7 @@ class LookupController extends Controller
     public function getIrregTypes(){
 
         $types = Irregularites_Type::all();
-        return response()->json(['types',$types], 200);
+        return response()->json(['types' => $types], 200);
     }
 
 

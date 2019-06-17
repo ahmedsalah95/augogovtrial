@@ -53,7 +53,7 @@ class requestController extends Controller
         $req = new \App\Request();
 
         $req->request_name = $request["name"];
-        $req->request_parent = "parent";
+        $req->request_parent =$request["parent"];
 
         $req->save();
 
@@ -108,6 +108,7 @@ class requestController extends Controller
             $new_document = new Request_Document();
             $new_document->document_id = $document["id"];
             $new_document->request_id = $request_id;
+            $new_document->mandatory = $document["mandatory"];
             $new_document->save();
         }
 

@@ -100,6 +100,13 @@ class UserController extends Controller
         return response()->json(['success'=>'true'],$this->successStatus);
     }
 
+    public function getCustomers(){
+
+        $customers = Customer::all();
+        return response()->json(['customers'=>$customers]);
+
+    }
+
     public function fetchUsers(Request $request){
 
         dump(Carbon::now()->toDateTimeString());

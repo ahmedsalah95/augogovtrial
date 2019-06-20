@@ -20,158 +20,138 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 */
 
-Route::post('/register','UserController@register');
 
-Route::post('/citizen/insert','LookupController@insertCitizen');
-Route::get('/citizens/get','LookupController@getCitizens');
+// add customer added here to be able to make a new instance
+Route::post('customer','UserController@addCustomer');
+Route::get('customers/get','UserController@getCustomers');
 
-//license
-Route::post('/licenseType/insert','LookupController@insertLicenseType');
-Route::post('/licenseType/fetch','LookupController@fetchLicenseTypes');
-Route::get('/licenseType/get','LookupController@getLicenseTypes');
-
-//building types
+//Building types
 Route::post('/buildingType/insert','LookupController@insertBuildingType');
 Route::post('/buildingType/fetch','LookupController@fetchBuildingType');
 Route::get('/buildingType/get','LookupController@getBuildingTypes');
 
-//assignation types
-Route::post('/assignationType/insert','LookupController@insertDistinctionType');
+//Assignation types
 Route::post('/assignationType/fetch','LookupController@fetchDistinctionTypes');
 Route::get('/assignationType/get','LookupController@getDistinctionType');
 
 //distinction types
-Route::post('/distinctionsTypes/insert','LookupController@insertAssignationType');
 Route::post('/distinctionsTypes/fetch','LookupController@fetchAssignationType');
 Route::get('/distinctionsTypes/get','LookupController@getAssignationType');
 
-//payment types
-Route::post('/paymentTypes/insert','LookupController@insertPayment');
+//Payment types
 Route::post('/paymentTypes/fetch','LookupController@fetchPaymentTypes');
 Route::get('/paymentTypes/get','LookupController@getPaymentTypes');
 
-//ownership types
-Route::post('/ownershipTypes/insert','LookupController@insertOwnershipType');
+//Ownership types
 Route::post('/ownershipTypes/fetch','LookupController@fetchOwnershipTypes');
 Route::get('/ownershipTypes/get','LookupController@getOwnershipTypes');
 
 //Usage types
-Route::post('/usageTypes/insert','LookupController@insertUsageType');
 Route::post('/usageTypes/fetch','LookupController@fetchUsageTypes');
 Route::get('/usageTypes/get','LookupController@getUsageTypes');
 
 //Irreg types
-Route::post('/irregTypes/insert','LookupController@insertIrregType');
 Route::post('/irregTypes/fetch','LookupController@fetchIrregTypes');
 Route::get('/irregTypes/get','LookupController@getIrregTypes');
 
+//Documents
 Route::post('/documents/fetch','LookupController@fetchDocuments');
-Route::post('/fees/fetch','LookupController@fetchFees');
-Route::post('/request/insert','LookupController@insertRequest');
-Route::post('/addressItem/insert','addressStructureController@insertAddressItem');
-Route::post('/addressItemInstance/insert','addressStructureController@insertAddressItemInstance');
-Route::post('/addressStructure/insert','addressStructureController@insertAddressStructure');
-Route::get('/requests/get','LookupController@getRequests');
+Route::get('/documents/get','LookupController@getDocuments');
+Route::get('/documentsByReqId/get','LookupController@getDocumentsByReqId');
 
-Route::post('/requestById/get','LookupController@getRequestByID');
-Route::post('/documentsByReqId/get','LookupController@getDocumentsByReqId');
-Route::post('/feesByReqId/get','LookupController@getFeesByRequestId');
-Route::post('/fees/update','LookupController@updateFees');
-Route::post('/addressItems/get','addressStructureController@getAddressItems');
-Route::post('/addressItemsInstance/get','addressStructureController@getAddressItemsInstance');
-Route::post('/addressStructure/get','addressStructureController@getAddressStructure');
+//Fees
+Route::post('/fees/fetch','LookupController@fetchFees');
+Route::get('/fees/get','LookupController@getFees');
+
+//Addresses Structures
+Route::post('/address-items/fetch','addressStructureController@fetchAddressItems');
+Route::post('/address-items-instances/fetch','addressStructureController@fetchAddressItemsInstances');
+Route::post('/address-structures/fetch','addressStructureController@fetchAddressStructures');
+Route::get('/address-items/get','addressStructureController@getAddressItems');
+Route::get('/address-items-instances/get','addressStructureController@getAddressItemsInstances');
+Route::get('/address-structures/get','addressStructureController@getAddressStructures');
 
 
 Route::post('/assignedInspector/insert','inspectionController@insertAssignedInspectors');
 Route::post('/attachment/insert','LookupController@insertAttachment');
 Route::post('/container/insert','LookupController@insertContainer');
-Route::post('/license/insert','licenseController@insertBuildingLicense');
-Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseRequest');
 
-
+//Modules
 Route::post('/insert/module','LookupController@inserModule');
-Route::post('/insert/orgStructure','LookupController@insertOrganizationStructure');
-Route::get('/orgStructure/get','LookupController@getDepartments');
+
+//Departments
 Route::post('/orgStructure/fetch','LookupController@fetchDepartments');
-Route::post('/insert/usageType','LookupController@insertUsageType');
+Route::get('/orgStructures/get','LookupController@getDepartments');
+
+//Validity Certificate
 Route::post('/insert/validityCertificate','LookupController@validityCertificate');
 
-
-Route::get('/documents/get','LookupController@getDocuments');
-Route::get('/fees/get','LookupController@getFees');
-
-
+//Authentication
 Route::post('/user/login','UserController@login');
 Route::post('/user/register','UserController@register');
 
+//Citizens
+Route::post('/citizen/insert','LookupController@insertCitizen');
+Route::get('/citizens/get','LookupController@getCitizens');
+
+//Employees
 Route::post('/employees/fetch','UserController@fetchEmployees');
 Route::get('/employees/get','UserController@getEmployees');
 
+//Users
 Route::post('/users/fetch','UserController@fetchUsers');
-Route::post('/users/get','UserController@getUsers');
+Route::get('/users/get','UserController@getUsers');
 
-Route::post('/lus/add','LusController@LusAdd');
-
-
-Route::post('/lus/setDecision','LusController@setDecision');
-
-
-Route::post('/transactions/fetch','requestController@fetchTransactions');
-
-// another version if fetchTransactions function
-Route::post('/transactions/fetchSec','requestController@fetchTransactionsSecV');
-
-Route::post('/createReq','requestController@createRequest');
-Route::post('/reqFees','requestController@requestFees');
-Route::post('/reqFees','requestController@form');
-Route::post('/setSteps','requestController@setSteps');
-Route::post('/documents','requestController@setDocument');
-Route::post('/reports','requestController@setReports');
-
-//
-
-//Route::post('/attachedDoc','documentController@attachedDoc');
-
-// add customer added here to be able to make a new instance
-
-Route::post('/customer','UserController@addCustomer');
-
-Route::post('/createInstanceRequest','instancerequestController@createInstanceRequest');
-
-Route::post('/getInstanceRequest','instancerequestController@getInstanceRequest'); //  added by ahmed salah 12/6/2019
-
-// licenses
-
-Route::get('/licenseType','licenseController@licgitenseType');
-Route::post('/licenseReport','licenseController@licenseReport');
-Route::post('/assignBuildingCost','licenseController@AssignBuildingCost');
-Route::post('/licenses','licenseController@licenses');
-
-
-// transaction
-
+//Requests
+Route::post('/requests/fetch','requestController@fetchRequests');
 Route::post('/generateTransaction','transactionController@generateTransaction');
 
+//Used in Ionic App
+//Another version of fetchTransactions function
+Route::post('/transactions/fetchSec','requestController@fetchTransactionsSecV');
+
+//Transactions
+Route::post('instanceRequest/fetch','instancerequestController@instanceRequestFetch');
+Route::post('request/insert','LookupController@insertRequest');
+Route::get('request-instance/get','instancerequestController@getRequestInstance');
+Route::get('requests-instances/get','instancerequestController@getRequestsInstances');
+Route::get('transaction/get','instancerequestController@getTransaction');
+Route::get('transactions/get','instancerequestController@getTransactions'); 
+Route::get('requests/get','LookupController@getRequests');
+Route::get('requestById/get','LookupController@getRequestByID');
+Route::get('feesByReqId/get','LookupController@getFeesByRequestId');
 Route::post('reportRequest','requestController@reportRequest');
 
-// announce types
+//License
+Route::get('/licenseType','licenseController@licenseType');
+Route::post('/licenseReport','licenseController@licenseReport');
+Route::post('/licenses','licenseController@licenses');
+Route::post('/license/insert','licenseController@insertBuildingLicense');
+Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseRequest');
+
+//License Types
+Route::post('/licenseType/insert','LookupController@insertLicenseType');
+Route::post('/licenseType/fetch','LookupController@fetchLicenseTypes');
+Route::get('/licenseType/get','LookupController@getLicenseTypes');
+
+//BuildingCost
+Route::post('/assignBuildingCost','licenseController@AssignBuildingCost');
+
+//Announce types
 Route::post('announceType/insert','LookupController@insertAnnounceType');
 Route::post('announceType/fetch','LookupController@fetchannounceTypes');
 Route::get('announceType/get','LookupController@getannounceTypes');
 
-// document delivery
+//Document delivery
 Route::post('/documentDeliveries','documentController@documentDeliveries');
 
-//group
-
+//Groups
 Route::post('/group/insert','LookupController@insertGroup');
-Route::post('/groupUsers/fetch','LookupController@fetchGroups');
+Route::post('/groupUsers/fetch','LookupController@fetchGroupUsers');
 Route::get('/groups/get', 'LookupController@getGroups');
 Route::get('/groupUsers/get', 'LookupController@getGroupUsers');
 
-
-// inspection
-
+//Inspections
 Route::post('/inspections','inspectionController@inspections');
 Route::post('inspectionDetermine','inspectionController@inspectionDetermine');
 Route::post('instanceAttachments','instancerequest@instanceAttachments');
@@ -179,35 +159,32 @@ Route::post('instanceFees','instancerequestController@instanceFees');
 Route::post('instanceFeesDetails','instancerequestController@instanceFeesDetails');
 Route::post('instanceInspection','instancerequestController@instanceInspection');
 
-// irregularities
-
+//Irregularities
 Route::post('/irregularites','irregularitesController@irregularites');
 Route::post('/irregularitesRequest','irregularitesController@irregularitesRequest');
 Route::post('/irregularitesTypes','irregularitesController@irregularitesTypes');
 
-
-// land
-
+//Land
 Route::post('land','landController@land');
 Route::post('lus','landController@lus');
 Route::post('lusDecision','landController@lusDecision');
 Route::post('lusAssignation','landController@lusAssignation');
+Route::post('/lus/add','LusController@LusAdd');
+Route::post('/lus/setDecision','LusController@setDecision');
 
-// complain and replies
-
+//Complain and Replies
 Route::post('makeComplain','ComplainsController@makeComplain');
-
 Route::post('makeReply','ComplainsController@makeReply');
-
 Route::post('fetchComplainsAndReplies','ComplainsController@fetchComplainsAndReplies');
-
-Route::post('getReplies','ComplainsController@getReplies');
-
+Route::get('getReplies','ComplainsController@getReplies');
 
 //forms
-
 Route::post('forms/fetch', 'LookupController@fetchForms');
 Route::post('forms/insert', 'LookupController@insertForm');
 Route::get('forms/get', 'LookupController@getForms');
+
+//Privileges
+Route::post('privileges/fetch', 'requestController@fetchPrivileges');
+Route::get('privileges/get', 'requestController@getPrivileges');
 
 

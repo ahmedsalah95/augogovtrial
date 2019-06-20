@@ -15,9 +15,9 @@ class CreateAddressItemsTable extends Migration
     {
         Schema::create('address_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('item_name')->nullable();
-            $table->integer('item_cost')->nullable();
-            $table->integer('item_digit')->nullable();
+            $table->string('name')->nullable();
+            $table->string('code')->nullable();
+            $table->integer('digit')->nullable();
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Module_Form_priviliage extends Model
+class Mfp extends Model
 {
     public function Group()
     {

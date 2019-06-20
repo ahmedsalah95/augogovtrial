@@ -8,6 +8,10 @@ use App\Instance_Request;
 use App\Request_Document;
 use App\Request_Fees;
 use App\Request_Step;
+use App\Module;
+use App\Form;
+use App\Group;
+use App\Mfp;
 
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -15,7 +19,7 @@ use Illuminate\Http\Request;
 class requestController extends Controller
 {
 
-    public function fetchTransactions(Request $request)
+    public function fetchRequests(Request $request)
     {
 
         // dump($request->data[0]["steps"][0]["form"]["id"]);
@@ -91,7 +95,7 @@ class requestController extends Controller
         $req = new \App\Request();
 
         $req->request_name = $request["name"];
-        $req->request_parent = "parent";
+        $req->request_parent =$request["parent"];
 
         $req->save();
 
@@ -146,6 +150,7 @@ class requestController extends Controller
             $new_document = new Request_Document();
             $new_document->document_id = $document["id"];
             $new_document->request_id = $request_id;
+            $new_document->mandatory = $document["mandatory"];
             $new_document->save();
         }
 
@@ -176,5 +181,64 @@ class requestController extends Controller
         $rr->save();
         return response()->json(['report request', "saved"], 200);
 
+    }
+
+    public function getPrivileges(){
+
+        $privileges = Mfp::all();
+        $module = Module::all();
+        $forms = Form::all();
+        $groups = Group::all();
+
+        $data = [
+            "privileges" => $privileges,
+            "modules" => $module,
+            "forms" => $forms,
+            "groups" => $groups
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function fetchPrivileges(Request $request)
+    {
+
+        dump($request->data);
+
+        foreach ($request->data as $privilege) {
+            if ($privilege["new_privilege"])
+            {
+                $this->insertPrivilege($privilege);
+            }
+            else if ($privilege["deleted"])
+            {
+                $this->deletePrivilege($privilege["id"]);
+            }
+        }
+
+    }
+
+    public function insertPrivilege($privilege){
+
+        $newPrivilege = new Mfp();
+
+        $newPrivilege->module_id = $privilege["module"]["id"];
+        $newPrivilege->form_id = $privilege["form"]["id"];
+        $newPrivilege->group_id = $privilege["group"]["id"];
+        $newPrivilege->name = $privilege["name"];
+        $newPrivilege->insert = $privilege["insert_operations"];
+        $newPrivilege->update = $privilege["update_operations"];
+        $newPrivilege->delete = $privilege["delete_operations"];
+
+        $newPrivilege->save();
+        dump($newPrivilege);
+
+        return response()->json(['success'],200);
+    }
+
+    public function deletePrivilege($id){
+        $privilege = Mfp::findOrFail($id);
+        dump($privilege);
+        $privilege->delete();
     }
 }

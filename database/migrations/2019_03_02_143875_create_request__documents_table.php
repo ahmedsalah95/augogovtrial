@@ -19,6 +19,7 @@ class CreateRequestDocumentsTable extends Migration
             $table->foreign('document_id')->references('id')->on('documents');
             $table->integer('request_id')->unsigned();
             $table->foreign('request_id')->references('id')->on('requests');
+            $table->boolean('mandatory')->default(0);
             $table->timestamps();
         });
     }

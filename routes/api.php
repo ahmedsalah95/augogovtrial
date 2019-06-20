@@ -113,7 +113,7 @@ Route::post('/transactions/fetchSec','requestController@fetchTransactionsSecV');
 //Transactions
 Route::post('instanceRequest/fetch','instancerequestController@instanceRequestFetch');
 Route::post('request/insert','LookupController@insertRequest');
-Route::get('request-instance/get','instancerequestController@getRequestInstance');
+Route::get('request-instance/get/{id}','instancerequestController@getRequestInstance');
 Route::get('requests-instances/get','instancerequestController@getRequestsInstances');
 Route::get('transaction/get','instancerequestController@getTransaction');
 Route::get('transactions/get','instancerequestController@getTransactions'); 

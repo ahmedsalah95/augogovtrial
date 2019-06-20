@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 class requestController extends Controller
 {
 
-    public function fetchTransactions(Request $request)
+    public function fetchRequests(Request $request)
     {
 
         // dump($request->data[0]["steps"][0]["form"]["id"]);

@@ -22,7 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 // add customer added here to be able to make a new instance
-Route::post('/customer','UserController@addCustomer');
+Route::post('customer','UserController@addCustomer');
+Route::get('customers/get','UserController@getCustomers');
 
 //Building types
 Route::post('/buildingType/insert','LookupController@insertBuildingType');
@@ -101,19 +102,24 @@ Route::get('/employees/get','UserController@getEmployees');
 Route::post('/users/fetch','UserController@fetchUsers');
 Route::get('/users/get','UserController@getUsers');
 
-//Transaction
-Route::post('/transactions/fetch','requestController@fetchTransactions');
+//Requests
+Route::post('/requests/fetch','requestController@fetchRequests');
 Route::post('/generateTransaction','transactionController@generateTransaction');
+
+//Used in Ionic App
 //Another version of fetchTransactions function
 Route::post('/transactions/fetchSec','requestController@fetchTransactionsSecV');
 
-//Request
-Route::post('/createInstanceRequest','instancerequestController@createInstanceRequest');
-Route::post('/getInstanceRequest','instancerequestController@getInstanceRequest'); //  added by ahmed salah 12/6/2019
-Route::post('/request/insert','LookupController@insertRequest');
-Route::get('/requests/get','LookupController@getRequests');
-Route::get('/requestById/get','LookupController@getRequestByID');
-Route::get('/feesByReqId/get','LookupController@getFeesByRequestId');
+//Transactions
+Route::post('instanceRequest/fetch','instancerequestController@instanceRequestFetch');
+Route::post('request/insert','LookupController@insertRequest');
+Route::get('request-instance/get','instancerequestController@getRequestInstance');
+Route::get('requests-instances/get','instancerequestController@getRequestsInstances');
+Route::get('transaction/get','instancerequestController@getTransaction');
+Route::get('transactions/get','instancerequestController@getTransactions'); 
+Route::get('requests/get','LookupController@getRequests');
+Route::get('requestById/get','LookupController@getRequestByID');
+Route::get('feesByReqId/get','LookupController@getFeesByRequestId');
 Route::post('reportRequest','requestController@reportRequest');
 
 //License

@@ -177,6 +177,18 @@ Route::post('makeComplain','ComplainsController@makeComplain');
 Route::post('makeReply','ComplainsController@makeReply');
 Route::post('fetchComplainsAndReplies','ComplainsController@fetchComplainsAndReplies');
 Route::get('getReplies','ComplainsController@getReplies');
+//complains added by ahmed salah
+Route::post('makeComplain','ComplainsController@makeComplain');
+//Route::get('getImageComplain/{id}','ComplainsController@getImageComplain');
+// replies added by ahmedsalah
+Route::post('makeRep','ComplainsController@makeRep');
+Route::get('getImageReply/{id}','ComplainsController@getImageReply');
+
+// get all complains by national id
+
+Route::get('getComplainWithNationalId/{natId}','ComplainsController@getComplainWithNationalId');
+
+
 
 //forms
 Route::post('forms/fetch', 'LookupController@fetchForms');

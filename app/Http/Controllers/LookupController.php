@@ -7,6 +7,7 @@ use App\Assignation_Types;
 use App\Attachment;
 use App\Building_Types;
 use App\Citizen;
+use App\Complain;
 use App\User;
 use App\Container;
 use App\Distinction_Types;
@@ -27,6 +28,7 @@ use App\Request_Fees;
 use App\Usage_Types;
 use App\Validity_Certificate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use phpDocumentor\Reflection\Types\Integer;
 use PhpParser\Node\Stmt\GroupUse;
 
@@ -778,6 +780,7 @@ class LookupController extends Controller
         $types = Irregularites_Type::all();
         return response()->json(['types' => $types], 200);
     }
+
 
 
 }

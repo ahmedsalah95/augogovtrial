@@ -187,4 +187,6 @@ Route::get('forms/get', 'LookupController@getForms');
 Route::post('privileges/fetch', 'requestController@fetchPrivileges');
 Route::get('privileges/get', 'requestController@getPrivileges');
 
+//engineering office getEngineeringOffice
+Route::get('engineering-office/get', 'LookupController@getEngineeringOffice');
 

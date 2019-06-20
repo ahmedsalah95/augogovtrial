@@ -7,6 +7,7 @@ use App\Assignation_Types;
 use App\Attachment;
 use App\Building_Types;
 use App\Citizen;
+use App\Engineering_Office;
 use App\User;
 use App\Container;
 use App\Distinction_Types;
@@ -779,7 +780,11 @@ class LookupController extends Controller
         return response()->json(['types' => $types], 200);
     }
 
-
+    public function getEngineeringOffice($id)
+    {
+        $eng = Engineering_Office::find($id);
+        return response()->json(['Engineering office'=>$eng], 200);
+    }
 }
 
 

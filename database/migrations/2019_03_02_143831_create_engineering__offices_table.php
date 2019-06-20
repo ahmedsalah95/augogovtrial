@@ -15,6 +15,10 @@ class CreateEngineeringOfficesTable extends Migration
     {
         Schema::create('engineering__offices', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('syndicate_reg_number');
+            $table->string('tax_card');
+            $table->string('commercial_register');
             $table->timestamps();
         });
     }

@@ -6,8 +6,11 @@ use App\Instance_Attachment;
 use App\Instance_Fees;
 use App\Instance_Fees_Details;
 use App\Instance_Request;
+use App\Request_Step;
+use App\Form;
 use App\Transaction;
 use App\Customer;
+use App\Citizen;
 use App\Address_structure;
 use Illuminate\Http\Request;
 
@@ -29,23 +32,35 @@ class instancerequestController extends Controller
         
         $requestInstance->save();
 
-        $this->insertTransaction($transaction, $request->id);
+        $this->insertTransaction($transaction, $requestInstance->id);
 
         return response()->json(["saved"],200);
     }
 
-    public function getRequestInstance(Request $request)
+    public function getRequestInstance($id)
     {
-        $instanceRequest = Instance_Request::where('id',$request->id)->first();
-        $request = \App\Request::find($instanceRequest->request_id);
+        $instanceRequest = Instance_Request::where('id',$id)->first();
+        $requestType = \App\Request::find($instanceRequest->request_id);
         $structure = Address_structure::find($instanceRequest->structure_id);
         $customer = Customer::find($instanceRequest->customer_id);
+        $transaction = Transaction::where("Instance_id", $id)->first();
+        $agency = Citizen::find($transaction->Bond_Agency_id);
+
+        $steps = Request_Step::where("request_id", $instanceRequest->request_id)->get();
+        $forms = [];
+
+        foreach($steps as $step){
+            $form = Form::find($step->form_id);
+            array_push($forms, $form);
+        }
 
         $data = [
-            "instanceRequest" => $instanceRequest,
-            "request" => $request,
+            "instance_request" => $instanceRequest,
+            "request" => $requestType,
             "structure" => $structure,
             "customer" => $customer,
+            "agency" => $agency,
+            "forms" => $forms
         ];
 
         return response()->json($data,200);

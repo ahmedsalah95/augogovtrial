@@ -105,6 +105,10 @@ Route::get('/users/get','UserController@getUsers');
 // added by ahmed salah 9:59
 
 Route::get('/user/getUserByNationalId/{id}','UserController@getUserByNationalId');
+Route::get('/user/getCitizenByNationalId/{id}','UserController@getCitizenByNationalId');
+
+
+Route::post('/user/updateUserAndCitizen','UserController@updateUserAndCitizen');
 
 //Requests
 Route::post('/requests/fetch','requestController@fetchRequests');
@@ -209,6 +213,10 @@ Route::get('privileges/get', 'requestController@getPrivileges');
 Route::get('engineering-office/get', 'LookupController@getEngineeringOffice');
 
 
-//update instance request
+//update instances's routes by abdelhameed needed by shaaer
 
 Route::post('instance-request/update', 'LookupController@updateInstanceRequest');
+Route::post('transaction/update', 'LookupController@updateTransaction');
+Route::post('building-license/update', 'LookupController@updateBuildingLicense');
+Route::post('building-license-request/update', 'LookupController@updateBuildingLicenseRequest');
+Route::post('license/update', 'LookupController@updateLicense');

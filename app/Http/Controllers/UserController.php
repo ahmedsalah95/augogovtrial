@@ -20,6 +20,7 @@ class UserController extends Controller
 
     public $successStatus = 200;
 
+
   /*  public function login(Request $request)
     {
         $this->validate($request, [
@@ -58,9 +59,8 @@ class UserController extends Controller
 
             return response()->json([]);
         }
-        if(Hash::check($request->password,$user->password))
-        {
-            return response()->json( [$user]);
+        if (Hash::check($request->password, $user->password)) {
+            return response()->json([$user]);
         }
 
         return response()->json([]);
@@ -193,17 +193,29 @@ class UserController extends Controller
 
     }
 
+    public function getCitizenByNationalId($nationalId)
+    {
+        $Citizen = Citizen::where('citizen_national_id', $nationalId)->first();
+        if($Citizen)
+        {
+            return response()->json([$Citizen], 200);
+        }else{
+            return response()->json([], 200);
+        }
+
+
+
+    }
+
     public function updateUserAndCitizen(Request $request)
     {
         $citizen = Citizen::where('citizen_national_id', $request->citizen_national_id)->first();
+        dump($request->citizen_national_id);
         $citizen->address = $request->address;
         $citizen->date_of_birth = $request->date_of_birth;
         $citizen->sex = $request->sex;
         $citizen->save();
-        $user = User::where('citizen_national_id', $request->citizen_national_id)->first();
-        $user->password = $request->password;
 
-        $user->save();
 
         return response()->json('updated successfully', 200);
 

@@ -143,7 +143,7 @@ class ComplainsController extends Controller
 
         return response()->json(['success' => $complains]);
     }
-    
+
     public function getComplains()
     {
         $complains = Complain::orderBy('id', 'desc')->get();

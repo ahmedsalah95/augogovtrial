@@ -78,7 +78,14 @@ class ComplainsController extends Controller
         $crs = cr::where('complain_id', $request->complain_id)->first();
         //$arr = array();
 
-        $reply = reply::where('id',$crs->complain_id)->first();
+        if($crs)
+        {
+            $reply = reply::where('id',$crs->reply_id)->first();
+            return response()->json([$reply], 200);
+        }else{
+            return response()->json([], 200);
+        }
+
      /*   foreach ($crs as $cr) {
             # print($cr->reply_id);
             $reply = reply::where('id', $cr->reply_id)->get();
@@ -86,7 +93,7 @@ class ComplainsController extends Controller
 
         }*/
 
-        return response()->json($reply, 200);
+
     }
 
 

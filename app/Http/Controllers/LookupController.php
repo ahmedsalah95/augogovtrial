@@ -793,6 +793,7 @@ class LookupController extends Controller
         $types = Irregularites_Type::all();
         return response()->json(['types' => $types], 200);
     }
+    //21/6 قبل التسليم بيومين
     public function updateInstanceRequest(Request $request)
     {
         $id = $request->instance_id;
@@ -801,8 +802,6 @@ class LookupController extends Controller
         {
             $instance_request->$key = $value;
         }
-
-        return response()->json(['updated instance request '=>$instance_request], 200);
     }
     public function updateTransaction(Request $request)
     {
@@ -812,8 +811,6 @@ class LookupController extends Controller
         {
             $transaction->$key = $value;
         }
-
-        return response()->json(['updated transaction '=>$transaction], 200);
     }
     public function updateBuildingLicense(Request $request)
     {
@@ -823,8 +820,6 @@ class LookupController extends Controller
         {
             $buildingLicense->$key = $value;
         }
-
-        return response()->json(['updated building license '=>$buildingLicense], 200);
     }
     public function updateBuildingLicenseRequest(Request $request)
     {
@@ -834,8 +829,6 @@ class LookupController extends Controller
         {
             $buildingLicenseRequest->$key = $value;
         }
-
-        return response()->json(['updated building license request '=>$buildingLicenseRequest], 200);
     }
     public function updateLicense(Request $request)
     {
@@ -845,18 +838,16 @@ class LookupController extends Controller
         {
             $license->$key = $value;
         }
-
-        return response()->json(['updated license '=>$license], 200);
     }
     public function getEngineeringOffices()
     {
         $engOffices = Engineering_Office::all();
-        return response()->json(['Engineering offices'=>$engOffices], 200);
+        return response()->json(['engineering_offices'=>$engOffices], 200);
     }
     public function getEngineers()
     {
         $engs = Engineer::all();
-        return response()->json(['Engineers'=>$engs], 200);
+        return response()->json(['engineers'=>$engs], 200);
     }
     public function getLands()
     {
@@ -866,7 +857,7 @@ class LookupController extends Controller
     public function getLusDecisions()
     {
         $decisions = LUS_Decision::all();
-        return response()->json(['lus decisions '=>$decisions], 200);
+        return response()->json(['lus_decisions'=>$decisions], 200);
     }
     public function getValidityCertificates()
     {
@@ -907,40 +898,67 @@ class LookupController extends Controller
 
         return response()->json($data);
     }
-    public function getCertificate($citizen_id)
+    public function getCitizenValidityCertificates($citizen_id)
     {
-        $certificate = Validity_Certificate::where("citizen_id",$citizen_id)->get()[0];
+        $certificates = Validity_Certificate::where("citizen_id", $citizen_id)->get();
+
+        $allCitizenLus = [];
+        foreach ($certificates as $certificate)
+        {
+            $lus = LUS::where("id", $certificate->LUS_id)->get()[0];
+            array_push($allCitizenLus, $lus);
+        }
         $citizen = Citizen::find($citizen_id);
-        $lus = LUS::where("id",$certificate->LUS_id)->get()[0];
 
         $data = [
-            "certificate" => $certificate,
+            "citizen-certificates" => $certificates,
             "citizen" => $citizen,
-            "lus" => $lus
+            "all-citizen-lus" => $allCitizenLus
         ];
 
         return response()->json($data);
     }
-    public function getLus($citizen_id)
+    public function getAllCitizenLus($citizen_id)
     {
-        $certificate = Validity_Certificate::where("citizen_id",$citizen_id)->get()[0];
-        $lus = LUS::where("id",$certificate->LUS_id)->get()[0];
-        $structure = Address_structure::where("id",$lus->Structure_id)->get()[0];
+        $certificates = Validity_Certificate::where("citizen_id", $citizen_id)->get();
+        $allCitizenLus = [];
+        $structures = [];
+        foreach ($certificates as $certificate)
+        {
+            $lus = LUS::where("id",$certificate->LUS_id)->get()[0];
+            array_push($allCitizenLus, $lus);
+        }
+        foreach ($allCitizenLus as $lus)
+        {
+            $structure = Address_structure::where("id",$lus->Structure_id)->get()[0];
+            array_push($structures, $structure);
+        }
 
         $data = [
-            "lus"     =>$lus,
-            "structure" =>$structure
+            "all-citizen-lus"     =>$allCitizenLus,
+            "structures" =>$structures
         ];
 
         return response()->json($data);
     }
-    public function getLusDecision($citizen_id)
+    public function getCitizenLusDecisions($citizen_id)
     {
-        $certificate = Validity_Certificate::where("citizen_id",$citizen_id)->get()[0];
-        $lus = LUS::where("id",$certificate->LUS_id)->get()[0];
-        $lus_decision = LUS_Decision::where("LUS_id",$lus->id)->get()[0];
+        $certificates = Validity_Certificate::where("citizen_id",$citizen_id)->get();
+        $allCitizenLus = [];
+        $allLusDecesions = [];
 
-        return response()->json($lus_decision);
+        foreach ($certificates as $certificate)
+        {
+            $lus = LUS::where("id",$certificate->LUS_id)->get()[0];
+            array_push($allCitizenLus, $lus);
+        }
+        foreach ($allCitizenLus as $lus)
+        {
+            $lus_decision = LUS_Decision::where("LUS_id",$lus->id)->get()[0];
+            array_push($allLusDecesions, $lus_decision);
+        }
+
+        return response()->json($allLusDecesions);
     }
 }
 

@@ -229,7 +229,7 @@ Route::get('lus-decisions/get','LookupController@getLusDecisions');
 Route::get('validity-certificates/get','LookupController@getValidityCertificates');
 Route::get('all-lus/get','LookupController@getAllLus');
 
-Route::get('validity-certificate/get/{citizen_id}','LookupController@getCertificate');
-Route::get('lus/get/{citizen_id}','LookupController@getLus');
-Route::get('lus-decision/get/{citizen_id}','LookupController@getLusDecision');
+Route::get('validity-certificates/get/{citizen_id}','LookupController@getCitizenValidityCertificates');
+Route::get('all-citizen-lus/get/{citizen_id}','LookupController@getAllCitizenLus');
+Route::get('citizen-lus-decisions/get/{citizen_id}','LookupController@getCitizenLusDecisions');
 

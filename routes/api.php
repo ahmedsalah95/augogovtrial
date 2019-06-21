@@ -57,7 +57,7 @@ Route::get('/irregTypes/get','LookupController@getIrregTypes');
 //Documents
 Route::post('/documents/fetch','LookupController@fetchDocuments');
 Route::get('/documents/get','LookupController@getDocuments');
-Route::get('/documentsByReqId/get','LookupController@getDocumentsByReqId');
+Route::post('/documentsByReqId/get','LookupController@getDocumentsByReqId');
 
 //Fees
 Route::post('/fees/fetch','LookupController@fetchFees');
@@ -127,7 +127,7 @@ Route::get('transaction/get','instancerequestController@getTransaction');
 Route::get('transactions/get','instancerequestController@getTransactions'); 
 Route::get('requests/get','LookupController@getRequests');
 Route::get('requestById/get','LookupController@getRequestByID');
-Route::get('feesByReqId/get','LookupController@getFeesByRequestId');
+Route::post('feesByReqId/get','LookupController@getFeesByRequestId');
 Route::post('reportRequest','requestController@reportRequest');
 
 //License
@@ -220,3 +220,8 @@ Route::post('transaction/update', 'LookupController@updateTransaction');
 Route::post('building-license/update', 'LookupController@updateBuildingLicense');
 Route::post('building-license-request/update', 'LookupController@updateBuildingLicenseRequest');
 Route::post('license/update', 'LookupController@updateLicense');
+
+
+// transactions by ahmed salah
+
+Route::post('getTransactionData','instancerequestController@getTransactionData');

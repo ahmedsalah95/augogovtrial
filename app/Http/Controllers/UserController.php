@@ -152,12 +152,12 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
        // $user->email = $request->email;
-        $user->email = "email@email.com";
+        $user->email = "email@email.com".Carbon::now()->timestamp;
         $user->password = bcrypt( $request->password);
         //$user->employee_id = $request->employee_id;
         $user->citizen_national_id =$request->citizen_national_id;
         $user->save();
-        return response()->json('success', 200);
+
     }
 
     // added by ahmed salah
@@ -185,6 +185,7 @@ class UserController extends Controller
 
 
     }
+
 
 
 

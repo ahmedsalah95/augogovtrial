@@ -84,15 +84,21 @@ class ComplainsController extends Controller
     {
 
         $file = $request->file('filefield');
-        $extension = $file->getClientOriginalExtension();
-        Storage::disk('local')->put($file->getFilename() . '.' . $extension, File::get($file));
+        if ($file) {
+            $extension = $file->getClientOriginalExtension();
+            Storage::disk('local')->put($file->getFilename() . '.' . $extension, File::get($file));
+        }
+
         $entry = new Complain();
         $entry->citizen_national_id = $request->citizen_national_id;
         $entry->complain_content = $request->complain_content;
         $entry->isProcessed = "لم يتم الرد حتى الآن";
-        $entry->mime = $file->getClientMimeType();
-        $entry->original_filename = $file->getClientOriginalName();
-        $entry->filename = $file->getFilename() . '.' . $extension;
+        if ($file) {
+            $entry->mime = $file->getClientMimeType();
+            $entry->original_filename = $file->getClientOriginalName();
+            $entry->filename = $file->getFilename() . '.' . $extension;
+        }
+
 
         $entry->save();
 

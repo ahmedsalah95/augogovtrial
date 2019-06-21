@@ -43,26 +43,26 @@ class ComplainsController extends Controller
 
             return response()->json($cr, 200);
         }*/
-/*
-    public function fetchComplainsAndReplies(Request $request)
-    {
-        $arr = array();
-        $complains = Complain::where('citizen_national_id', $request->citizen_national_id)->get();
-        $arr[] = $complains;
-        $secArr = array();
-        foreach ($complains as $co) {
-            $test = $co->replies()->get();
-            if (!empty($test[0])) {
-                //echo $test[0];
-                $secArr [] = $test;
+    /*
+        public function fetchComplainsAndReplies(Request $request)
+        {
+            $arr = array();
+            $complains = Complain::where('citizen_national_id', $request->citizen_national_id)->get();
+            $arr[] = $complains;
+            $secArr = array();
+            foreach ($complains as $co) {
+                $test = $co->replies()->get();
+                if (!empty($test[0])) {
+                    //echo $test[0];
+                    $secArr [] = $test;
+                }
+
             }
-
-        }
-        $arr [] = $secArr;
+            $arr [] = $secArr;
 
 
-        return response()->json($arr, 200);
-    }*/
+            return response()->json($arr, 200);
+        }*/
 
     public function fetchComplainsAndReplies(Request $request)
     {
@@ -76,16 +76,7 @@ class ComplainsController extends Controller
     public function getReplies(Request $request)
     {
         $crs = cr::where('complain_id', $request->complain_id)->get();
-        $arr = array();
-
-        foreach ($crs as $cr) {
-            # print($cr->reply_id);
-            $reply = reply::where('id', $cr->reply_id)->get();
-            array_push($arr, $reply);
-
-        }
-
-        return response()->json($arr, 200);
+        return response()->json($crs, 200);
     }
 
 
@@ -142,7 +133,7 @@ class ComplainsController extends Controller
         $c->isProcessed = "تم الرد";
         $c->save();
 
-         return response()->json('Success', 200);
+        return response()->json('Success', 200);
     }
 
     public function getImageReply($id)

@@ -106,6 +106,8 @@ Route::get('/users/get','UserController@getUsers');
 
 Route::get('/user/getUserByNationalId/{id}','UserController@getUserByNationalId');
 
+Route::post('/user/updateUserAndCitizen','UserController@updateUserAndCitizen');
+
 //Requests
 Route::post('/requests/fetch','requestController@fetchRequests');
 Route::post('/generateTransaction','transactionController@generateTransaction');

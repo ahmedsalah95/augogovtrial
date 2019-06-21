@@ -196,14 +196,12 @@ class UserController extends Controller
     public function updateUserAndCitizen(Request $request)
     {
         $citizen = Citizen::where('citizen_national_id', $request->citizen_national_id)->first();
+        dump($request->citizen_national_id);
         $citizen->address = $request->address;
         $citizen->date_of_birth = $request->date_of_birth;
         $citizen->sex = $request->sex;
         $citizen->save();
-        $user = User::where('citizen_national_id', $request->citizen_national_id)->first();
-        $user->password = $request->password;
 
-        $user->save();
 
         return response()->json('updated successfully', 200);
 

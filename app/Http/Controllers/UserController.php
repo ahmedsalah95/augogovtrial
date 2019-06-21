@@ -193,9 +193,9 @@ class UserController extends Controller
 
     }
 
-    public function getCitizenByNationalId($nationalId)
+    public function getCitizenByNationalId(Request $request)
     {
-        $Citizen = Citizen::where('citizen_national_id', $nationalId)->first();
+        $Citizen = Citizen::where('citizen_national_id', $request->citizen_national_id)->first();
         if($Citizen)
         {
             return response()->json([$Citizen], 200);

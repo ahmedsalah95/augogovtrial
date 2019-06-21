@@ -24,6 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // add customer added here to be able to make a new instance
 Route::post('customer','UserController@addCustomer');
 Route::get('customers/get','UserController@getCustomers');
+Route::post('/getuser','UserController@getuser'); // added by ahmed salah
 
 //Building types
 Route::post('/buildingType/insert','LookupController@insertBuildingType');

@@ -24,6 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // add customer added here to be able to make a new instance
 Route::post('customer','UserController@addCustomer');
 Route::get('customers/get','UserController@getCustomers');
+Route::post('/getuser','UserController@getuser'); // added by ahmed salah
 
 //Building types
 Route::post('/buildingType/insert','LookupController@insertBuildingType');
@@ -57,7 +58,7 @@ Route::get('/irregTypes/get','LookupController@getIrregTypes');
 //Documents
 Route::post('/documents/fetch','LookupController@fetchDocuments');
 Route::get('/documents/get','LookupController@getDocuments');
-Route::get('/documentsByReqId/get','LookupController@getDocumentsByReqId');
+Route::post('/documentsByReqId/get','LookupController@getDocumentsByReqId');
 
 //Fees
 Route::post('/fees/fetch','LookupController@fetchFees');
@@ -105,7 +106,7 @@ Route::get('/users/get','UserController@getUsers');
 // added by ahmed salah 9:59
 
 Route::get('/user/getUserByNationalId/{id}','UserController@getUserByNationalId');
-Route::get('/user/getCitizenByNationalId/{id}','UserController@getCitizenByNationalId');
+Route::post('/user/getCitizenByNationalId','UserController@getCitizenByNationalId');
 
 
 Route::post('/user/updateUserAndCitizen','UserController@updateUserAndCitizen');
@@ -127,7 +128,7 @@ Route::get('transaction/get','instancerequestController@getTransaction');
 Route::get('transactions/get','instancerequestController@getTransactions'); 
 Route::get('requests/get','LookupController@getRequests');
 Route::get('requestById/get','LookupController@getRequestByID');
-Route::get('feesByReqId/get','LookupController@getFeesByRequestId');
+Route::post('feesByReqId/get','LookupController@getFeesByRequestId');
 Route::post('reportRequest','requestController@reportRequest');
 
 //License
@@ -184,7 +185,7 @@ Route::post('/lus/setDecision','LusController@setDecision');
 Route::post('makeComplain','ComplainsController@makeComplain');
 Route::post('makeReply','ComplainsController@makeReply');
 Route::post('fetchComplainsAndReplies','ComplainsController@fetchComplainsAndReplies');
-Route::get('getReplies','ComplainsController@getReplies');
+Route::post('getReplies','ComplainsController@getReplies');
 //complains added by ahmed salah
 Route::post('makeComplain','ComplainsController@makeComplain');
 //Route::get('getImageComplain/{id}','ComplainsController@getImageComplain');
@@ -233,3 +234,7 @@ Route::get('validity-certificates/get/{citizen_id}','LookupController@getCitizen
 Route::get('all-citizen-lus/get/{citizen_id}','LookupController@getAllCitizenLus');
 Route::get('citizen-lus-decisions/get/{citizen_id}','LookupController@getCitizenLusDecisions');
 
+
+// transactions by ahmed salah
+
+Route::post('getTransactionData','instancerequestController@getTransactionData');

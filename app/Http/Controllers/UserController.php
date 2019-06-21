@@ -42,9 +42,9 @@ class UserController extends Controller
         if ($this && $username && $password) {
 
             $authorizedUser = User::where('id', $userID)->get();
-            return response()->json(['user' => $authorizedUser], $this->successStatus);
+            return response()->json($authorizedUser, $this->successStatus);
         } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            return response()->json([], 401);
         }
 
     }

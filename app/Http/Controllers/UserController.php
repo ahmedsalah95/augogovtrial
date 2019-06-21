@@ -159,4 +159,34 @@ class UserController extends Controller
         return response()->json('success', 200);
     }
 
+    // added by ahmed salah
+
+    public function getUserByNationalId($nationalId)
+    {
+        $user = User::where('citizen_national_id',$nationalId)->first();
+        return response()->json($user, 200);
+
+    }
+    public function updateUserAndCitizen(Request $request)
+    {
+        $citizen = Citizen::where('citizen_national_id',$request->citizen_national_id)->first();
+        $citizen->address = $request->address;
+        $citizen->date_of_birth = $request->date_of_birth;
+        $citizen->sex = $request->sex;
+        $citizen->save();
+        $user = User::where('citizen_national_id',$request->citizen_national_id)->first();
+        $user->password = $request->password;
+
+        $user->save();
+
+        return response()->json('updated successfully', 200);
+
+
+
+    }
+
+
+
+
+
 }

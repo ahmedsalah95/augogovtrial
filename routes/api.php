@@ -102,6 +102,10 @@ Route::get('/employees/get','UserController@getEmployees');
 Route::post('/users/fetch','UserController@fetchUsers');
 Route::get('/users/get','UserController@getUsers');
 
+// added by ahmed salah 9:59
+
+Route::get('/user/getUserByNationalId/{id}','UserController@getUserByNationalId');
+
 //Requests
 Route::post('/requests/fetch','requestController@fetchRequests');
 Route::post('/generateTransaction','transactionController@generateTransaction');

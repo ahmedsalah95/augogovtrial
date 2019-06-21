@@ -19,7 +19,6 @@ class CreateLandsTable extends Migration
             $table->integer('LUS_id')->unsigned();
             $table->foreign('LUS_id')->references('id')->on('l_u_s');
             $table->integer('LUS_ORG_id')->nullable();
-
             $table->integer('User_id')->unsigned();
             $table->foreign('User_id')->references('id')->on('users');
             $table->integer('ORG_id')->nullable();

@@ -158,6 +158,8 @@ class UserController extends Controller
         $user->citizen_national_id =$request->citizen_national_id;
         $user->save();
 
+        return response()->json(['status'=>'success'], 200);
+
     }
 
     // added by ahmed salah

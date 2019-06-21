@@ -132,6 +132,8 @@ class ComplainsController extends Controller
 
         $c->isProcessed = "تم الرد";
         $c->save();
+
+         return response()->json('Success', 200);
     }
 
     public function getImageReply($id)

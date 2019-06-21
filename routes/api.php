@@ -209,6 +209,10 @@ Route::get('privileges/get', 'requestController@getPrivileges');
 Route::get('engineering-office/get', 'LookupController@getEngineeringOffice');
 
 
-//update instance request
+//update instances's routes by abdelhameed needed by shaaer
 
 Route::post('instance-request/update', 'LookupController@updateInstanceRequest');
+Route::post('transaction/update', 'LookupController@updateTransaction');
+Route::post('building-license/update', 'LookupController@updateBuildingLicense');
+Route::post('building-license-request/update', 'LookupController@updateBuildingLicenseRequest');
+Route::post('license/update', 'LookupController@updateLicense');

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLUSTable extends Migration
+class CreateLUSESTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateLUSTable extends Migration
      */
     public function up()
     {
-        Schema::create('l_u_s', function (Blueprint $table) {
+        Schema::create('l_u_s_e_s', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ORG_id')->nullable();
             $table->integer('Usage_Type_id')->nullable();
@@ -104,6 +104,6 @@ class CreateLUSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('l_u_s');
+        Schema::dropIfExists('l_u_s_e_s');
     }
 }

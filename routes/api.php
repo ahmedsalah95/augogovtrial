@@ -220,3 +220,16 @@ Route::post('transaction/update', 'LookupController@updateTransaction');
 Route::post('building-license/update', 'LookupController@updateBuildingLicense');
 Route::post('building-license-request/update', 'LookupController@updateBuildingLicenseRequest');
 Route::post('license/update', 'LookupController@updateLicense');
+
+//gets functions by abdelhameed needed by shaaer
+Route::get('engineering-offices/get','LookupController@getEngineeringOffices');
+Route::get('engineers/get','LookupController@getEngineers');
+Route::get('lands/get','LookupController@getLands');
+Route::get('lus-decisions/get','LookupController@getLusDecisions');
+Route::get('validity-certificates/get','LookupController@getValidityCertificates');
+Route::get('all-lus/get','LookupController@getAllLus');
+
+Route::get('validity-certificate/get/{citizen_id}','LookupController@getCertificate');
+Route::get('lus/get/{citizen_id}','LookupController@getLus');
+Route::get('lus-decision/get/{citizen_id}','LookupController@getLusDecision');
+

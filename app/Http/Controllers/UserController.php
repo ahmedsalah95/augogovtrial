@@ -20,35 +20,35 @@ class UserController extends Controller
 
     public $successStatus = 200;
 
-  /*  public function login(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'password' => 'required',
+    /*  public function login(Request $request)
+      {
+          $this->validate($request, [
+              'name' => 'required',
+              'password' => 'required',
 
-        ]);
-        $userID = 0;
-        $username = "";
-        $password = "";
-        $users = User::all();
-        foreach ($users as $user) {
-            if ($user->name == $request->name) {
-                $userID = $user->id;
-                $username = $user->name;
-                $password = $user->password;
-                break;
-            }
-        }
+          ]);
+          $userID = 0;
+          $username = "";
+          $password = "";
+          $users = User::all();
+          foreach ($users as $user) {
+              if ($user->name == $request->name) {
+                  $userID = $user->id;
+                  $username = $user->name;
+                  $password = $user->password;
+                  break;
+              }
+          }
 
-        if ($this && $username && $password) {
+          if ($this && $username && $password) {
 
-            $authorizedUser = User::where('id', $userID)->get();
-            return response()->json($authorizedUser, $this->successStatus);
-        } else {
-            return response()->json([], 401);
-        }
+              $authorizedUser = User::where('id', $userID)->get();
+              return response()->json($authorizedUser, $this->successStatus);
+          } else {
+              return response()->json([], 401);
+          }
 
-    }*/
+      }*/
 
     public function login(Request $request)
     {
@@ -58,9 +58,8 @@ class UserController extends Controller
 
             return response()->json([]);
         }
-        if(Hash::check($request->password,$user->password))
-        {
-            return response()->json( [$user]);
+        if (Hash::check($request->password, $user->password)) {
+            return response()->json([$user]);
         }
 
         return response()->json([]);
@@ -190,6 +189,20 @@ class UserController extends Controller
     {
         $user = User::where('citizen_national_id', $nationalId)->first();
         return response()->json($user, 200);
+
+    }
+
+    public function getCitizenByNationalId($nationalId)
+    {
+        $Citizen = Citizen::where('citizen_national_id', $nationalId)->first();
+        if($Citizen)
+        {
+            return response()->json([$Citizen], 200);
+        }else{
+            return response()->json([], 200);
+        }
+
+
 
     }
 

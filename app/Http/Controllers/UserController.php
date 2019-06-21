@@ -31,7 +31,7 @@ class UserController extends Controller
         $password = "";
         $users = User::all();
         foreach ($users as $user) {
-            if ($user->name == $request->name) {
+            if ($user->name == $request->name){
                 $userID = $user->id;
                 $username = $user->name;
                 $password = $user->password;

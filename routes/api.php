@@ -192,6 +192,8 @@ Route::get('getImageReply/{id}','ComplainsController@getImageReply');
 
 Route::get('getComplainWithNationalId/{natId}','ComplainsController@getComplainWithNationalId');
 
+// get all complains
+Route::get('getComplains','ComplainsController@getComplains');
 
 
 //forms

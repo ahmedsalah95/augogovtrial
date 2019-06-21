@@ -105,7 +105,7 @@ Route::get('/users/get','UserController@getUsers');
 // added by ahmed salah 9:59
 
 Route::get('/user/getUserByNationalId/{id}','UserController@getUserByNationalId');
-Route::get('/user/getCitizenByNationalId/{id}','UserController@getCitizenByNationalId');
+Route::post('/user/getCitizenByNationalId','UserController@getCitizenByNationalId');
 
 
 Route::post('/user/updateUserAndCitizen','UserController@updateUserAndCitizen');

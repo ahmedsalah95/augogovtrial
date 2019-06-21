@@ -18,6 +18,9 @@ class CreateComplainsTable extends Migration
             $table->integer('citizen_national_id')->nullable();
             $table->string('citizen_name')->nullable();
             $table->string('isProcessed')->nullable();
+            $table->text('mime')->nullable();
+            $table->text('original_filename')->nullable();
+            $table->text('filename')->nullable();
             $table->string('complain_content')->nullable();
             $table->string('mime')->nullable();
             $table->string('original_filename')->nullable();

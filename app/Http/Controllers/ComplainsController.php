@@ -127,9 +127,9 @@ class ComplainsController extends Controller
 
     public function getImageReply($id)
     {
-       // $image = Complain::find($id);
-        $cr = cr::where('complain_id',$id)->first();
-        $image = reply::where('id',$cr->reply_id)->first();
+        // $image = Complain::find($id);
+        $cr = cr::where('complain_id', $id)->first();
+        $image = reply::where('id', $cr->reply_id)->first();
         $file = Storage::disk('local')->get($image->filename);
 
         return (new Response($file, 200))->header('Content-Type', $image->mime);
@@ -139,15 +139,16 @@ class ComplainsController extends Controller
 
     public function getComplainWithNationalId($nationalId)
     {
-        $complains = Complain::where('citizen_national_id',$nationalId)->get();
+        $complains = Complain::where('citizen_national_id', $nationalId)->get();
 
         return response()->json(['success' => $complains]);
     }
-
-    public function allComplains()
+    
+    public function getComplains()
     {
-        $all = Complain::all()->orderBy('id', 'desc')->get();
+        $complains = Complain::orderBy('id', 'desc')->get();
+        return response()->json($complains, 200);
 
-        return response()->json(['all complains' => $all]);
     }
+
 }

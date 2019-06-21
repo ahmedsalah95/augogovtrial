@@ -179,7 +179,25 @@ class UserController extends Controller
         $user->citizen_national_id = $request->citizen_national_id;
         $user->save();
 
-        return response()->json(['status' => 'success'], 200);
+        $citizen = Citizen::where('citizen_national_id',$request->citizen_national_id)->first();
+        if($citizen)
+        {
+
+            return response()->json('updated successfully', 200);
+        }else
+        {
+            $newCitizen = new Citizen();
+            $newCitizen->citizen_national_id = $request->citizen_national_id;
+            //$newCitizen->address = $request->address;
+           // $newCitizen->date_of_birth = $request->date_of_birth;
+           // $newCitizen->sex = $request->sex;
+            $newCitizen->save();
+
+
+            return response()->json('updated successfully', 200);
+        }
+
+       // return response()->json(['status' => 'success'], 200);
 
     }
 

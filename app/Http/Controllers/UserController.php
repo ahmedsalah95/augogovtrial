@@ -56,14 +56,14 @@ class UserController extends Controller
 
         if (!$user) {
 
-            return response()->json([], 401);
+            return response()->json([]);
         }
         if(Hash::check($request->password,$user->password))
         {
-            return response()->json( [$user], 200);
+            return response()->json( [$user]);
         }
 
-        return response()->json([], 401);
+        return response()->json([]);
     }
 
 

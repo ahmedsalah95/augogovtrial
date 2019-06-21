@@ -169,29 +169,61 @@ class instancerequestController extends Controller
         return response()->json(['instance request', "saved"], 200);
     }
 
+    /* public function getTransactionData(Request $request)
+     {
+         $transaction = Transaction::where('instance_id', $request->instance_id)->first();
+         $data = [
+             "request_id" => $transaction->Request_id,
+             "request_Step_id"=>$transaction->Request_Step_id,
+             "user_id" => $transaction->User_id,
+             "canceled"=>$transaction->Canceled,
+             "cancel_Type"=>$transaction->Cancel_Type,
+             "stop_Reasons"=>$transaction->Stop_Reasons,
+             "updated_at"=>$transaction->updated_at,
+             "created_at"=>$transaction->created_at
+         ];
+
+         // $request_steps = Request_Step::where('request_id',$data['Request_Step_id'])->get();
+         $request_steps_filter = Request_Step::where('request_id',$data['request_id'])
+             ->where('id',$data['request_Step_id'])->first();
+          $records = Request_Step::where('request_id',$data['request_id'])
+              ->where('order_number','<=',$request_steps_filter['order_number'])->first();
+
+          $formName = Form::where('id',$records->form_id)->get();
+          $data["formName"] = $formName;
+
+          return response()->json($data,200);
+     }*/
+
     public function getTransactionData(Request $request)
     {
         $transaction = Transaction::where('instance_id', $request->instance_id)->first();
         $data = [
             "request_id" => $transaction->Request_id,
-            "request_Step_id"=>$transaction->Request_Step_id,
+            "request_Step_id" => $transaction->Request_Step_id,
             "user_id" => $transaction->User_id,
-            "canceled"=>$transaction->Canceled,
-            "cancel_Type"=>$transaction->Cancel_Type,
-            "stop_Reasons"=>$transaction->Stop_Reasons,
-            "updated_at"=>$transaction->updated_at,
-            "created_at"=>$transaction->created_at
+            "canceled" => $transaction->Canceled,
+            "cancel_Type" => $transaction->Cancel_Type,
+            "stop_Reasons" => $transaction->Stop_Reasons,
+            "updated_at" => $transaction->updated_at,
+            "created_at" => $transaction->created_at
         ];
 
-        // $request_steps = Request_Step::where('request_id',$data['Request_Step_id'])->get();
-        $request_steps_filter = Request_Step::where('request_id',$data['request_id'])
-            ->where('id',$data['request_Step_id'])->first();
-         $records = Request_Step::where('request_id',$data['request_id'])
-             ->where('order_number','<=',$request_steps_filter['order_number'])->first();
+        $request_steps = Request_Step::where('request_id', $data['request_id']);
 
-         $formName = Form::where('id',$records->form_id)->get();
-         $data["formName"] = $formName;
+        $request_steps_filter = Request_Step::where('request_id', $data['request_id'])
+            ->where('id', $data['request_Step_id'])->first();
+        $d = $request_steps->where('order_number', '<=', $request_steps_filter['order_number']);
+        $orderedRecords = $d->orderBy('order_number', 'asc')->get();
+        $arr = [];
+        foreach ($orderedRecords as $order) {
+            $form = Form::where('id', $order->form_id)->first();
+            array_push($arr, $form);
 
-         return response()->json($data,200);
+        }
+        $data["forms"] = $arr;
+
+        return $data;
+
     }
 }

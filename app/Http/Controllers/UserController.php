@@ -141,9 +141,9 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+
             'password' => 'required',
-            'employee_id'=>'required',
+
             'citizen_national_id'=>'required'
         ]);
         if ($validator->fails()) {
@@ -151,12 +151,43 @@ class UserController extends Controller
         }
         $user = new User();
         $user->name = $request->name;
-        $user->email = $request->email;
+       // $user->email = $request->email;
+        $user->email = "email@email.com";
         $user->password = bcrypt( $request->password);
-        $user->employee_id = $request->employee_id;
+        //$user->employee_id = $request->employee_id;
         $user->citizen_national_id =$request->citizen_national_id;
         $user->save();
         return response()->json('success', 200);
     }
+
+    // added by ahmed salah
+
+    public function getUserByNationalId($nationalId)
+    {
+        $user = User::where('citizen_national_id',$nationalId)->first();
+        return response()->json($user, 200);
+
+    }
+    public function updateUserAndCitizen(Request $request)
+    {
+        $citizen = Citizen::where('citizen_national_id',$request->citizen_national_id)->first();
+        $citizen->address = $request->address;
+        $citizen->date_of_birth = $request->date_of_birth;
+        $citizen->sex = $request->sex;
+        $citizen->save();
+        $user = User::where('citizen_national_id',$request->citizen_national_id)->first();
+        $user->password = $request->password;
+
+        $user->save();
+
+        return response()->json('updated successfully', 200);
+
+
+
+    }
+
+
+
+
 
 }

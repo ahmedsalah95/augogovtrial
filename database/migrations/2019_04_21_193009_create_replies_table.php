@@ -17,6 +17,9 @@ class CreateRepliesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->nullable();
             $table->string('reply_content')->nullable();
+            $table->text('mime')->nullable();
+            $table->text('original_filename')->nullable();
+            $table->text('filename')->nullable();
             $table->timestamps();
         });
     }

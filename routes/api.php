@@ -184,7 +184,7 @@ Route::post('/lus/setDecision','LusController@setDecision');
 Route::post('makeComplain','ComplainsController@makeComplain');
 Route::post('makeReply','ComplainsController@makeReply');
 Route::post('fetchComplainsAndReplies','ComplainsController@fetchComplainsAndReplies');
-Route::get('getReplies','ComplainsController@getReplies');
+Route::post('getReplies','ComplainsController@getReplies');
 //complains added by ahmed salah
 Route::post('makeComplain','ComplainsController@makeComplain');
 //Route::get('getImageComplain/{id}','ComplainsController@getImageComplain');

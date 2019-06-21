@@ -144,5 +144,10 @@ class ComplainsController extends Controller
         return response()->json(['success' => $complains]);
     }
 
+    public function allComplains()
+    {
+        $all = Complain::all()->orderBy('id', 'desc')->get();
 
+        return response()->json(['all complains' => $all]);
+    }
 }

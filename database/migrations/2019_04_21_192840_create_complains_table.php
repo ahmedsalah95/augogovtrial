@@ -19,6 +19,9 @@ class CreateComplainsTable extends Migration
             $table->string('citizen_name')->nullable();
             $table->string('isProcessed')->nullable();
             $table->string('complain_content')->nullable();
+            $table->string('mime')->nullable();
+            $table->string('original_filename')->nullable();
+            $table->string('filename')->nullable();
             $table->timestamps();
         });
     }

@@ -202,3 +202,7 @@ Route::get('privileges/get', 'requestController@getPrivileges');
 //engineering office getEngineeringOffice
 Route::get('engineering-office/get', 'LookupController@getEngineeringOffice');
 
+
+//update instance request
+
+Route::post('instance-request/update', 'LookupController@updateInstanceRequest');

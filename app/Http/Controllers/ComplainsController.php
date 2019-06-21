@@ -43,7 +43,7 @@ class ComplainsController extends Controller
 
             return response()->json($cr, 200);
         }*/
-
+/*
     public function fetchComplainsAndReplies(Request $request)
     {
         $arr = array();
@@ -60,6 +60,15 @@ class ComplainsController extends Controller
         }
         $arr [] = $secArr;
 
+
+        return response()->json($arr, 200);
+    }*/
+
+    public function fetchComplainsAndReplies(Request $request)
+    {
+        $arr = array();
+        $complains = Complain::where('citizen_national_id', $request->citizen_national_id)->get();
+        $arr[] = $complains;
 
         return response()->json($arr, 200);
     }

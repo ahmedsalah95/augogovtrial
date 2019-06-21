@@ -162,7 +162,13 @@ class UserController extends Controller
     public function getUser(Request $request)
     {
         $user = User::find($request->id);
-        return response()->json([$user],200);
+        if($user)
+        {
+            return response()->json([$user],200);
+        }else{
+            return response()->json([],200);
+        }
+
 
     }
 

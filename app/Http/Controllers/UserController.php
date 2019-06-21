@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Validator;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class UserController extends Controller
 
     public $successStatus = 200;
 
-    public function login(Request $request)
+  /*  public function login(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -47,19 +48,36 @@ class UserController extends Controller
             return response()->json([], 401);
         }
 
+    }*/
+
+    public function login(Request $request)
+    {
+        $user = User::where('name', $request->name)->first();
+
+        if (!$user) {
+
+            return response()->json([], 401);
+        }
+        if(Hash::check($request->password,$user->password))
+        {
+            return response()->json( [$user], 200);
+        }
+
+        return response()->json([], 401);
     }
+
 
     public function fetchEmployees(Request $request)
     {
-        
-        foreach($request->data["citizens"] as $newCitizen){
+
+        foreach ($request->data["citizens"] as $newCitizen) {
             $citizen = new Citizen();
             $citizen->citizen_name = $newCitizen["name"];
             $citizen->citizen_national_id = $newCitizen["national_id"];
             $citizen->save();
         }
 
-        foreach($request->data["employees"] as $newEmployee){
+        foreach ($request->data["employees"] as $newEmployee) {
             $employee = new Employee();
             $employee->employee_name = $newEmployee["citizen"]["name"];
             $employee->department_id = $newEmployee["department"]["id"];
@@ -67,16 +85,17 @@ class UserController extends Controller
             $employee->save();
         }
 
-        return response()->json(['success'=>'true'],$this->successStatus);
+        return response()->json(['success' => 'true'], $this->successStatus);
 
     }
 
-    public function getEmployees(){
+    public function getEmployees()
+    {
         $employees = Employee::all();
 
         $data = array();
 
-        foreach($employees as $employee){
+        foreach ($employees as $employee) {
             $citizen = Citizen::where("citizen_national_id", "=", $employee->citizen_national_id)->get()[0];
             $department = Organization_Structure::where("id", "=", $employee->department_id)->get()[0];
             $item = array(
@@ -87,7 +106,7 @@ class UserController extends Controller
             array_push($data, $item);
 
         }
-        
+
         return response()->json($data, 200);
     }
 
@@ -97,25 +116,27 @@ class UserController extends Controller
         $cu->citizen_national_id = $request->citizen_national_id;
         $cu->customer_name = $request->customer_name;
         $cu->save();
-        return response()->json(['success'=>'true'],$this->successStatus);
+        return response()->json(['success' => 'true'], $this->successStatus);
     }
 
-    public function getCustomers(){
+    public function getCustomers()
+    {
 
         $customers = Customer::all();
-        return response()->json(['customers'=>$customers]);
+        return response()->json(['customers' => $customers]);
 
     }
 
-    public function fetchUsers(Request $request){
+    public function fetchUsers(Request $request)
+    {
 
         dump(Carbon::now()->toDateTimeString());
 
-        foreach($request->data as $newUser){
+        foreach ($request->data as $newUser) {
 
             $user = new User();
             $user->name = $newUser["username"];
-            $user->email = "email@email.com".Carbon::now()->timestamp; //just adding the timestamp to mock the email field
+            $user->email = "email@email.com" . Carbon::now()->timestamp; //just adding the timestamp to mock the email field
             $user->password = $newUser["password"];
             $user->employee_id = $newUser["employee"]["id"];
             $user->citizen_national_id = $newUser["employee"]["citizen"]["national_id"];
@@ -123,10 +144,11 @@ class UserController extends Controller
 
         }
 
-        return response()->json(['success'=>'true'],$this->successStatus);
+        return response()->json(['success' => 'true'], $this->successStatus);
     }
 
-    public function getUsers(Request $request){
+    public function getUsers(Request $request)
+    {
 
         $users = User::all();
 
@@ -144,21 +166,21 @@ class UserController extends Controller
 
             'password' => 'required',
 
-            'citizen_national_id'=>'required'
+            'citizen_national_id' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
+            return response()->json(['error' => $validator->errors()], 401);
         }
         $user = new User();
         $user->name = $request->name;
-       // $user->email = $request->email;
-        $user->email = "email@email.com".Carbon::now()->timestamp;
-        $user->password = bcrypt( $request->password);
+        // $user->email = $request->email;
+        $user->email = "email@email.com" . Carbon::now()->timestamp;
+        $user->password = bcrypt($request->password);
         //$user->employee_id = $request->employee_id;
-        $user->citizen_national_id =$request->citizen_national_id;
+        $user->citizen_national_id = $request->citizen_national_id;
         $user->save();
 
-        return response()->json(['status'=>'success'], 200);
+        return response()->json(['status' => 'success'], 200);
 
     }
 
@@ -166,18 +188,19 @@ class UserController extends Controller
 
     public function getUserByNationalId($nationalId)
     {
-        $user = User::where('citizen_national_id',$nationalId)->first();
+        $user = User::where('citizen_national_id', $nationalId)->first();
         return response()->json($user, 200);
 
     }
+
     public function updateUserAndCitizen(Request $request)
     {
-        $citizen = Citizen::where('citizen_national_id',$request->citizen_national_id)->first();
+        $citizen = Citizen::where('citizen_national_id', $request->citizen_national_id)->first();
         $citizen->address = $request->address;
         $citizen->date_of_birth = $request->date_of_birth;
         $citizen->sex = $request->sex;
         $citizen->save();
-        $user = User::where('citizen_national_id',$request->citizen_national_id)->first();
+        $user = User::where('citizen_national_id', $request->citizen_national_id)->first();
         $user->password = $request->password;
 
         $user->save();
@@ -185,12 +208,7 @@ class UserController extends Controller
         return response()->json('updated successfully', 200);
 
 
-
     }
-
-
-
-
 
 
 }

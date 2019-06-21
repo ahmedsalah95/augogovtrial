@@ -113,11 +113,14 @@ class ComplainsController extends Controller
         $r->user_id = $request->user_id;
         $r->reply_content = $request->reply_content;
         $file = $request->file('filefield');
-        $extension = $file->getClientOriginalExtension();
-        Storage::disk('local')->put($file->getFilename() . '.' . $extension, File::get($file));
-        $r->mime = $file->getClientMimeType();
-        $r->original_filename = $file->getClientOriginalName();
-        $r->filename = $file->getFilename() . '.' . $extension;
+        if ($file) {
+            $extension = $file->getClientOriginalExtension();
+            Storage::disk('local')->put($file->getFilename() . '.' . $extension, File::get($file));
+            $r->mime = $file->getClientMimeType();
+            $r->original_filename = $file->getClientOriginalName();
+            $r->filename = $file->getFilename() . '.' . $extension;
+        }
+
         $r->save();
 
         $cr = new cr();

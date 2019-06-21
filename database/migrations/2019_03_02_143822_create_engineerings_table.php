@@ -15,6 +15,7 @@ class CreateEngineeringsTable extends Migration
     {
         Schema::create('engineerings', function (Blueprint $table) {
             $table->increments('id');
+
             $table->timestamps();
         });
     }

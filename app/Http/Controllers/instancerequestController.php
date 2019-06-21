@@ -6,28 +6,93 @@ use App\Instance_Attachment;
 use App\Instance_Fees;
 use App\Instance_Fees_Details;
 use App\Instance_Request;
+use App\Request_Step;
+use App\Form;
+use App\Transaction;
+use App\Customer;
+use App\Citizen;
+use App\Address_structure;
 use Illuminate\Http\Request;
 
 class instancerequestController extends Controller
 {
-    public function createInstanceRequest(Request $request)
+    public function instanceRequestFetch(Request $request) 
     {
+        $instance_request = $request->data["request_instance"];
+        $transaction = $request->data["transaction"];
+        $request = \App\Request::where("request_name", $instance_request["request"]["name"])->first();
+        $customer = Customer::where("citizen_national_id", $instance_request["customer"]["national_id"])->first();
+
         $requestInstance =  new Instance_Request();
-        $requestInstance->request_id = $request->request_id;
-        $requestInstance->structure_id = $request->structure_id;
-        $requestInstance->customer_id = $request->customer_id;
-        $requestInstance->current_state = $request->current_state; // added by ahmed salah 12/6/2019
-        $requestInstance->bool = $request->bool;
-
+        $requestInstance->request_id = $request->id;
+        $requestInstance->structure_id = $instance_request["structure"]["id"];
+        $requestInstance->customer_id = $customer->id;
+        // $requestInstance->current_state = $instance_request->current_state; // added by ahmed salah 12/6/2019
+        // $requestInstance->bool = $request->bool;
+        
         $requestInstance->save();
-        return response()->json(['instance',"saved"],200);
-    }
-    public function getInstanceRequest(Request $request) //  added by ahmed salah 12/6/2019
-    {
-        $r = Instance_Request::where('id',$request->id)->get();
 
-        return response()->json($r,200);
+        $this->insertTransaction($transaction, $requestInstance->id);
+
+        return response()->json(["saved"],200);
     }
+
+    public function getRequestInstance($id)
+    {
+        $instanceRequest = Instance_Request::where('id',$id)->first();
+        $requestType = \App\Request::find($instanceRequest->request_id);
+        $structure = Address_structure::find($instanceRequest->structure_id);
+        $customer = Customer::find($instanceRequest->customer_id);
+        $transaction = Transaction::where("Instance_id", $id)->first();
+        $agency = Citizen::find($transaction->Bond_Agency_id);
+
+        $steps = Request_Step::where("request_id", $instanceRequest->request_id)->get();
+        $forms = [];
+
+        foreach($steps as $step){
+            $form = Form::find($step->form_id);
+            array_push($forms, $form);
+        }
+
+        $data = [
+            "instance_request" => $instanceRequest,
+            "request" => $requestType,
+            "structure" => $structure,
+            "customer" => $customer,
+            "agency" => $agency,
+            "forms" => $forms
+        ];
+
+        return response()->json($data,200);
+    }
+
+    public function getRequestsInstances()
+    {
+        $requestInstances = Instance_Request::all();
+        return response()->json(["requests_instances" => $requestInstances],200);
+    }
+
+    public function insertTransaction($transaction, $request_id){
+
+        $newTransaction = new Transaction();
+        $newTransaction->Instance_id = $request_id;
+        $newTransaction->Bond_Agency_id = $transaction["agency"]["id"];
+        $newTransaction->save();
+
+    }
+
+    public function getTransaction(Request $request)
+    {
+        $transaction = Transaction::where('id',$request->id)->first();
+        return response()->json(["transaction" => $transaction],200);
+    }
+
+    public function getTransactions()
+    {
+        $transactions = Transaction::all();
+        return response()->json(["transactions" => $transactions],200);
+    }
+
     public function instanceAttachments(Request $request)
     {
         $i = new Instance_Attachment();
@@ -59,8 +124,8 @@ class instancerequestController extends Controller
         $i->payment_date = $request->payment_date;
         $i->treasure_number = $request->treasure_number;
         $i->esal_number = $request->esal_number;
-        $i-> evaluator_empid= $request->evaluator_empid;
-        $i-> payed_requeststep_id= $request->payed_requeststep_id;
+        $i->evaluator_empid= $request->evaluator_empid;
+        $i->payed_requeststep_id= $request->payed_requeststep_id;
         $i->payed_value = $request->payed_value;
         $i->return_percentage = $request->return_percentage;
         $i->notes = $request->notes;
@@ -74,11 +139,6 @@ class instancerequestController extends Controller
         $i->check_value = $request->check_value;
         $i->save();
         return response()->json(['instance fees',"saved"],200);
-
-
-
-
-
     }
 
     public function instanceFeesDetails(Request $request)

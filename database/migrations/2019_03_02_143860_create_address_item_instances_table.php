@@ -16,10 +16,10 @@ class CreateAddressItemInstancesTable extends Migration
         Schema::create('address_item_instances', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('item_id')->unsigned();
-            $table->foreign('item_id')->references('id')->on('address_items');
-            $table->string('instance_name')->nullable();
-            $table->string('instance_code')->nullable();
+            $table->integer('address_item_id')->unsigned();
+            $table->foreign('address_item_id')->references('id')->on('address_items');
+            $table->string('name')->nullable();
+            $table->string('code')->nullable();
             $table->timestamps();
         });
     }

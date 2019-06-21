@@ -42,9 +42,9 @@ class UserController extends Controller
         if ($this && $username && $password) {
 
             $authorizedUser = User::where('id', $userID)->get();
-            return response()->json(['user' => $authorizedUser], $this->successStatus);
+            return response()->json($authorizedUser, $this->successStatus);
         } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            return response()->json([], 401);
         }
 
     }
@@ -98,6 +98,13 @@ class UserController extends Controller
         $cu->customer_name = $request->customer_name;
         $cu->save();
         return response()->json(['success'=>'true'],$this->successStatus);
+    }
+
+    public function getCustomers(){
+
+        $customers = Customer::all();
+        return response()->json(['customers'=>$customers]);
+
     }
 
     public function fetchUsers(Request $request){

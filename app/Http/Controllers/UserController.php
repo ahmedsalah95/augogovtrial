@@ -158,6 +158,14 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
+    //addded by ahmed salah
+    public function getUser(Request $request)
+    {
+        $user = User::find($request->id);
+        return response()->json([$user],200);
+
+    }
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [

@@ -189,7 +189,7 @@ class instancerequestController extends Controller
          $records = Request_Step::where('request_id',$data['request_id'])
              ->where('order_number','<=',$request_steps_filter['order_number'])->first();
 
-         $formName = Form::where('id',$records->form_id)->first();
+         $formName = Form::where('id',$records->form_id)->get();
          $data["formName"] = $formName;
 
          return response()->json($data,200);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Announce_Types;
 use App\Assignation_Types;
 use App\Attachment;
+use App\Build_License_Request;
+use App\Building_license;
 use App\Building_Types;
 use App\Citizen;
 
@@ -13,6 +15,8 @@ use App\Complain;
 use App\Engineering_Office;
 
 use App\Instance_Request;
+use App\License;
+use App\Transaction;
 use App\User;
 use App\Container;
 use App\Distinction_Types;
@@ -795,15 +799,57 @@ class LookupController extends Controller
     public function updateInstanceRequest(Request $request)
     {
         $id = $request->instance_id;
-        $instace_request = Instance_Request::find($id);
-        //dump($request->instance_id);
-       foreach ($request ["attributes"] as $key => $value)
-       {
-           dump($value);
-            //$instace_request->$key = $value;
-       }
-       dump($instace_request);
+        $instance_request = Instance_Request::find($id);
+        foreach ($request ["attributes"] as $key => $value)
+        {
+            $instance_request->$key = $value;
+        }
 
+        return response()->json(['updated instance request '=>$instance_request], 200);
+    }
+    public function updateTransaction(Request $request)
+    {
+        $id = $request->instance_id;
+        $transaction = Transaction::find($id);
+        foreach ($request ["attributes"] as $key => $value)
+        {
+            $transaction->$key = $value;
+        }
+
+        return response()->json(['updated transaction '=>$transaction], 200);
+    }
+    public function updateBuildingLicense(Request $request)
+    {
+        $id = $request->instance_id;
+        $buildingLicense = Building_license::find($id);
+        foreach ($request ["attributes"] as $key => $value)
+        {
+            $buildingLicense->$key = $value;
+        }
+
+        return response()->json(['updated building license '=>$buildingLicense], 200);
+    }
+    public function updateBuildingLicenseRequest(Request $request)
+    {
+        $id = $request->instance_id;
+        $buildingLicenseRequest = Build_License_Request::find($id);
+        foreach ($request ["attributes"] as $key => $value)
+        {
+            $buildingLicenseRequest->$key = $value;
+        }
+
+        return response()->json(['updated building license request '=>$buildingLicenseRequest], 200);
+    }
+    public function updateLicense(Request $request)
+    {
+        $id = $request->instance_id;
+        $license = License::find($id);
+        foreach ($request ["attributes"] as $key => $value)
+        {
+            $license->$key = $value;
+        }
+
+        return response()->json(['updated license '=>$license], 200);
     }
 
 }

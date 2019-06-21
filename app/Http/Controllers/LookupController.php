@@ -12,6 +12,7 @@ use App\Complain;
 
 use App\Engineering_Office;
 
+use App\Instance_Request;
 use App\User;
 use App\Container;
 use App\Distinction_Types;
@@ -209,8 +210,7 @@ class LookupController extends Controller
         $document->document_name = $doc["name"];
         $document->save();
 
-        $auth = Document::where('id',$document->id)->get();
-        return response()->json(['success',$auth],200);
+        return response()->json(['success'],200);
     }
     public function deleteDocument($id)
     {
@@ -790,6 +790,20 @@ class LookupController extends Controller
     {
         $eng = Engineering_Office::find($id);
         return response()->json(['Engineering office'=>$eng], 200);
+    }
+
+    public function updateInstanceRequest(Request $request)
+    {
+        $id = $request->instance_id;
+        $instace_request = Instance_Request::find($id);
+        //dump($request->instance_id);
+       foreach ($request ["attributes"] as $key => $value)
+       {
+           dump($value);
+            //$instace_request->$key = $value;
+       }
+       dump($instace_request);
+
     }
 
 }

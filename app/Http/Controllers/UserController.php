@@ -210,7 +210,8 @@ class UserController extends Controller
     public function updateUserAndCitizen(Request $request)
     {
         $citizen = Citizen::where('citizen_national_id', $request->citizen_national_id)->first();
-        dump($request->citizen_national_id);
+
+        $citizen->citizen_name = $request->citizen_name;
         $citizen->address = $request->address;
         $citizen->date_of_birth = $request->date_of_birth;
         $citizen->sex = $request->sex;

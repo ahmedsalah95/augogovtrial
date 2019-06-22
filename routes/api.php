@@ -121,6 +121,7 @@ Route::post('/transactions/fetchSec','requestController@fetchTransactionsSecV');
 //Transactions
 Route::post('instanceRequest/fetch','instancerequestController@instanceRequestFetch');
 Route::post('request/insert','LookupController@insertRequest');
+Route::post('transaction/insert','transactionController@insertTransaction');
 Route::get('request-instance/get/{id}','instancerequestController@getRequestInstance');
 Route::get('requests-instances/get','instancerequestController@getRequestsInstances');
 Route::get('transaction/get','instancerequestController@getTransaction');
@@ -131,11 +132,12 @@ Route::get('feesByReqId/get','LookupController@getFeesByRequestId');
 Route::post('reportRequest','requestController@reportRequest');
 
 //License
-Route::get('/licenseType','licenseController@licenseType');
 Route::post('/licenseReport','licenseController@licenseReport');
 Route::post('/licenses','licenseController@licenses');
-Route::post('/license/insert','licenseController@insertBuildingLicense');
+Route::post('license/insert','licenseController@insertLicense');
+Route::post('building-license/insert','licenseController@insertBuildingLicense');
 Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseRequest');
+Route::get('/licenseType','licenseController@licenseType');
 
 //License Types
 Route::post('/licenseType/insert','LookupController@insertLicenseType');

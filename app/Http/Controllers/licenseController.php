@@ -32,23 +32,34 @@ class licenseController extends Controller
         return response()->json(['license',"saved"],200);
 
     }
-    public function insertBuildingLicense(Request $request)
+    public function insertLicense(Request $request)
     {
-        $license = new Building_license();
-        $license->ORG_id = $request->ORG_id;
-        $license->Buliding_Type_id = $request->Buliding_Type_id;
-        $license->Ref_license = $request->Ref_license;
-        $license->Postal_Address = $request->Postal_Address;
-        $license->Supervisor_Eng_id = $request->Supervisor_Eng_id;
-        $license->Designer_Eng_id = $request->Designer_Eng_id;
-        $license->License_Type = $request->License_Type;
-        $license->Working_Area = $request->Working_Area;
-        $license->TotalCost = $request->TotalCost;
-        $license->User_ID = $request->User_ID;
+        $requestInstanceID = $request->data["request_instance_id"];
+        $transactionID = $request->data["transaction_id"];
+        $lusID = $request->data["lus_id"];
+
+        $license = new License();
+        $license->Instance_id = $requestInstanceID;
+        $license->Transaction_id = $transactionID;
+        $license->LUS_id = $lusID;
 
         $license->save();
 
-        return response()->json(['license',"saved"],200);
+        return response()->json(['license'=>$license]);
+
+    }
+    public function insertBuildingLicense(Request $request)
+    {
+        
+        $licenseID = $request->data["license_id"];
+
+        $buildingLicense = new Building_license();
+        $buildingLicense->license_id = $licenseID;
+        // $license->User_ID = $request->User_ID;
+
+        $buildingLicense->save();
+
+        return response()->json(['building_license'=>$buildingLicense]);
 
     }
 

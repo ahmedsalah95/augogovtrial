@@ -19,22 +19,25 @@ class instancerequestController extends Controller
     public function instanceRequestFetch(Request $request) 
     {
         $instance_request = $request->data["request_instance"];
-        $transaction = $request->data["transaction"];
         $request = \App\Request::where("request_name", $instance_request["request"]["name"])->first();
-        $customer = Customer::where("citizen_national_id", $instance_request["customer"]["national_id"])->first();
+        // $customer = Citizen::where("citizen_national_id", $instance_request["customer"]["national_id"])->first();
+
+        $newCustomer = new Customer();
+        $newCustomer->customer_name = $instance_request["customer"]["name"];
+        $newCustomer->citizen_national_id = $instance_request["customer"]["national_id"];
+        $newCustomer->save();
 
         $requestInstance =  new Instance_Request();
         $requestInstance->request_id = $request->id;
         $requestInstance->structure_id = $instance_request["structure"]["id"];
-        $requestInstance->customer_id = $customer->id;
+        $requestInstance->customer_id = $newCustomer->id;
         // $requestInstance->current_state = $instance_request->current_state; // added by ahmed salah 12/6/2019
         // $requestInstance->bool = $request->bool;
         
         $requestInstance->save();
 
-        $this->insertTransaction($transaction, $requestInstance->id);
 
-        return response()->json(["saved"],200);
+        return response()->json(["request_instance"=>$requestInstance]);
     }
 
     public function getRequestInstance($id)
@@ -72,14 +75,7 @@ class instancerequestController extends Controller
         return response()->json(["requests_instances" => $requestInstances],200);
     }
 
-    public function insertTransaction($transaction, $request_id){
-
-        $newTransaction = new Transaction();
-        $newTransaction->Instance_id = $request_id;
-        $newTransaction->Bond_Agency_id = $transaction["agency"]["id"];
-        $newTransaction->save();
-
-    }
+    
 
     public function getTransaction(Request $request)
     {

@@ -911,9 +911,9 @@ class LookupController extends Controller
         $citizen = Citizen::find($citizen_id);
 
         $data = [
-            "citizen-certificates" => $certificates,
+            "citizen_certificates" => $certificates,
             "citizen" => $citizen,
-            "all-citizen-lus" => $allCitizenLus
+            "all_citizen-lus" => $allCitizenLus
         ];
 
         return response()->json($data);
@@ -935,7 +935,7 @@ class LookupController extends Controller
         }
 
         $data = [
-            "all-citizen-lus"     =>$allCitizenLus,
+            "all_citizen_lus"     =>$allCitizenLus,
             "structures" =>$structures
         ];
 

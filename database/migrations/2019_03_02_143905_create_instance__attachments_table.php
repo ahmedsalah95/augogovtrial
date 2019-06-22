@@ -15,7 +15,6 @@ class CreateInstanceAttachmentsTable extends Migration
     {
         Schema::create('instance__attachments', function (Blueprint $table) {
             $table->increments('id');
-
             $table->integer('attachment_id')->unsigned();
             $table->foreign('attachment_id')->references('id')->on('attachments');
             $table->integer('cat')->nullable();

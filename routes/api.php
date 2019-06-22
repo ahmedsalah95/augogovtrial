@@ -238,3 +238,8 @@ Route::get('citizen-lus-decisions/get/{citizen_id}','LookupController@getCitizen
 // transactions by ahmed salah
 
 Route::post('getTransactionData','instancerequestController@getTransactionData');
+
+//fetch functions by abdelhameed
+Route::post('instance-fees-details/fetch', 'LookupController@fetchInstanceFeesDetails');
+Route::post('instance-fees/fetch', 'LookupController@fetchInstanceFees');
+Route::post('instance-attachment/fetch', 'LookupController@fetchInstanceAttachment');

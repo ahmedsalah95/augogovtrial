@@ -16,6 +16,9 @@ use App\Complain;
 use App\Engineer;
 use App\Engineering_Office;
 
+use App\Instance_Attachment;
+use App\Instance_Fees;
+use App\Instance_Fees_Details;
 use App\Instance_Request;
 use App\Lands;
 use App\License;
@@ -959,6 +962,111 @@ class LookupController extends Controller
         }
 
         return response()->json($allLusDecesions);
+    }
+
+    //fetch functions by abdelhameed
+
+    public function insertInstanceFeesDetails($newDetails)
+    {
+        $details = new Instance_Fees_Details();
+        $details->request_step_id = $newDetails["request_step_id"];
+        $details->fees_id = $newDetails["fees_id"];
+        $details->container_id = $newDetails["container_id"];
+        $details->value = $newDetails["value"];
+        $details->save();
+
+        return response()->json(['success', $details],200);
+
+    }
+    public function deleteInstanceFeesDetails($id)
+    {
+        $details = Instance_Fees_Details::findOrFail($id);
+        $details->delete();
+    }
+
+    public function fetchInstanceFeesDetails(Request $request)
+    {
+        foreach ($request->data as $details)
+        {
+            if($details["new_details"])
+            {
+                $this->insertInstanceFeesDetails($details);
+            }
+            else if($details["deleted"]){
+                $this->deleteInstanceFeesDetails($details["id"]);
+            }
+        }
+    }
+
+    public function insertInstanceFees($newInstanceFees)
+    {
+        $instanceFees = new Instance_Fees();
+        $instanceFees->instance_request_id = $newInstanceFees["instance_request_id"];
+        $instanceFees->request_step_id = $newInstanceFees["request_step_id"];
+        $instanceFees->fees_id = $newInstanceFees["fees_id"];
+        $instanceFees->customer_id = $newInstanceFees["customer_id"];
+        $instanceFees->LUS_id = $newInstanceFees["LUS_id"];
+        $instanceFees->payment_type = $newInstanceFees["payment_type"];
+        $instanceFees->canceled = $newInstanceFees["canceled"];
+        $instanceFees->save();
+
+        return response()->json(['success', $instanceFees],200);
+
+    }
+    public function deleteInstanceFees($id)
+    {
+        $instanceFees = Instance_Fees::findOrFail($id);
+        $instanceFees->delete();
+    }
+
+    public function fetchInstanceFees(Request $request)
+    {
+        foreach ($request->data as $instanceFees)
+        {
+            if($instanceFees["new_instance_fees"])
+            {
+                $this->insertInstanceFees($instanceFees);
+            }
+            else if($instanceFees["deleted"]){
+                $this->deleteInstanceFees($instanceFees["id"]);
+            }
+        }
+    }
+
+    public function insertInstanceAttachment($newInstanceAttachment)
+    {
+        $instanceAttachment = new Instance_Attachment();
+        $instanceAttachment->attachment_id = $newInstanceAttachment["attachment_id"];
+        $instanceAttachment->cat = $newInstanceAttachment["cat"];
+        $instanceAttachment->ORG_id = $newInstanceAttachment["ORG_id"];
+        $instanceAttachment->Archived = $newInstanceAttachment["Archived"];
+        $instanceAttachment->Received = $newInstanceAttachment["Received"];
+        $instanceAttachment->deleted = $newInstanceAttachment["deleted"];
+        $instanceAttachment->mandatory_optional = $newInstanceAttachment["mandatory_optional"];
+        $instanceAttachment->archive_document_id = $newInstanceAttachment["archive_document_id"];
+        $instanceAttachment->save();
+
+        return response()->json(['success', $instanceAttachment],200);
+
+    }
+    public function deleteInstanceAttachment($id)
+    {
+        $instanceAttachment = Instance_Attachment::findOrFail($id);
+        $instanceAttachment->delete();
+    }
+
+    public function fetchInstanceAttachment(Request $request)
+    {
+        foreach ($request->data as $instanceAttachment)
+        {
+            if($instanceAttachment["new_instance_attachment"])
+            {
+                $this->insertInstanceAttachment($instanceAttachment);
+            }
+            else if($instanceAttachment["deleted"]){
+                $this->deleteInstanceAttachment($instanceAttachment["id"]);
+            }
+        }
     }
 }
 

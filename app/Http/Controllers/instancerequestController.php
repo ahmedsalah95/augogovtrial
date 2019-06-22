@@ -46,6 +46,7 @@ class instancerequestController extends Controller
         $requestType = \App\Request::find($instanceRequest->request_id);
         $structure = Address_structure::find($instanceRequest->structure_id);
         $customer = Customer::find($instanceRequest->customer_id);
+        $citizen = Citizen::where("citizen_national_id", $customer->citizen_national_id)->first();
         $transaction = Transaction::where("Instance_id", $id)->first();
         $agency = Citizen::find($transaction->Bond_Agency_id);
 
@@ -59,9 +60,11 @@ class instancerequestController extends Controller
 
         $data = [
             "instance_request" => $instanceRequest,
+            "transaction" => $transaction,
             "request" => $requestType,
             "structure" => $structure,
             "customer" => $customer,
+            "citizen" => $citizen,
             "agency" => $agency,
             "forms" => $forms
         ];

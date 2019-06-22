@@ -8,6 +8,9 @@ use App\License;
 use App\License_Cost_Item;
 use App\License_Reports;
 use App\License_Types;
+use App\Validity_Certificate;
+use App\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class licenseController extends Controller
@@ -39,12 +42,18 @@ class licenseController extends Controller
         $lusID = $request->data["lus_id"];
 
         $license = new License();
+        $license->License_Year = strval(Carbon::now()->year);
         $license->Instance_id = $requestInstanceID;
         $license->Transaction_id = $transactionID;
         $license->LUS_id = $lusID;
-
+        $license->save();
+        $license->License_Number = $license->id;
         $license->save();
 
+        $transaction = Transaction::find($transactionID);
+        $transaction->License_Id = $license->id;
+        $transaction->save();
+        
         return response()->json(['license'=>$license]);
 
     }
@@ -59,24 +68,28 @@ class licenseController extends Controller
 
         $buildingLicense->save();
 
-        return response()->json(['building_license'=>$buildingLicense]);
+        $license = License::find($licenseID);
+
+        $buildingLicenseRequest = $this->insertBuildingLicenseRequest($buildingLicense->id, $license->Instance_id);
+
+        $data = [
+            "license" =>$license,
+            "building_license" =>$buildingLicense,
+            "building_license_request" =>$buildingLicenseRequest
+        ];
+
+        return response()->json($data);
 
     }
 
-    public function insertBuildingLicenseRequest(Request $request)
+    public function insertBuildingLicenseRequest($buildingLicenseId, $requestInstanceID)
     {
         $licensereq = new Build_License_Request();
-        $licensereq->Build_License_id = $request->Build_License_id;
-        $licensereq->License_Type = $request->License_Type;
-        $licensereq->Supervisor_Eng_id = $request->Supervisor_Eng_id;
-        $licensereq->Designer_Eng_id = $request->Designer_Eng_id;
-        $licensereq->License_Type = $request->License_Type;
-        $licensereq->Working_Area = $request->Working_Area;
-        $licensereq->Building_Type = $request->Building_Type;
-
+        $licensereq->Build_License_id = $buildingLicenseId;
+        $licensereq->Instance_id = $requestInstanceID;
         $licensereq->save();
 
-        return response()->json(['license request', "saved"], 200);
+        return $licensereq;
     }
 
     public function AssignBuildingCost(Request $request)
@@ -94,26 +107,11 @@ class licenseController extends Controller
 
     }
 
-    public function licenses(Request $request)
-    {
-        $l = new License();
-        $l->ORG_id = $request->ORG_id;
-        $l->License_Number = $request->License_Number;
-        $l->License_Type_id = $request->License_Type_id;
-        $l->License_Year = $request->License_Year;
-        $l->Instance_id = $request->Instance_id;
-        $l->Transaction_id = $request->Transaction_id;
-        $l->LUS_id = $request->LUS_id;
-        $l->Canceled = $request->Cancled;
-        $l->Stopped = $request->Stopped;
-        $l->File_Number = $request->File_Number;
-        $l->Responsible_Engineer = $request->Responsible_Engineer;
-        $l->Append_Char = $request->Append_Char;
-        $l->Old_id = $request->Old_id;
-        $l->License_Stop = $request->License_Stop;
+    public function testLicenseUpdate(Request $request){
+        // $certificateID = $request->data["attributes"]["Certificate_id"];
+        // $certificate = Validity_Certificate::find($certificateID);
 
-        $l->save();
-        return response()->json(['licenses',"saved"],200);
 
+        return $request->data["attributes"]["Certificate_id"];
     }
 }

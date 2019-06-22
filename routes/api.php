@@ -232,6 +232,14 @@ Route::get('validity-certificates/get','LookupController@getValidityCertificates
 Route::get('all-lus/get','LookupController@getAllLus');
 
 Route::get('validity-certificates/get/{citizen_id}','LookupController@getCitizenValidityCertificates');
+Route::get('validity-certificate/get/{citizen_id}/{lus_id}','LookupController@getCitizenValidityCertificate');
+
 Route::get('all-citizen-lus/get/{citizen_id}','LookupController@getAllCitizenLus');
+Route::get('citizen-lus/get/{citizen_id}/{lus_id}','LookupController@getCitizenLus');
+
 Route::get('citizen-lus-decisions/get/{citizen_id}','LookupController@getCitizenLusDecisions');
+Route::get('citizen-lus-decision/get/{citizen_id}/{lus_id}','LookupController@getCitizenLusDecision');
+
+
+Route::post('test/update','licenseController@testLicenseUpdate');
 

@@ -898,6 +898,7 @@ class LookupController extends Controller
 
         return response()->json($data);
     }
+
     public function getCitizenValidityCertificates($citizen_id)
     {
         $certificates = Validity_Certificate::where("citizen_id", $citizen_id)->get();
@@ -918,6 +919,25 @@ class LookupController extends Controller
 
         return response()->json($data);
     }
+
+    public function getCitizenValidityCertificate($citizen_id, $lus_id)
+    {
+        $certificate = Validity_Certificate::where("citizen_id", $citizen_id)
+                                            ->where("LUS_id", $lus_id)
+                                            ->get()[0];
+
+        $citizenLus = LUS::where("id", $lus_id)->get()[0];
+        $citizen = Citizen::find($citizen_id);
+
+        $data = [
+            "citizen_certificate" => $certificate,
+            "citizen" => $citizen,
+            "citizen_lus" => $citizenLus
+        ];
+
+        return response()->json($data);
+    }
+
     public function getAllCitizenLus($citizen_id)
     {
         $certificates = Validity_Certificate::where("citizen_id", $citizen_id)->get();
@@ -941,6 +961,25 @@ class LookupController extends Controller
 
         return response()->json($data);
     }
+
+    public function getCitizenLus($citizen_id, $lus_id)
+    {
+        $certificates = Validity_Certificate::where("citizen_id", $citizen_id)
+                                            ->where("LUS_id", $lus_id)
+                                            ->get()[0];
+
+        
+        $citizenLus = LUS::where("id", $lus_id)->get()[0];
+        $structure = Address_structure::where("id",$citizenLus->Structure_id)->get()[0];
+
+        $data = [
+            "citizen_lus"     =>$citizenLus,
+            "structure" =>$structure
+        ];
+
+        return response()->json($data);
+    }
+
     public function getCitizenLusDecisions($citizen_id)
     {
         $certificates = Validity_Certificate::where("citizen_id",$citizen_id)->get();
@@ -958,7 +997,19 @@ class LookupController extends Controller
             array_push($allLusDecesions, $lus_decision);
         }
 
-        return response()->json($allLusDecesions);
+        return response()->json(['citizen_lus_decisions'=>$allLusDecesions]);
+    }
+
+    public function getCitizenLusDecision($citizen_id, $lus_id)
+    {
+        $certificate = Validity_Certificate::where("citizen_id",$citizen_id)
+                                            ->where("LUS_id", $lus_id)
+                                            ->get()[0];
+
+        $citizenLus = LUS::where("id", $lus_id)->get()[0];
+        $citizenLusDecesion = LUS_Decision::where("LUS_id",$citizenLus->id)->get()[0];
+
+        return response()->json(['citizen_lus_decision'=>$citizenLusDecesion]);
     }
 }
 

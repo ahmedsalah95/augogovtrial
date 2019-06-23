@@ -19,11 +19,9 @@ class CreateLUSESTable extends Migration
             $table->integer('Usage_Type_id')->nullable();
             $table->integer('OwnerShip_Type_id')->nullable();
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->string('Area')->nullable();
             $table->integer('Serial')->nullable();
             $table->integer('Structure_id')->unsigned();
-            $table->foreign('Structure_id')->references('id')->on('address_structures');
             $table->integer('National_Real_State_id')->nullable();
             $table->string('Stop')->nullable();
             $table->string('Stop_Notes')->nullable();
@@ -83,9 +81,7 @@ class CreateLUSESTable extends Migration
             $table->double('P_North')->nullable();
             $table->double('Rent_Value')->nullable();
             $table->integer('Payment_Type_id')->unsigned();
-            $table->foreign('Payment_Type_id')->references('id')->on('payment__types');
             $table->integer('Law_id')->unsigned();
-            $table->foreign('Law_id')->references('id')->on('laws');
             $table->string('deleted')->nullable();
             $table->string('Old_Module')->nullable();
             $table->string('LUS_Location')->nullable();

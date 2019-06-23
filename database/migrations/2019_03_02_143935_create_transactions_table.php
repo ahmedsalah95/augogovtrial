@@ -26,7 +26,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('POND_id')->nullable();
             $table->date('Transaction_Date')->nullable();
             $table->string('Notes')->nullable();
-            $table->string('Canceled')->nullable();
+            $table->boolean('Canceled')->default(0);
             $table->integer('Assign_Number')->nullable();
             $table->string('Activity_Stop_Date')->nullable();
             $table->double('Return_Amount')->nullable();

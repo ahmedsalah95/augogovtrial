@@ -15,12 +15,12 @@ class CreateIrregularitesTable extends Migration
     {
         Schema::create('irregularites', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('ORG_id')->nullable();
+            $table->integer('org_id')->nullable();
             $table->integer('inspection_id')->nullable();
             $table->integer('employee_id')->nullable();
             $table->integer('user_id')->nullable();
             $table->integer('lus_id')->nullable();
-            $table->integer('c_instanceid')->nullable();
+            $table->integer('c_instance_id')->nullable();
             $table->string('description')->nullable();
             $table->date('irreg-date')->nullable();
             $table->string('commette_report')->nullable();

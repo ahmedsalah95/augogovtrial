@@ -18,9 +18,9 @@ class CreateLicenseCostItemsTable extends Migration
             $table->integer('building_cost_id')->nullable();
             $table->integer('item_id')->nullable();
             $table->integer('ORG_id')->nullable();
-            $table->string('item_name')->nullable();
+            $table->string('name')->nullable();
             $table->double('unit_price')->nullable();
-            $table->double('discountprecent')->nullable();
+            $table->double('discount_precent')->nullable();
             $table->timestamps();
         });
     }

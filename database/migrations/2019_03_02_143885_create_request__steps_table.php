@@ -16,9 +16,7 @@ class CreateRequestStepsTable extends Migration
         Schema::create('request__steps', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('request_id')->unsigned();
-            $table->foreign('request_id')->references('id')->on('requests');
             $table->integer('form_id')->unsigned();
-            $table->foreign('form_id')->references('id')->on('forms');
             $table->integer('order_number')->nullable();
             $table->timestamps();
         });

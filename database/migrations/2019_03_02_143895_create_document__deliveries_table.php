@@ -16,10 +16,8 @@ class CreateDocumentDeliveriesTable extends Migration
         Schema::create('document__deliveries', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('instance_id')->unsigned();
-            $table->foreign('instance_id')->references('id')->on('instance__requests');
             $table->longText('notes')->nullable();
             $table->integer('request_step_id')->unsigned();
-            $table->foreign('request_step_id')->references('id')->on('request__steps');
             $table->date('deliver_data')->nullable();
             $table->integer('ORG_id')->nullable();
             $table->timestamps();

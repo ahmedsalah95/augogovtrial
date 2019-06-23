@@ -386,16 +386,49 @@ class LookupController extends Controller
     {
         $documents = Request_Document::where('request_id',$request->id)->get();
         $arr=array();
-      for($i=0;$i<sizeof($documents);$i++)
-      {
-          $data = Document::where('id',$documents[$i]->document_id)->get();
+        for($i=0;$i<sizeof($documents);$i++)
+        {
+            $data = Document::where('id',$documents[$i]->document_id)->get();
 
-          $arr [] = $data[0];
-      }
+            $arr [] = $data[0];
+        }
         return response()->json($arr,200);
-
-
     }
+
+    public function getRequestDocuments($request_id){
+        $requestDocuments = Request_Document::where('request_id',$request_id)->get();
+
+        $documents=[];
+        foreach($requestDocuments as $requestDocument)
+        {
+            $document = Document::where('id',$requestDocument->document_id)->first();
+
+            array_push($documents, $document);
+        }
+        $data=[
+            "documents"=>$documents,
+            "request_documents"=>$requestDocuments
+        ];
+        return response()->json($data);
+    }
+
+    public function getRequestFees($request_id){
+        $requestFees = Request_Fees::where('request_id',$request_id)->get();
+
+        $fees=[];
+        foreach($requestFees as $requestFee)
+        {
+            $fee = Fees::where('id',$requestFee->fees_id)->first();
+
+            array_push($fees, $fee);
+        }
+        $data=[
+            "fees"=>$fees,
+            "request_fees"=>$requestFees
+        ];
+        return response()->json($data);
+    }
+
     public function getFeesByRequestId(Request $request)
     {
         $fees = Request_Fees::where('request_id', $request->id )->get();

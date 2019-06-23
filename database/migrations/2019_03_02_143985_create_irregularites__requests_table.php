@@ -17,7 +17,7 @@ class CreateIrregularitesRequestsTable extends Migration
             $table->increments('id');
             $table->integer('irreg_id')->nullable();
             $table->integer('lus_id')->nullable();
-            $table->integer('ORG_id')->nullable();
+            $table->integer('org_id')->nullable();
             $table->integer('user_id')->nullable();
             $table->double('penality_value')->nullable();
             $table->string('description')->nullable();

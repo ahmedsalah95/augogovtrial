@@ -16,8 +16,8 @@ class CreateLicenseReportsTable extends Migration
         Schema::create('license__reports', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ORG_id')->nullable();
-            $table->string('ReportName_EN')->nullable();
-            $table->string('ReportName_AR')->nullable();
+            $table->string('name_EN')->nullable();
+            $table->string('name_AR')->nullable();
             $table->timestamps();
         });
     }

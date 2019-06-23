@@ -17,7 +17,6 @@ class CreateAddressStructuresTable extends Migration
             $table->increments('id');
 
             $table->integer('address_item_instance_id')->unsigned();
-            $table->foreign('address_item_instance_id')->references('id')->on('address_item_instances');
             $table->integer('parent_id')->nullable();
             $table->string('acc_code')->nullable();
             $table->string('acc_address')->nullable();

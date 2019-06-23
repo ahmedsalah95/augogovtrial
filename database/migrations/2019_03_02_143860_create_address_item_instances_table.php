@@ -17,7 +17,6 @@ class CreateAddressItemInstancesTable extends Migration
             $table->increments('id');
 
             $table->integer('address_item_id')->unsigned();
-            $table->foreign('address_item_id')->references('id')->on('address_items');
             $table->string('name')->nullable();
             $table->string('code')->nullable();
             $table->timestamps();

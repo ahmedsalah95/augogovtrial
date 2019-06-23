@@ -17,7 +17,6 @@ class CreateLUSDecisionsTable extends Migration
             $table->increments('id');
             $table->integer('ORG_id')->nullable();
             $table->integer('LUS_id')->unsigned();
-            $table->foreign('LUS_id')->references('id')->on('l_u_s');
             $table->integer('Decision_Number')->nullable();
             $table->date('Decision_Date')->nullable();
             $table->string('Notes')->nullable();

@@ -11,6 +11,7 @@ use App\License_Types;
 use App\Validity_Certificate;
 use App\Transaction;
 use Carbon\Carbon;
+use Illuminate\Support\facades\Schema;
 use Illuminate\Http\Request;
 
 class licenseController extends Controller
@@ -107,11 +108,91 @@ class licenseController extends Controller
 
     }
 
-    public function testLicenseUpdate(Request $request){
-        // $certificateID = $request->data["attributes"]["Certificate_id"];
-        // $certificate = Validity_Certificate::find($certificateID);
+    public function updateBuildingLicense(Request $request)
+    {
+        $buildingLicenseId = $request->data["building_license_id"];
+        $attributes = $request->data["attributes"];
+        $tableColumns = Schema::getColumnListing('building_licenses');
 
+        $buildingLicense = Building_license::find($buildingLicenseId);
+        foreach ($attributes as $key => $value)
+        {
+            if(in_array($key, $tableColumns)){
+                if($value){
+                    $buildingLicense[$key] = $value;
+                }else{//will enter the else only when we want to return values from table
+                    $attributes[$key] = $buildingLicense[$key];
+                }
+            }
+        }
+        $buildingLicense->save();
 
-        return $request->data["attributes"]["Certificate_id"];
+        $data = [
+            'building_license'=>$buildingLicense,
+            'attributes'=>$attributes
+        ];
+
+        return response()->json($data);
+    }
+
+    public function getBuildingLicense($id)
+    {
+        $buildingLicense = Building_license::find($id);
+        return response()->json(['building_license'=>$buildingLicense]);
+    }
+
+    public function getBuildingLicenseByLicenseId($licenseId)
+    {
+        $buildingLicense = Building_license::where("license_id", $licenseId)->first();
+        return response()->json(['building_license'=>$buildingLicense]);
+    }
+
+    // public function getBuildingLicenseKeysByLicenseId(Request $request, $licenseId)
+    // {
+    //     $buildingLicense = Building_license::where("license_id", $licenseId)->first();
+    //     return response()->json(['building_license'=>$buildingLicense]);
+    // }
+
+    public function updateBuildingLicenseRequest(Request $request)
+    {
+        $requestInstanceId = $request->data["request_instance_id"];
+        $attributes = $request->data["attributes"];
+        $tableColumns = Schema::getColumnListing('build__license__requests');
+
+        $buildingLicenseRequest = Build_License_Request::where("Instance_id", $requestInstanceId)->first();
+        foreach ($attributes as $key => $value)
+        {
+            if(in_array($key, $tableColumns)){
+                if($value){
+                    $buildingLicenseRequest[$key] = $value;
+                }else{//will enter the else only when we want to return values from table
+                    $attributes[$key] = $buildingLicenseRequest[$key];
+                }
+            }
+        }
+        $buildingLicenseRequest->save();
+
+        $data = [
+            'building_license_request'=>$buildingLicenseRequest,
+            'attributes'=>$attributes
+        ];
+
+        return response()->json($data);
+    }
+
+    public function getBuildingLicenseRequestByRequestInstanceId($request_instance_id)
+    {
+        $buildingLicenseRequest = Build_License_Request::where("Instance_id", $request_instance_id)->first();
+        return response()->json(['building_license_request'=>$buildingLicenseRequest]);
+    }
+
+    public function updateLicense(Request $request)
+    {
+        $id = $request->instance_id;
+        $license = License::find($id);
+        foreach ($request ["attributes"] as $key => $value)
+        {
+            $license->$key = $value;
+        }
     }
 }

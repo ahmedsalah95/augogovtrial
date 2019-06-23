@@ -55,10 +55,10 @@ class CreateBuildingLicensesTable extends Migration
             $table->double('P_West')->nullable();
             $table->double('P_South')->nullable();
             $table->double('P_North')->nullable();
-            $table->double('D_East')->nullable();
-            $table->double('D_West')->nullable();
-            $table->double('D_South')->nullable();
-            $table->double('D_North')->nullable();
+            $table->string('D_East')->nullable();
+            $table->string('D_West')->nullable();
+            $table->string('D_South')->nullable();
+            $table->string('D_North')->nullable();
             $table->string('LUS_Image')->nullable();
             $table->string('LUS_Child')->nullable();
             $table->double('GEN_TotalCost')->nullable();

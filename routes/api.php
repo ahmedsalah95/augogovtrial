@@ -134,10 +134,22 @@ Route::post('reportRequest','requestController@reportRequest');
 
 //License
 Route::post('/licenseReport','licenseController@licenseReport');
+Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseRequest');
 Route::post('/licenses','licenseController@licenses');
+
 Route::post('license/insert','licenseController@insertLicense');
 Route::post('building-license/insert','licenseController@insertBuildingLicense');
-Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseRequest');
+
+Route::post('license/update', 'licenseController@updateLicense');
+Route::post('building-license/update', 'licenseController@updateBuildingLicense');
+Route::post('building-license-request/update', 'licenseController@updateBuildingLicenseRequest');
+
+Route::get('building-license/get/{id}', 'licenseController@getBuildingLicense');
+Route::get('building-license/get-by-license/{id}', 'licenseController@getBuildingLicenseByLicenseId');
+// Route::get('building-license/get-keys-by-license/{id}', 'licenseController@getBuildingLicenseKeysByLicenseId');
+
+Route::get('building-license-request/get-by-request-instance/{id}', 'licenseController@getBuildingLicenseRequestByRequestInstanceId');
+
 Route::get('/licenseType','licenseController@licenseType');
 
 //License Types
@@ -217,12 +229,7 @@ Route::get('engineering-office/get', 'LookupController@getEngineeringOffice');
 
 
 //update instances's routes by abdelhameed needed by shaaer
-
-Route::post('instance-request/update', 'LookupController@updateInstanceRequest');
-Route::post('transaction/update', 'LookupController@updateTransaction');
-Route::post('building-license/update', 'LookupController@updateBuildingLicense');
-Route::post('building-license-request/update', 'LookupController@updateBuildingLicenseRequest');
-Route::post('license/update', 'LookupController@updateLicense');
+Route::post('transaction/update', 'transactionController@updateTransaction');
 
 //gets functions by abdelhameed needed by shaaer
 Route::get('engineering-offices/get','LookupController@getEngineeringOffices');

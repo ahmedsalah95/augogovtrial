@@ -794,51 +794,7 @@ class LookupController extends Controller
         return response()->json(['types' => $types], 200);
     }
     //21/6 قبل التسليم بيومين
-    public function updateInstanceRequest(Request $request)
-    {
-        $id = $request->instance_id;
-        $instance_request = Instance_Request::find($id);
-        foreach ($request ["attributes"] as $key => $value)
-        {
-            $instance_request->$key = $value;
-        }
-    }
-    public function updateTransaction(Request $request)
-    {
-        $id = $request->instance_id;
-        $transaction = Transaction::find($id);
-        foreach ($request ["attributes"] as $key => $value)
-        {
-            $transaction->$key = $value;
-        }
-    }
-    public function updateBuildingLicense(Request $request)
-    {
-        $id = $request->instance_id;
-        $buildingLicense = Building_license::find($id);
-        foreach ($request ["attributes"] as $key => $value)
-        {
-            $buildingLicense->$key = $value;
-        }
-    }
-    public function updateBuildingLicenseRequest(Request $request)
-    {
-        $id = $request->instance_id;
-        $buildingLicenseRequest = Build_License_Request::find($id);
-        foreach ($request ["attributes"] as $key => $value)
-        {
-            $buildingLicenseRequest->$key = $value;
-        }
-    }
-    public function updateLicense(Request $request)
-    {
-        $id = $request->instance_id;
-        $license = License::find($id);
-        foreach ($request ["attributes"] as $key => $value)
-        {
-            $license->$key = $value;
-        }
-    }
+    
     public function getEngineeringOffices()
     {
         $engOffices = Engineering_Office::all();

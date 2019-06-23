@@ -16,7 +16,7 @@ class CreateBuildLicenseRequestsTable extends Migration
         Schema::create('build__license__requests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('Build_License_id')->nullable();
-            $table->integer('+Instance_id')->nullable();
+            $table->integer('Instance_id')->nullable();
             $table->integer('Supervisor_Eng_id')->nullable();
             $table->integer('Designer_Eng_id')->nullable();
             $table->integer('Consultant_Eng_id')->nullable();

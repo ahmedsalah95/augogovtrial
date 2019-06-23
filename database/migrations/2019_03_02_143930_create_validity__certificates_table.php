@@ -15,7 +15,6 @@ class CreateValidityCertificatesTable extends Migration
     {
         Schema::create('validity__certificates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('certificate_id')->nullable();
             $table->integer('ORG_id')->nullable();
             $table->integer('instance_id')->unsigned();
             $table->foreign('instance_id')->references('id')->on('instance__requests');

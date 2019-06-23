@@ -15,6 +15,7 @@ class CreateBuildingLicensesTable extends Migration
     {
         Schema::create('building_licenses', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('license_id');
             $table->integer('ORG_id')->nullable();
             $table->integer('Buliding_Type_id')->nullable();
             $table->string('Ref_license')->nullable();

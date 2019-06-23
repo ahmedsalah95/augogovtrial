@@ -18,7 +18,7 @@ class CreateLicensesTable extends Migration
             $table->integer('ORG_id')->nullable();
             $table->integer('License_Number')->nullable();
             $table->integer('License_Type_id')->nullable();
-            $table->date('License_Year')->nullable();
+            $table->string('License_Year')->nullable();
             $table->integer('Instance_id')->nullable();
             $table->integer('Transaction_id')->nullable();
             $table->integer('LUS_id')->nullable();

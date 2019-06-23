@@ -122,6 +122,7 @@ Route::post('/transactions/fetchSec','requestController@fetchTransactionsSecV');
 //Transactions
 Route::post('instanceRequest/fetch','instancerequestController@instanceRequestFetch');
 Route::post('request/insert','LookupController@insertRequest');
+Route::post('transaction/insert','transactionController@insertTransaction');
 Route::get('request-instance/get/{id}','instancerequestController@getRequestInstance');
 Route::get('requests-instances/get','instancerequestController@getRequestsInstances');
 Route::get('transaction/get','instancerequestController@getTransaction');
@@ -132,11 +133,12 @@ Route::post('feesByReqId/get','LookupController@getFeesByRequestId');
 Route::post('reportRequest','requestController@reportRequest');
 
 //License
-Route::get('/licenseType','licenseController@licenseType');
 Route::post('/licenseReport','licenseController@licenseReport');
 Route::post('/licenses','licenseController@licenses');
-Route::post('/license/insert','licenseController@insertBuildingLicense');
+Route::post('license/insert','licenseController@insertLicense');
+Route::post('building-license/insert','licenseController@insertBuildingLicense');
 Route::post('/licenseRequest/insert','licenseController@insertBuildingLicenseRequest');
+Route::get('/licenseType','licenseController@licenseType');
 
 //License Types
 Route::post('/licenseType/insert','LookupController@insertLicenseType');
@@ -231,8 +233,16 @@ Route::get('validity-certificates/get','LookupController@getValidityCertificates
 Route::get('all-lus/get','LookupController@getAllLus');
 
 Route::get('validity-certificates/get/{citizen_id}','LookupController@getCitizenValidityCertificates');
+Route::get('validity-certificate/get/{citizen_id}/{lus_id}','LookupController@getCitizenValidityCertificate');
+
 Route::get('all-citizen-lus/get/{citizen_id}','LookupController@getAllCitizenLus');
+Route::get('citizen-lus/get/{citizen_id}/{lus_id}','LookupController@getCitizenLus');
+
 Route::get('citizen-lus-decisions/get/{citizen_id}','LookupController@getCitizenLusDecisions');
+Route::get('citizen-lus-decision/get/{citizen_id}/{lus_id}','LookupController@getCitizenLusDecision');
+
+
+Route::post('test/update','licenseController@testLicenseUpdate');
 
 
 // transactions by ahmed salah

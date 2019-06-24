@@ -21,166 +21,169 @@ class requestController extends Controller
 
     public function fetchRequests(Request $request)
     {
+        
+        foreach ($request->data as $request) {
+            // return $request["id"];
+            if(!$request["deleted"] && !$request["new_request"] && !$request["updated"]) continue;
+            if($request["deleted"]){
+                $this->deleteRequest($request["id"]);
+            }else{
 
-        // dump($request->data[0]["steps"][0]["form"]["id"]);
+                $new_request_id = $request["id"];
+                if($request["new_request"]){$new_request_id = $this->createRequest($request);}
+                else if($request["updated"]){$this->updateRequest($request);}
 
-        foreach ($request->data as $transaction) {
-            $new_request = $this->createRequest($transaction);
-            // dump($transaction["documents"]);
-            $this->setRequestDocuments($transaction["documents"], $new_request->id);
-            // dump($transaction["fees"]);
-            $this->setRequestFees($transaction["fees"], $new_request->id);
-            // dump($transaction["steps"]);
-            $this->setRequestSteps($transaction["steps"], $new_request->id);
+                $this->fetchRequestSteps($request["steps"], $new_request_id);
+                $this->fetchRequestDocuments($request["documents"], $new_request_id);
+                $this->fetchRequestFees($request["fees"], $new_request_id);
+            }
         }
 
         return $request;
     }
 
-    public function fetchTransactionsSecV(Request $request)
-    {
-
-        /*$instance_id = Instance_Request::where('id', $request->Instance_id)->get(['customer_id']);
-        //$instance_id = Instance_Request::where('id',$request->Instance_id)->get();
-        $arr = array();
-        $customer = Citizen::where('id', $instance_id[0]['customer_id'])->get();
-        $arr [] = $customer[0];
-        $transaction = Transaction::where('instance_id', $request->Instance_id)->get();
-        $arr [] = $transaction[0];
-
-            return response()->json($arr, 200);*/
-
-     /*   $instance = Instance_Request::where('id', $request->Instance_id)->get()[0];
-//        $instance_id = Instance_Request::all();
-        //$instance_id = Instance_Request::where('id',$request->Instance_id)->get();
-
-        if(count($instance)>0)
-        {
-
-            $instance_id = $instance->customer_id;
-           //dump($instance_id);
-             $customer = Citizen::where('id', $instance_id)->get();
-             $arr = array();
-             // $arr [] = $customer[0];
-           // dump($customer);
-            // $arr = $customer;
-            array_push($arr,$customer);
-
-             $transaction = Transaction::where('instance_id', $request->Instance_id)->get();
-            //dump($transaction);
-            // $arr = $transaction;
-            array_push($arr,$transaction);
-             return response()->json($arr, 200);
-
-        }else
-        {
-            return response()->json([], 200);
-        }*/
-
-     $transactions = Transaction::where('Instance_id',$request->id)->get();
-     if(count($transactions) > 0)
-     {
-         return response()->json($transactions,200);
-     }else{
-         return response()->json([],200);
-     }
-
-
-
-
-    }
-
     public function createRequest($request)
     {
-        $req = new \App\Request();
-
-        $req->request_name = $request["name"];
-        $req->request_parent =$request["parent"];
-
-        $req->save();
-
-
-        return $req;
+        $newRequest = new \App\Request();
+        $newRequest->request_name = $request["name"];
+        $newRequest->request_parent =$request["parent"];
+        $newRequest->save();
+        return $newRequest->id;
     }
 
-    public function form(Request $request)
-    {
-        $form = new Form();
-        $form->form_name = $request->form_name;
+    public function deleteRequest($request_id){
+        $request = \App\Request::find($request_id);
 
-        $form->save();
-        return response()->json(['form', "saved"], 200);
-    }
+        $requestSteps = Request_Step::where("request_id", $request_id)->get();
+        $requestDocuments = Request_Document::where("request_id", $request_id)->get();
+        $requestFees = Request_Fees::where("request_id", $request_id)->get();
 
-    public function setRequestFees($fees, $request_id)
-    {
-
-        foreach ($fees as $fee) {
-            $RF = new Request_Fees();
-            $RF->fees_id = $fee["id"];
-            $RF->request_id = $request_id;
-            $RF->default_value = $fee["value"];
-
-            $RF->save();
+        foreach($requestSteps as $step){
+            $this->deleteRequestStep($step->id);
+        }
+        foreach($requestDocuments as $document){
+            $document->delete();
+        }
+        foreach($requestFees as $fee){
+            $fee->delete();
         }
 
-
-        // return response()->json(['request fees',"saved"],200);
+        $request->delete();
     }
 
-    public function setRequestSteps($steps, $request_id)
+    public function updateRequest($updatedRequest){
+        $oldRequest = \App\Request::find($updatedRequest["id"]);
+        $oldRequest->request_name = $updatedRequest["name"];
+        $oldRequest->request_parent = $updatedRequest["parent"];
+        $oldRequest->save();
+    }
+    
+    public function fetchRequestSteps($requestSteps, $request_id)
     {
-
-        foreach ($steps as $step) {
-            $new_step = new Request_Step();
-            $new_step->request_id = $request_id;
-            $new_step->form_id = $step["form"]["id"];
-            $new_step->order_number = $step["order"];
-            $new_step->save();
+        foreach ($requestSteps as $step)
+        {
+            if($step["new_request_step"])
+            {
+                $this->insertRequestStep($step, $request_id);
+            }
+            else if($step["deleted"]){
+                $this->deleteRequestStep($step["id"]);
+            }
+            else if($step["updated"]){
+                $this->updateRequestStep($step);
+            }
         }
-
-        // return response()->json(['steps',"saved"],200);
-
     }
 
-    public function setRequestDocuments($documents, $request_id)
+    public function fetchRequestDocuments($requestDocuments, $request_id)
     {
-
-        foreach ($documents as $document) {
-            $new_document = new Request_Document();
-            $new_document->document_id = $document["id"];
-            $new_document->request_id = $request_id;
-            $new_document->mandatory = $document["mandatory"];
-            $new_document->save();
+        foreach ($requestDocuments as $document)
+        {
+            if($document["new_document"])
+            {
+                $this->insertRequestDocument($document, $request_id);
+            }
+            else if($document["deleted"]){
+                $this->deleteRequestDocument($document["id"], $request_id);
+            }
         }
-
-        // return response()->json(['documents',"saved"],200);
+    }
+    
+    public function fetchRequestFees($requestFees, $request_id)
+    {
+        foreach ($requestFees as $fee)
+        {
+            if($fee["new_fee"])
+            {
+                $this->insertRequestFees($fee, $request_id);
+            }
+            else if ($fee["deleted"])
+            {
+                $this->deleteRequestFee($fee["id"], $request_id);
+            }
+            else if ($fee["updated"])
+            {
+                $this->updateRequestFees($fee, $request_id);
+            }
+        }
     }
 
-    public function setReports(Request $request)
+    public function insertRequestStep($step, $request_id)
     {
-        $reports = new App_Report();
-
-        $reports->ORG_id = $request->ORG_id;
-        $reports->reportname_ar = $request->reportname_ar;
-        $reports->reportname_en = $request->reportname_en;
-        $reports->type_id = $request->type_id;
-
-        $reports->save();
-        return response()->json(['reports', "saved"], 200);
+        $new_step = new Request_Step();
+        $new_step->request_id = $request_id;
+        $new_step->form_id = $step["form"]["id"];
+        $new_step->order_number = $step["order"];
+        $new_step->save();
 
     }
 
-    public function reportRequest(Request $request)
+    public function insertRequestDocument($document, $request_id)
     {
-        $rr = new App_Reports_Request();
-        $rr->report_id = $request->report_id;
-        $rr->ORG_id = $request->ORG_id;
-        $rr->request_id = $request->request_id;
+        $new_document = new Request_Document();
+        $new_document->request_id = $request_id;
+        $new_document->document_id = $document["id"];
+        $new_document->mandatory = $document["mandatory"];
+        $new_document->save();
+    }
 
-        $rr->save();
-        return response()->json(['report request', "saved"], 200);
+    public function insertRequestFees($fee, $request_id)
+    {
+        $new_fee = new Request_Fees();
+        $new_fee->request_id = $request_id;
+        $new_fee->fees_id = $fee["id"];
+        $new_fee->default_value = $fee["value"];
+        $new_fee->save();
+    }
 
+    public function updateRequestStep($step)
+    {
+        $new_step = Request_Step::where("id", $step["id"])->first();
+        $new_step->order_number = $step["order"];
+        $new_step->save();
+
+    }
+    
+    public function deleteRequestStep($id)
+    {
+        $requestStep = Request_Step::findOrFail($id);
+        $requestStep->delete();
+    }
+
+    public function deleteRequestDocument($document_id, $request_id)
+    {
+        $requestDocument = Request_Document::where("document_id", $document_id)
+                                            ->where("request_id", $request_id)
+                                            ->first();
+        $requestDocument->delete();
+    }
+
+    public function deleteRequestFee($fee_id, $request_id)
+    {
+        $requestFee = Request_Fees::where("fees_id", $fee_id)
+                                    ->where("request_id", $request_id)
+                                    ->first();
+        $requestFee->delete();
     }
 
     public function getPrivileges(){
@@ -240,5 +243,81 @@ class requestController extends Controller
         $privilege = Mfp::findOrFail($id);
         dump($privilege);
         $privilege->delete();
+    }
+
+    public function fetchTransactionsSecV(Request $request)
+    {
+
+        /*$instance_id = Instance_Request::where('id', $request->Instance_id)->get(['customer_id']);
+        //$instance_id = Instance_Request::where('id',$request->Instance_id)->get();
+        $arr = array();
+        $customer = Citizen::where('id', $instance_id[0]['customer_id'])->get();
+        $arr [] = $customer[0];
+        $transaction = Transaction::where('instance_id', $request->Instance_id)->get();
+        $arr [] = $transaction[0];
+
+            return response()->json($arr, 200);*/
+
+     /*   $instance = Instance_Request::where('id', $request->Instance_id)->get()[0];
+//        $instance_id = Instance_Request::all();
+        //$instance_id = Instance_Request::where('id',$request->Instance_id)->get();
+
+        if(count($instance)>0)
+        {
+
+            $instance_id = $instance->customer_id;
+           //dump($instance_id);
+             $customer = Citizen::where('id', $instance_id)->get();
+             $arr = array();
+             // $arr [] = $customer[0];
+           // dump($customer);
+            // $arr = $customer;
+            array_push($arr,$customer);
+
+             $transaction = Transaction::where('instance_id', $request->Instance_id)->get();
+            //dump($transaction);
+            // $arr = $transaction;
+            array_push($arr,$transaction);
+             return response()->json($arr, 200);
+
+        }else
+        {
+            return response()->json([], 200);
+        }*/
+
+        $transactions = Transaction::where('Instance_id',$request->id)->get();
+        if(count($transactions) > 0)
+        {
+            return response()->json($transactions,200);
+        }else{
+            return response()->json([],200);
+        }
+
+    }
+
+    public function setReports(Request $request)
+    {
+        $reports = new App_Report();
+
+        $reports->ORG_id = $request->ORG_id;
+        $reports->reportname_ar = $request->reportname_ar;
+        $reports->reportname_en = $request->reportname_en;
+        $reports->type_id = $request->type_id;
+
+        $reports->save();
+        return response()->json(['reports', "saved"], 200);
+
+    }
+
+    public function reportRequest(Request $request)
+    {
+        $rr = new App_Reports_Request();
+        $rr->report_id = $request->report_id;
+        $rr->ORG_id = $request->ORG_id;
+        $rr->request_id = $request->request_id;
+
+        $rr->save();
+        return response()->json(['report request', "saved"], 200);
+
     }
 }

@@ -39,6 +39,7 @@ use App\OwnerShip_Types;
 use App\Payment_Types;
 use App\Request_Document;
 use App\Request_Fees;
+use App\Request_Step;
 use App\Usage_Types;
 use App\Validity_Certificate;
 use Illuminate\Http\Request;
@@ -287,11 +288,11 @@ class LookupController extends Controller
             {
                 $this->insertFees($fees);
             }
-            elseif ($fees["deleted"])
+            else if ($fees["deleted"])
             {
                 $this->deleteFees($fees["id"]);
             }
-            elseif ($fees["updated"])
+            else if ($fees["updated"])
             {
                 dump("hello," ,$fees);
                 $this->updateFees($fees);
@@ -382,6 +383,12 @@ class LookupController extends Controller
         return response()->json(['request' => $req], 200);
 
     }
+
+    public function getRequest($request_id){
+        $request = \App\Request::where('id',$request_id)->first();
+        return response()->json(['request' => $request]);
+    }
+
     public function getDocumentsByReqId(Request $request)
     {
         $documents = Request_Document::where('request_id',$request->id)->get();
@@ -395,14 +402,29 @@ class LookupController extends Controller
         return response()->json($arr,200);
     }
 
-    public function getRequestDocuments($request_id){
-        $requestDocuments = Request_Document::where('request_id',$request_id)->get();
+    public function getRequestSteps($id){
+        $requestSteps = Request_Step::where('request_id',$id)->get();
+
+        $steps=[];
+        foreach($requestSteps as $requestStep)
+        {
+            $requestStep = Form::where('id',$requestStep->form_id)->first();
+            array_push($steps, $requestStep);
+        }
+        $data=[
+            "steps"=>$steps,
+            "request_steps"=>$requestSteps
+        ];
+        return response()->json($data);
+    }
+
+    public function getRequestDocuments($id){
+        $requestDocuments = Request_Document::where('request_id',$id)->get();
 
         $documents=[];
         foreach($requestDocuments as $requestDocument)
         {
             $document = Document::where('id',$requestDocument->document_id)->first();
-
             array_push($documents, $document);
         }
         $data=[
@@ -412,14 +434,13 @@ class LookupController extends Controller
         return response()->json($data);
     }
 
-    public function getRequestFees($request_id){
-        $requestFees = Request_Fees::where('request_id',$request_id)->get();
+    public function getRequestFees($id){
+        $requestFees = Request_Fees::where('request_id',$id)->get();
 
         $fees=[];
         foreach($requestFees as $requestFee)
         {
             $fee = Fees::where('id',$requestFee->fees_id)->first();
-
             array_push($fees, $fee);
         }
         $data=[
@@ -693,7 +714,6 @@ class LookupController extends Controller
     {
         $form = new Form();
         $form->form_name = $fo["name"];
-        dump("save", $form);
         $form->save();
 
         $auth = Form::where('id',$form->id)->get();

@@ -57,13 +57,12 @@ Route::get('/irregTypes/get','LookupController@getIrregTypes');
 //Documents
 Route::post('/documents/fetch','LookupController@fetchDocuments');
 Route::get('documents/get','LookupController@getDocuments');
-Route::get('documents/get/{request_id}','LookupController@getRequestDocuments');
 Route::get('/documentsByReqId/get','LookupController@getDocumentsByReqId');
 
 //Fees
 Route::post('/fees/fetch','LookupController@fetchFees');
 Route::get('/fees/get','LookupController@getFees');
-Route::get('request-fees/get/{request_id}','LookupController@getRequestFees');
+Route::get('feesByReqId/get','LookupController@getFeesByRequestId');
 
 //Addresses Structures
 Route::post('/address-items/fetch','addressStructureController@fetchAddressItems');
@@ -115,6 +114,12 @@ Route::post('/user/updateUserAndCitizen','UserController@updateUserAndCitizen');
 //Requests
 Route::post('/requests/fetch','requestController@fetchRequests');
 Route::post('/generateTransaction','transactionController@generateTransaction');
+Route::get('requests/get','LookupController@getRequests');
+Route::get('request/get/{id}','LookupController@getRequest');
+Route::get('request-steps/get/{id}','LookupController@getRequestSteps');
+Route::get('request-documents/get/{id}','LookupController@getRequestDocuments');
+Route::get('request-fees/get/{id}','LookupController@getRequestFees');
+Route::get('requestById/get','LookupController@getRequestByID');
 
 //Used in Ionic App
 //Another version of fetchTransactions function
@@ -125,14 +130,11 @@ Route::post('instanceRequest/fetch','instancerequestController@instanceRequestFe
 Route::post('request/insert','LookupController@insertRequest');
 Route::post('transaction/insert','transactionController@insertTransaction');
 Route::post('transaction/update', 'transactionController@updateTransaction');
+Route::post('reportRequest','requestController@reportRequest');
 Route::get('request-instance/get/{id}','instancerequestController@getRequestInstance');
 Route::get('requests-instances/get','instancerequestController@getRequestsInstances');
 Route::get('transaction/get','instancerequestController@getTransaction');
 Route::get('transactions/get','instancerequestController@getTransactions'); 
-Route::get('requests/get','LookupController@getRequests');
-Route::get('requestById/get','LookupController@getRequestByID');
-Route::get('feesByReqId/get','LookupController@getFeesByRequestId');
-Route::post('reportRequest','requestController@reportRequest');
 
 //License
 Route::post('/licenseReport','licenseController@licenseReport');

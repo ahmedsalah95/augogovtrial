@@ -17,11 +17,8 @@ class CreateInstanceRequestsTable extends Migration
             $table->increments('id');
 
             $table->integer('request_id')->unsigned();
-            $table->foreign('request_id')->references('id')->on('requests');
             $table->integer('structure_id')->unsigned();
-            $table->foreign('structure_id')->references('id')->on('address_structures');
             $table->integer('customer_id')->unsigned();
-            $table->foreign('customer_id')->references('id')->on('customers');
             $table->String('current_state')->nullable();
             $table->integer('bool')->nullable();
             $table->timestamps();

@@ -15,9 +15,8 @@ class CreateOrganizationStructuresTable extends Migration
     {
         Schema::create('organization__structures', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('department_id')->nullable();
-            $table->string('department_name')->nullable();
-            $table->string('department_parent')->nullable();
+            $table->string('name')->nullable();
+            $table->string('parent_id')->nullable();
             $table->timestamps();
         });
     }

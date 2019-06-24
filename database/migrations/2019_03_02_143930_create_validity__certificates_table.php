@@ -17,21 +17,17 @@ class CreateValidityCertificatesTable extends Migration
             $table->increments('id');
             $table->integer('ORG_id')->nullable();
             $table->integer('instance_id')->unsigned();
-            $table->foreign('instance_id')->references('id')->on('instance__requests');
             $table->integer('LUS_id')->unsigned();
-            $table->foreign('LUS_id')->references('id')->on('l_u_s');
             $table->date('Certificate_date')->nullable();
             $table->integer('usage_type_child_id')->nullable();
 
             $table->integer('usage_type_id')->unsigned();
-            $table->foreign('usage_type_id')->references('id')->on('usage__types');
             $table->integer('certificate_number')->nullable();
             $table->integer('lands_builddesnity')->nullable();
             $table->double('max_altitude')->nullable();
             $table->string('notes')->nullable();
 
             $table->integer('citizen_id')->unsigned();
-            $table->foreign('citizen_id')->references('id')->on('citizens');
             $table->string('sefah')->nullable();
             $table->double('east_margin')->nullable();
             $table->double('west_margin')->nullable();

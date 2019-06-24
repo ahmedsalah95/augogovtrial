@@ -16,9 +16,7 @@ class CreateRequestFeesTable extends Migration
         Schema::create('request__fees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('fees_id')->unsigned();
-            $table->foreign('fees_id')->references('id')->on('fees');
             $table->integer('request_id')->unsigned();
-            $table->foreign('request_id')->references('id')->on('requests');
             $table->double('default_value')->nullable();
             $table->timestamps();
         });

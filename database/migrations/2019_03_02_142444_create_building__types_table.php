@@ -16,7 +16,7 @@ class CreateBuildingTypesTable extends Migration
         Schema::create('building__types', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ORG_id')->nullable();
-            $table->string('Type_Name')->nullable();
+            $table->string('name')->nullable();
             $table->timestamps();
         });
     }

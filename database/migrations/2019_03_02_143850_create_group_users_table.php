@@ -17,14 +17,11 @@ class CreateGroupUsersTable extends Migration
             $table->increments('id');
 
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('group_id')->unsigned();
-            $table->foreign('group_id')->references('id')->on('groups');
             $table->integer('ORG_id')->nullable();
 
             $table->integer('employee_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees');
-            $table->integer('emp_orgstructure_id')->nullable();
+            $table->integer('emp_org_structure_id')->nullable();
             $table->integer('group_structure_id')->nullable();
             $table->timestamps();
         });

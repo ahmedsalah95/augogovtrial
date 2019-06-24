@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\facades\Schema;
 use App\Transaction;
 use Illuminate\Http\Request;
 
@@ -26,11 +27,28 @@ class transactionController extends Controller
 
     public function updateTransaction(Request $request)
     {
-        $id = $request->instance_id;
-        $transaction = Transaction::find($id);
-        foreach ($request ["attributes"] as $key => $value)
+        $transactionId = $request->data["transaction_id"];
+        $attributes = $request->data["attributes"];
+        $tableColumns = Schema::getColumnListing('transactions');
+
+        $transaction = Transaction::find($transactionId);
+        foreach ($attributes as $key => $value)
         {
-            $transaction->$key = $value;
+            if(in_array($key, $tableColumns)){
+                if($value){
+                    $transaction[$key] = $value;
+                }else{
+                    $attributes[$key] = $transaction[$key];
+                }
+            }
         }
+        $transaction->save();
+
+        $data = [
+            'transaction'=>$transaction,
+            'attributes'=>$attributes
+        ];
+        
+        return response()->json($data);
     }
 }

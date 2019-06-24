@@ -17,15 +17,11 @@ class CreateInstanceFeesTable extends Migration
             $table->increments('id');
 
             $table->integer('instance_request_id')->unsigned();
-            $table->foreign('instance_request_id')->references('id')->on('instance__requests');
             $table->integer('request_step_id')->unsigned();
-            $table->foreign('request_step_id')->references('id')->on('request__steps');
             $table->integer('fees_id')->unsigned();
-            $table->foreign('fees_id')->references('id')->on('fees');
             $table->integer('ORG_id')->nullable();
 
             $table->integer('customer_id')->unsigned();
-            $table->foreign('customer_id')->references('id')->on('customers');
             $table->integer('receptor_empid')->nullable();
             $table->date('evaluation_date')->nullable();
             $table->double('total')->nullable();
@@ -41,7 +37,6 @@ class CreateInstanceFeesTable extends Migration
             $table->string('payment_type')->nullable();
 
             $table->integer('LUS_id')->unsigned();
-            $table->foreign('LUS_id')->references('id')->on('l_u_s_e_s');
             $table->string('canceled')->nullable();
             $table->string('check_number')->nullable();
             $table->integer('check_bank_id')->nullable();

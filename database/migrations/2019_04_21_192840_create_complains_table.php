@@ -15,7 +15,7 @@ class CreateComplainsTable extends Migration
     {
         Schema::create('complains', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('citizen_national_id')->nullable();
+            $table->string('citizen_national_id')->nullable();
             $table->string('citizen_name')->nullable();
             $table->string('isProcessed')->nullable();
             $table->text('mime')->nullable();

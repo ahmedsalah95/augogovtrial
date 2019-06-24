@@ -56,13 +56,17 @@ Route::post('/irregTypes/fetch', 'LookupController@fetchIrregTypes');
 Route::get('/irregTypes/get', 'LookupController@getIrregTypes');
 
 //Documents
-Route::post('/documents/fetch', 'LookupController@fetchDocuments');
-Route::get('/documents/get', 'LookupController@getDocuments');
-Route::post('/documentsByReqId/get', 'LookupController@getDocumentsByReqId');
+
+Route::post('/documents/fetch','LookupController@fetchDocuments');
+Route::get('documents/get','LookupController@getDocuments');
+Route::get('documents/get/{request_id}','LookupController@getRequestDocuments');
+Route::get('/documentsByReqId/get','LookupController@getDocumentsByReqId');
 
 //Fees
-Route::post('/fees/fetch', 'LookupController@fetchFees');
-Route::get('/fees/get', 'LookupController@getFees');
+Route::post('/fees/fetch','LookupController@fetchFees');
+Route::get('/fees/get','LookupController@getFees');
+Route::get('request-fees/get/{request_id}','LookupController@getRequestFees');
+
 
 //Addresses Structures
 Route::post('/address-items/fetch', 'addressStructureController@fetchAddressItems');
@@ -124,6 +128,7 @@ Route::post('/transactions/fetchSec', 'requestController@fetchTransactionsSecV')
 Route::post('instanceRequest/fetch','instancerequestController@instanceRequestFetch');
 Route::post('request/insert','LookupController@insertRequest');
 Route::post('transaction/insert','transactionController@insertTransaction');
+Route::post('transaction/update', 'transactionController@updateTransaction');
 Route::get('request-instance/get/{id}','instancerequestController@getRequestInstance');
 Route::get('requests-instances/get','instancerequestController@getRequestsInstances');
 Route::get('transaction/get','instancerequestController@getTransaction');
@@ -251,7 +256,6 @@ Route::get('engineering-office/get', 'LookupController@getEngineeringOffice');
 
 
 //update instances's routes by abdelhameed needed by shaaer
-Route::post('transaction/update', 'transactionController@updateTransaction');
 
 //gets functions by abdelhameed needed by shaaer
 Route::get('engineering-offices/get', 'LookupController@getEngineeringOffices');

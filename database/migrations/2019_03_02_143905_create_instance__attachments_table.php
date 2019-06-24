@@ -17,14 +17,13 @@ class CreateInstanceAttachmentsTable extends Migration
             $table->increments('id');
 
             $table->integer('attachment_id')->unsigned();
-            $table->foreign('attachment_id')->references('id')->on('attachments');
             $table->integer('cat')->nullable();
             $table->integer('ORG_id')->nullable();
-            $table->integer('Archived')->nullable();
-            $table->integer('Received')->nullable();
+            $table->integer('archived')->nullable();
+            $table->integer('received')->nullable();
             $table->integer('deleted')->nullable();
-            $table->string('mandatory_optional')->nullable();
-            $table->integer('archive_document_id')->nullable();
+            $table->boolean('mandatory')->nullable();
+            $table->integer('archived_document_id')->nullable();
             $table->timestamps();
         });
     }

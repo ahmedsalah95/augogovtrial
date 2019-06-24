@@ -15,10 +15,10 @@ class CreateAssignedInspectorsTable extends Migration
     {
         Schema::create('assigned__inspectors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('Inspection_id')->nullable();
-            $table->integer('Employee_id')->nullable();
-            $table->integer('ORG_id')->nullable();
-            $table->integer('User_id')->nullable();
+            $table->integer('org_id')->nullable();
+            $table->integer('inspection_id')->nullable();
+            $table->integer('employee_id')->nullable();
+            $table->integer('user_id')->nullable();
             
             $table->timestamps();
         });

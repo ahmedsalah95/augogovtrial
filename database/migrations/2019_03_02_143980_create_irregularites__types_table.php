@@ -17,7 +17,7 @@ class CreateIrregularitesTypesTable extends Migration
             $table->increments('id');
             $table->string('irreg_name')->nullable();
             $table->string('irreg_description')->nullable();
-            $table->integer('ORG_id')->nullable();
+            $table->integer('org_id')->nullable();
             $table->timestamps();
         });
     }

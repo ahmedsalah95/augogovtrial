@@ -16,10 +16,8 @@ class CreateAppReportsRequestsTable extends Migration
         Schema::create('app__reports__requests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('report_id')->unsigned();
-            $table->foreign('report_id')->references('id')->on('app__reports');
             $table->integer('ORG_id')->nullable();
             $table->integer('request_id')->unsigned();
-            $table->foreign('request_id')->references('id')->on('requests');
             $table->timestamps();
         });
     }

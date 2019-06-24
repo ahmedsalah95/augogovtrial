@@ -16,8 +16,8 @@ class CreateAppReportsTable extends Migration
         Schema::create('app__reports', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ORG_id')->nullable();
-            $table->string('reportname_en')->nullable();
-            $table->string('reportname_ar')->nullable();
+            $table->string('name_en')->nullable();
+            $table->string('name_ar')->nullable();
             $table->integer('type_id')->nullable();
             $table->timestamps();
         });

@@ -15,15 +15,19 @@ class CreateInstanceInspectionsTable extends Migration
     {
         Schema::create('instance__inspections', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('Request_Step_id')->nullable();
-            $table->integer('Instance_id')->nullable();
-            $table->integer('ORG_id')->nullable();
-            $table->integer('Employee_id')->nullable();
-            $table->date('Inspection_Date')->nullable();
-            $table->string('Status')->nullable();
-            $table->string('Notes')->nullable();
-            $table->date('Receiving_Date')->nullable();
-            $table->integer('Received_Request_Step_id')->nullable();
+            
+            $table->integer('instance_id')->nullable();
+            $table->integer('request_Step_id')->nullable();
+            $table->integer('received_request_step_id')->nullable();
+            $table->integer('employee_id')->nullable();
+            $table->integer('org_id')->nullable();
+
+            $table->string('status')->nullable();
+            $table->string('notes')->nullable();
+
+            $table->date('inspection_Date')->nullable();
+            $table->date('receiving_Date')->nullable();
+
             $table->timestamps();
         });
     }

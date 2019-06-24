@@ -16,12 +16,9 @@ class CreateInstanceFeesDetailsTable extends Migration
         Schema::create('instance__fees__details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('request_step_id')->unsigned();
-            $table->foreign('request_step_id')->references('id')->on('request__steps');
             $table->integer('fees_id')->unsigned();
-            $table->foreign('fees_id')->references('id')->on('fees');
 
             $table->integer('container_id')->unsigned();
-            $table->foreign('container_id')->references('id')->on('containers');
             $table->double('value')->nullable();
             $table->timestamps();
         });

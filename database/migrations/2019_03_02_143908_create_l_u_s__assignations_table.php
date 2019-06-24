@@ -18,17 +18,13 @@ class CreateLUSAssignationsTable extends Migration
             $table->integer('ORG_id')->nullable();
             $table->integer('Assign_Number')->nullable();
             $table->integer('LUS_id')->unsigned();
-            $table->foreign('LUS_id')->references('id')->on('l_u_s_e_s');
             $table->integer('Assignation_Type_id')->unsigned();
-            $table->foreign('Assignation_Type_id')->references('id')->on('assignation_types');
             $table->integer('Distinction_Type_id')->nullable();
 
             $table->integer('Transaction_id')->nullable();
             $table->integer('payment_id')->unsigned();
-            $table->foreign('payment_id')->references('id')->on('payment__types');
 
             $table->integer('Module_id')->unsigned();
-            $table->foreign('Module_id')->references('id')->on('modules');
             $table->date('Assignation_Date')->nullable();
             $table->double('Unit_Price')->nullable();
             $table->double('Total_Price')->nullable();
@@ -91,7 +87,6 @@ class CreateLUSAssignationsTable extends Migration
             $table->string('Finance_Interest_Type')->nullable();
             $table->double('Sales_Number')->nullable();
             $table->integer('Law_id')->unsigned();
-            $table->foreign('Law_id')->references('id')->on('laws');
             $table->double('Evaluation_Price')->nullable();
             $table->double('Price_Bat')->nullable();
             $table->integer('OwnerShip_Type_id')->nullable();

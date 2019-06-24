@@ -41,7 +41,7 @@ class CreateInstanceFeesTable extends Migration
             $table->string('payment_type')->nullable();
 
             $table->integer('LUS_id')->unsigned();
-            $table->foreign('LUS_id')->references('id')->on('l_u_s');
+            $table->foreign('LUS_id')->references('id')->on('l_u_s_e_s');
             $table->string('canceled')->nullable();
             $table->string('check_number')->nullable();
             $table->integer('check_bank_id')->nullable();

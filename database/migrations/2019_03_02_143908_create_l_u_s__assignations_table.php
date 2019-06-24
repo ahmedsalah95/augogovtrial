@@ -18,7 +18,7 @@ class CreateLUSAssignationsTable extends Migration
             $table->integer('ORG_id')->nullable();
             $table->integer('Assign_Number')->nullable();
             $table->integer('LUS_id')->unsigned();
-            $table->foreign('LUS_id')->references('id')->on('l_u_s');
+            $table->foreign('LUS_id')->references('id')->on('l_u_s_e_s');
             $table->integer('Assignation_Type_id')->unsigned();
             $table->foreign('Assignation_Type_id')->references('id')->on('assignation_types');
             $table->integer('Distinction_Type_id')->nullable();

@@ -165,6 +165,14 @@ class ComplainsController extends Controller
 
     }
 
+    public function getImageComplain($id)
+    {
+        $image = Complain::find($id);
+        $file = Storage::disk('local')->get($image->filename);
+
+        return (new Response($file, 200))->header('Content-Type', $image->mime);
+    }
+
     public function getComplainWithNationalId($nationalId)
     {
         $complains = Complain::where('citizen_national_id', $nationalId)->get();

@@ -20,35 +20,36 @@ class UserController extends Controller
 
     public $successStatus = 200;
 
-    /*  public function login(Request $request)
-      {
-          $this->validate($request, [
-              'name' => 'required',
-              'password' => 'required',
 
-          ]);
-          $userID = 0;
-          $username = "";
-          $password = "";
-          $users = User::all();
-          foreach ($users as $user) {
-              if ($user->name == $request->name) {
-                  $userID = $user->id;
-                  $username = $user->name;
-                  $password = $user->password;
-                  break;
-              }
-          }
+  /*  public function login(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'password' => 'required',
 
-          if ($this && $username && $password) {
+        ]);
+        $userID = 0;
+        $username = "";
+        $password = "";
+        $users = User::all();
+        foreach ($users as $user) {
+            if ($user->name == $request->name){
+                $userID = $user->id;
+                $username = $user->name;
+                $password = $user->password;
+                break;
+            }
+        }
 
-              $authorizedUser = User::where('id', $userID)->get();
-              return response()->json($authorizedUser, $this->successStatus);
-          } else {
-              return response()->json([], 401);
-          }
+        if ($this && $username && $password) {
 
-      }*/
+            $authorizedUser = User::where('id', $userID)->get();
+            return response()->json($authorizedUser, $this->successStatus);
+        } else {
+            return response()->json([], 401);
+        }
+
+    }*/
 
     public function login(Request $request)
     {
@@ -158,6 +159,20 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
+    //addded by ahmed salah
+    public function getUser(Request $request)
+    {
+        $user = User::find($request->id);
+        if($user)
+        {
+            return response()->json([$user],200);
+        }else{
+            return response()->json([],200);
+        }
+
+
+    }
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -179,7 +194,25 @@ class UserController extends Controller
         $user->citizen_national_id = $request->citizen_national_id;
         $user->save();
 
-        return response()->json(['status' => 'success'], 200);
+        $citizen = Citizen::where('citizen_national_id',$request->citizen_national_id)->first();
+        if($citizen)
+        {
+
+            return response()->json('updated successfully', 200);
+        }else
+        {
+            $newCitizen = new Citizen();
+            $newCitizen->citizen_national_id = $request->citizen_national_id;
+            //$newCitizen->address = $request->address;
+           // $newCitizen->date_of_birth = $request->date_of_birth;
+           // $newCitizen->sex = $request->sex;
+            $newCitizen->save();
+
+
+            return response()->json('updated successfully', 200);
+        }
+
+       // return response()->json(['status' => 'success'], 200);
 
     }
 
@@ -192,9 +225,9 @@ class UserController extends Controller
 
     }
 
-    public function getCitizenByNationalId($nationalId)
+    public function getCitizenByNationalId(Request $request)
     {
-        $Citizen = Citizen::where('citizen_national_id', $nationalId)->first();
+        $Citizen = Citizen::where('citizen_national_id', $request->citizen_national_id)->first();
         if($Citizen)
         {
             return response()->json([$Citizen], 200);
@@ -209,7 +242,8 @@ class UserController extends Controller
     public function updateUserAndCitizen(Request $request)
     {
         $citizen = Citizen::where('citizen_national_id', $request->citizen_national_id)->first();
-        dump($request->citizen_national_id);
+
+        $citizen->citizen_name = $request->citizen_name;
         $citizen->address = $request->address;
         $citizen->date_of_birth = $request->date_of_birth;
         $citizen->sex = $request->sex;

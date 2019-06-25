@@ -43,7 +43,7 @@ class ComplainsController extends Controller
 
             return response()->json($cr, 200);
         }*/
-
+/*
     public function fetchComplainsAndReplies(Request $request)
     {
         $arr = array();
@@ -62,21 +62,38 @@ class ComplainsController extends Controller
 
 
         return response()->json($arr, 200);
+    }*/
+
+    public function fetchComplainsAndReplies(Request $request)
+    {
+        $arr = array();
+        $complains = Complain::where('citizen_national_id', $request->citizen_national_id)->get();
+        $arr[] = $complains;
+
+        return response()->json($arr, 200);
     }
 
     public function getReplies(Request $request)
     {
-        $crs = cr::where('complain_id', $request->complain_id)->get();
-        $arr = array();
+        $crs = cr::where('complain_id', $request->complain_id)->first();
+        //$arr = array();
 
-        foreach ($crs as $cr) {
+        if($crs)
+        {
+            $reply = reply::where('id',$crs->reply_id)->first();
+            return response()->json([$reply], 200);
+        }else{
+            return response()->json([], 200);
+        }
+
+     /*   foreach ($crs as $cr) {
             # print($cr->reply_id);
             $reply = reply::where('id', $cr->reply_id)->get();
             array_push($arr, $reply);
 
-        }
+        }*/
 
-        return response()->json($arr, 200);
+
     }
 
 
@@ -84,15 +101,21 @@ class ComplainsController extends Controller
     {
 
         $file = $request->file('filefield');
-        $extension = $file->getClientOriginalExtension();
-        Storage::disk('local')->put($file->getFilename() . '.' . $extension, File::get($file));
+        if ($file) {
+            $extension = $file->getClientOriginalExtension();
+            Storage::disk('local')->put($file->getFilename() . '.' . $extension, File::get($file));
+        }
+
         $entry = new Complain();
         $entry->citizen_national_id = $request->citizen_national_id;
         $entry->complain_content = $request->complain_content;
         $entry->isProcessed = "لم يتم الرد حتى الآن";
-        $entry->mime = $file->getClientMimeType();
-        $entry->original_filename = $file->getClientOriginalName();
-        $entry->filename = $file->getFilename() . '.' . $extension;
+        if ($file) {
+            $entry->mime = $file->getClientMimeType();
+            $entry->original_filename = $file->getClientOriginalName();
+            $entry->filename = $file->getFilename() . '.' . $extension;
+        }
+
 
         $entry->save();
 
@@ -107,11 +130,14 @@ class ComplainsController extends Controller
         $r->user_id = $request->user_id;
         $r->reply_content = $request->reply_content;
         $file = $request->file('filefield');
-        $extension = $file->getClientOriginalExtension();
-        Storage::disk('local')->put($file->getFilename() . '.' . $extension, File::get($file));
-        $r->mime = $file->getClientMimeType();
-        $r->original_filename = $file->getClientOriginalName();
-        $r->filename = $file->getFilename() . '.' . $extension;
+        if ($file) {
+            $extension = $file->getClientOriginalExtension();
+            Storage::disk('local')->put($file->getFilename() . '.' . $extension, File::get($file));
+            $r->mime = $file->getClientMimeType();
+            $r->original_filename = $file->getClientOriginalName();
+            $r->filename = $file->getFilename() . '.' . $extension;
+        }
+
         $r->save();
 
         $cr = new cr();
@@ -123,6 +149,8 @@ class ComplainsController extends Controller
 
         $c->isProcessed = "تم الرد";
         $c->save();
+
+         return response()->json('Success', 200);
     }
 
     public function getImageReply($id)
@@ -135,6 +163,14 @@ class ComplainsController extends Controller
         return (new Response($file, 200))->header('Content-Type', $image->mime);
 
 
+    }
+
+    public function getImageComplain($id)
+    {
+        $image = Complain::find($id);
+        $file = Storage::disk('local')->get($image->filename);
+
+        return (new Response($file, 200))->header('Content-Type', $image->mime);
     }
 
     public function getComplainWithNationalId($nationalId)

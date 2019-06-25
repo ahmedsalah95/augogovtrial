@@ -17,6 +17,7 @@ class CreateLandsTable extends Migration
             $table->increments('id');
 
             $table->integer('LUS_id')->unsigned();
+
             $table->integer('LUS_ORG_id')->nullable();
             $table->integer('User_id')->unsigned();
             $table->integer('ORG_id')->nullable();

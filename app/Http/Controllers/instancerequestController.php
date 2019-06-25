@@ -19,7 +19,7 @@ class instancerequestController extends Controller
     public function instanceRequestFetch(Request $request) 
     {
         $instance_request = $request->data["request_instance"];
-        $request = \App\Request::where("request_name", $instance_request["request"]["name"])->first();
+        $requestType = \App\Request::where("request_name", $instance_request["request"]["name"])->first();
         // $customer = Citizen::where("citizen_national_id", $instance_request["customer"]["national_id"])->first();
 
         $newCustomer = new Customer();
@@ -28,7 +28,7 @@ class instancerequestController extends Controller
         $newCustomer->save();
 
         $requestInstance =  new Instance_Request();
-        $requestInstance->request_id = $request->id;
+        $requestInstance->request_id = $requestType->id;
         $requestInstance->structure_id = $instance_request["structure"]["id"];
         $requestInstance->customer_id = $newCustomer->id;
         // $requestInstance->current_state = $instance_request->current_state; // added by ahmed salah 12/6/2019

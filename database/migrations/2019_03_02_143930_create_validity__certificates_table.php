@@ -16,18 +16,18 @@ class CreateValidityCertificatesTable extends Migration
         Schema::create('validity__certificates', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ORG_id')->nullable();
-            $table->integer('instance_id')->unsigned();
-            $table->integer('LUS_id')->unsigned();
+            $table->integer('instance_id')->unsigned()->nullable();
+            $table->integer('LUS_id')->unsigned()->nullable();
             $table->date('Certificate_date')->nullable();
             $table->integer('usage_type_child_id')->nullable();
 
-            $table->integer('usage_type_id')->unsigned();
+            $table->integer('usage_type_id')->unsigned()->nullable();
             $table->integer('certificate_number')->nullable();
             $table->integer('lands_builddesnity')->nullable();
             $table->double('max_altitude')->nullable();
             $table->string('notes')->nullable();
 
-            $table->integer('citizen_id')->unsigned();
+            $table->integer('citizen_id')->unsigned()->nullable();
             $table->string('sefah')->nullable();
             $table->double('east_margin')->nullable();
             $table->double('west_margin')->nullable();

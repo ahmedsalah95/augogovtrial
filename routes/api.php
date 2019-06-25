@@ -130,6 +130,8 @@ Route::post('instanceRequest/fetch','instancerequestController@instanceRequestFe
 Route::post('request/insert','LookupController@insertRequest');
 Route::post('transaction/insert','transactionController@insertTransaction');
 Route::post('transaction/update', 'transactionController@updateTransaction');
+Route::post('instance-fees/update', 'feesController@updateInstanceFees');
+Route::post('instance-fees-details/fetch', 'feesController@fetchInstanceFeesDetails');
 Route::post('reportRequest','requestController@reportRequest');
 Route::get('request-instance/get/{id}','instancerequestController@getRequestInstance');
 Route::get('requests-instances/get','instancerequestController@getRequestsInstances');
@@ -246,6 +248,7 @@ Route::get('validity-certificates/get/{citizen_id}','LookupController@getCitizen
 Route::get('validity-certificate/get/{citizen_id}/{lus_id}','LookupController@getCitizenValidityCertificate');
 
 Route::get('all-citizen-lus/get/{citizen_id}','LookupController@getAllCitizenLus');
+Route::get('all-citizen-units/get/{citizen_id}/{structure_id}','LookupController@getAllCitizenUnits');
 Route::get('citizen-lus/get/{citizen_id}/{lus_id}','LookupController@getCitizenLus');
 
 Route::get('citizen-lus-decisions/get/{citizen_id}','LookupController@getCitizenLusDecisions');

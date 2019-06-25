@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\facades\Schema;
 use App\Transaction;
+use App\Instance_Fees;
 use Illuminate\Http\Request;
 
 class transactionController extends Controller
@@ -20,6 +21,10 @@ class transactionController extends Controller
         $newTransaction->Bond_Agency_id = $transaction["agency"]["id"];
         $newTransaction->LUS_id = $transaction["lus"]["id"];
         $newTransaction->save();
+
+        $instanceFees = new Instance_Fees();
+        $instanceFees->instance_request_id = $request_instance_id;
+        $instanceFees->save();
 
         return response()->json(["transaction"=>$newTransaction]);
 

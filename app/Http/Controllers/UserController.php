@@ -96,11 +96,11 @@ class UserController extends Controller
 
         foreach ($employees as $employee) {
             $citizen = Citizen::where("citizen_national_id", "=", $employee->citizen_national_id)->get()[0];
-            $department = Organization_Structure::where("id", "=", $employee->department_id)->get()[0];
+            // $department = Organization_Structure::where("id", "=", $employee->department_id)->get()[0];
             $item = array(
                 'employee' => $employee,
-                'citizen' => $citizen,
-                'department' => $department
+                'citizen' => $citizen
+                // 'department' => $department
             );
             array_push($data, $item);
 

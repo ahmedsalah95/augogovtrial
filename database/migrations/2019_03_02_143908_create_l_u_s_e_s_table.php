@@ -80,8 +80,8 @@ class CreateLUSESTable extends Migration
             $table->double('P_South')->nullable();
             $table->double('P_North')->nullable();
             $table->double('Rent_Value')->nullable();
-            $table->integer('Payment_Type_id')->unsigned();
-            $table->integer('Law_id')->unsigned();
+            $table->integer('Payment_Type_id')->unsigned()->nullable();
+            $table->integer('Law_id')->unsigned()->nullable();
             $table->string('deleted')->nullable();
             $table->string('Old_Module')->nullable();
             $table->string('LUS_Location')->nullable();

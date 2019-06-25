@@ -971,6 +971,22 @@ class LookupController extends Controller
         return response()->json($data);
     }
 
+    public function getAllCitizenUnits($citizen_id, $structure_id)
+    {
+        $certificates = Validity_Certificate::where("citizen_id", $citizen_id)->get();
+        $allCitizenUnits = [];
+        foreach ($certificates as $certificate)
+        {
+            $lus = LUS::where("id",$certificate->LUS_id)->get()[0];
+
+            if($lus->Structure_id == $structure_id){
+                array_push($allCitizenUnits, $lus);
+            }
+        }
+
+        return response()->json(["all_citizen_units"=>$allCitizenUnits]);
+    }
+
     public function getCitizenLus($citizen_id, $lus_id)
     {
         $certificates = Validity_Certificate::where("citizen_id", $citizen_id)
